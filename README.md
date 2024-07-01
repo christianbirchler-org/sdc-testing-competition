@@ -1,1 +1,1 @@
-# sdc-testing-competition
+# SDC Testing Competition
