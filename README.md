@@ -24,4 +24,4 @@
 - Mattia Fazzini, University of Minnesota
   - mfazzini@umn.edu
 - Sebastiano Panichella, Zurich University of Applied Sciences
-  - sebastiano.panichella@zhaw.ch
+  - spanichella@gmail.com
