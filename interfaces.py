@@ -10,7 +10,8 @@ class TestSelector(abc.ABC):
     @abc.abstractmethod
     def initialize(self, test_suite: list[SDCTest]) -> None:
         """
-        Initialize the test selector so that implementations of this method can train machine learning models if needed.
+        Initialize the test selector with an existing test suite so that implementations of
+        this method can train machine learning models if needed.
 
         :param test_suite:
         :return:
