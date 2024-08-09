@@ -1,6 +1,7 @@
 # SDC Testing Competition
 
 ## Announcements
+The important dates for the competition are defines as milestones: https://github.com/christianbirchler-org/sdc-testing-competition/milestones
 
 ## Competition Overview
 
