@@ -8,10 +8,19 @@ class SDCTest:
 
 class TestSelector(abc.ABC):
     @abc.abstractmethod
+    def initialize(self, test_suite: list[SDCTest]) -> None:
+        """
+        Initialize the test selector so that implementations of this method can train machine learning models if needed.
+
+        :param test_suite:
+        :return:
+        """
+
+    @abc.abstractmethod
     def select(self, test_suite: list[SDCTest]) -> list[bool]:
         """
 
-        :rtype: List of booleans
         :param test_suite:
+        :return: List of booleans
         """
         pass
