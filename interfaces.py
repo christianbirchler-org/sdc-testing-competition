@@ -25,3 +25,11 @@ class TestSelector(abc.ABC):
         :return: List of booleans
         """
         pass
+
+    @abc.abstractmethod
+    def name(self) -> str:
+        """
+
+        :return: The name of the test selector
+        """
+        pass
