@@ -9,6 +9,11 @@
 ## Competition Platform
 
 ## Test Selection
+```{text}
+[ ][ ][ ][ ]      [x][ ][x][ ]
+[ ][ ][ ][ ]  ->  [x][ ][ ][x]
+[ ][ ][ ][ ]      [ ][x][ ][ ]
+```
 
 ## Competition Guidelines
 
