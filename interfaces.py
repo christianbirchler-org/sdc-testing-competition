@@ -2,8 +2,9 @@ import abc
 
 
 class SDCTest:
-    def __init__(self):
-        pass
+    def __init__(self, identifier: str, pts: list[tuple[float, float]]):
+        self.identifier: str = identifier
+        self.pts: list[tuple[float, float]] = pts
 
 
 class TestSelector(abc.ABC):

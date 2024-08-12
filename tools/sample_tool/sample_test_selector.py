@@ -4,6 +4,11 @@ from interfaces import TestSelector, SDCTest
 
 
 class SampleTestSelector(TestSelector):
+    """
+    This is a sample test selector implementing the TestSelector interface.
+    """
+    def __init__(self, test):
+        pass
 
     def initialize(self, test_suite: list[SDCTest]) -> None:
         pass
