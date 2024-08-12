@@ -31,9 +31,6 @@ class SampleTestLoader(TestLoader):
     def has_next(self) -> bool:
         pass
 
-    def __iter__(self):
-        pass
-
 
 class ToolEvaluator:
     def __init__(self, test_suite: list[SDCTest], metric_evaluator: MetricEvaluator):
