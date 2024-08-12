@@ -7,8 +7,8 @@ class SampleTestSelector(TestSelector):
     """
     This is a sample test selector implementing the TestSelector interface.
     """
-    def __init__(self, test):
-        pass
+    def __init__(self, name):
+        self.name = name
 
     def initialize(self, test_suite: list[SDCTest]) -> None:
         pass
@@ -16,5 +16,5 @@ class SampleTestSelector(TestSelector):
     def select(self, test_suite: list[SDCTest]) -> list[bool]:
         return [random.random() < 0.5 for _ in test_suite]
 
-    def name(self) -> str:
-        return 'sample_test_selector'
+    def get_name(self) -> str:
+        return self.name

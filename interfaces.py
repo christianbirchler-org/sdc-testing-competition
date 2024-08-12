@@ -28,9 +28,22 @@ class TestSelector(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def name(self) -> str:
+    def get_name(self) -> str:
         """
 
         :return: The name of the test selector
         """
+        pass
+
+class TestLoader(abc.ABC):
+    @abc.abstractmethod
+    def load_next(self) -> SDCTest:
+        pass
+
+    @abc.abstractmethod
+    def load_all(self) -> list[SDCTest]:
+        pass
+
+    @abc.abstractmethod
+    def has_next(self) -> bool:
         pass
