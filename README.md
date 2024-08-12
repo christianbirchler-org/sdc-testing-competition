@@ -1,9 +1,11 @@
 # SDC Testing Competition
+tbd
 
 ## Announcements
 The important dates for the competition and the current development of this competition platform are defined as milestones: https://github.com/christianbirchler-org/sdc-testing-competition/milestones
 
 ## Competition Overview
+tbd
 
 ## Test Selection
 *Test Selection* is the process of picking only the relevant test cases from the test suite for a particular change.
@@ -22,9 +24,10 @@ The participants of the tool competition submit a test selector for simulation-b
 Specifically, the participants implement the predefined interfaces provide by the tool competition platform.
 
 ## Competition Platform
-
+tbd
 
 ## Competition Guidelines
+tbd
 
 ## References
 [1] C. Birchler, S. Khatiri, B. Bosshard, A. Gambi, S. Panichella, "Machine learning-based test selection for simulation-based testing of self-driving cars software," Empirical Software Engineering (EMSE) 28, 71 (2023). https://doi.org/10.1007/s10664-023-10286-y
