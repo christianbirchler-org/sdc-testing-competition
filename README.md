@@ -50,6 +50,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 ```
 
+[GPLv3](LICENSE)
+
 ## Contacts
 - Christian Birchler, Zurich University of Applied Sciences & University of Bern
   - christian.birchler@zhaw.ch
