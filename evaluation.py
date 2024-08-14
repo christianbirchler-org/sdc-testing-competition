@@ -63,9 +63,9 @@ class ToolEvaluator:
         selection = tool.select(self.test_suite)
 
         fault_to_time_ratio = self.metric_evaluator.fault_to_time_ratio(self.test_suite, selection)
-        fault_to_selection_ratio=self.metric_evaluator.fault_to_selection_ratio(self.test_suite, selection)
-        processing_time=self.metric_evaluator.processing_time(self.test_suite, selection)
-        diversity=self.metric_evaluator.diversity(self.test_suite, selection)
+        fault_to_selection_ratio = self.metric_evaluator.fault_to_selection_ratio(self.test_suite, selection)
+        processing_time = self.metric_evaluator.processing_time(self.test_suite, selection)
+        diversity = self.metric_evaluator.diversity(self.test_suite, selection)
 
         return EvaluationReport(
             tool_name=tool.get_name(),
