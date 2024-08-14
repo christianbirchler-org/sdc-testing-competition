@@ -3,6 +3,13 @@
 
 This repository contains information and code for the tool competition on test selection for self-driving cars in simulation.
 
+## Important Dates
+| **Event**             | **Date (AoE)** |
+|-----------------------|----------------|
+| Tool Submission       | TBA            |
+| Results Notification  | TBA            |
+| Tool Paper Submission | TBA            |
+
 ## Important Links
 - [ICST 2025 Website](https://conf.researchr.org/home/icst-2025)
 - [Competition Details and Instructions](./COMPETITION.md)
