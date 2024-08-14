@@ -5,10 +5,10 @@ This repository contains information and code for the tool competition on test s
 
 ## Important Links
 - [ICST 2025 Website](https://conf.researchr.org/home/icst-2025)
-- [Competition Details](./COMPETITION.md)
+- [Competition Details and Instructions](./COMPETITION.md)
 
-## Announcements
-tba
+## Q&A
+Use [GitHub Discussions](https://github.com/christianbirchler-org/sdc-testing-competition/discussions) for any kind of questions related to the tool competition.
 
 
 ## Contributing
