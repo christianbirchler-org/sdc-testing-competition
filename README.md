@@ -1,11 +1,17 @@
 # SDC Testing Competition
-![Static Badge](https://img.shields.io/badge/Python-3.12-blue)
+![Static Badge](https://img.shields.io/badge/Python-3.11-blue)
 
-tbd
+This repository contains information and code for the tool competition on test selection for self-driving cars in simulation.
+
+## Important Links
+- [ICST 2025 Website](https://conf.researchr.org/home/icst-2025)
+- [Competition Details](./COMPETITION.md)
 
 ## Announcements
 tba
 
+
+## Contributing
 The important dates for the competition and the current development of this competition platform are defined as milestones: https://github.com/christianbirchler-org/sdc-testing-competition/milestones
 
 
