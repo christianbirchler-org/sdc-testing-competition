@@ -23,7 +23,7 @@ class MetricEvaluator:
 
 @dataclass
 class EvaluationReport:
-    """Class holding evaluation report of a tool"""
+    """Class holding evaluation metrics of a tool"""
 
     # name of the tool
     tool_name: str
