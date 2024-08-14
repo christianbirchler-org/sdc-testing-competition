@@ -14,6 +14,9 @@ Use [GitHub Discussions](https://github.com/christianbirchler-org/sdc-testing-co
 ## Contributing
 The important dates for the competition and the current development of this competition platform are defined as milestones: https://github.com/christianbirchler-org/sdc-testing-competition/milestones
 
+Any kind of contributions (e.g., feature requests, bug reports, questions, etc.) are welcome.
+Please refer to [GitHub Discussions](https://github.com/christianbirchler-org/sdc-testing-competition/discussions) to let the community know about your contributions.
+
 
 ## License
 [GPLv3](LICENSE)
