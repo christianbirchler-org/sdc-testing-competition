@@ -9,15 +9,19 @@ class MetricEvaluator:
         pass
 
     def fault_to_time_ratio(self, test_suite: list[SDCTest], selection: list[bool]) -> float:
+        # TODO
         return 0.0
 
     def fault_to_selection_ratio(self, test_suite: list[SDCTest], selection: list[bool]) -> float:
+        # TODO
         return 0.0
 
     def processing_time(self, test_suite: list[SDCTest], selection: list[bool]) -> float:
+        # TODO
         return 0.0
 
     def diversity(self, test_suite: list[SDCTest], selection: list[bool]) -> float:
+        # TODO
         return 0.0
 
 
