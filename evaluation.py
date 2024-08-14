@@ -11,14 +11,34 @@ class MetricEvaluator:
     def fault_to_time_ratio(self, test_suite: list[SDCTest], selection: list[bool]) -> float:
         return 0.0
 
+    def fault_to_selection_ratio(self, test_suite: list[SDCTest], selection: list[bool]) -> float:
+        return 0.0
+
+    def processing_time(self, test_suite: list[SDCTest], selection: list[bool]) -> float:
+        return 0.0
+
+    def diversity(self, test_suite: list[SDCTest], selection: list[bool]) -> float:
+        return 0.0
+
 
 @dataclass
 class EvaluationReport:
     """Class holding evaluation report of a tool"""
+
+    # name of the tool
     tool_name: str
+
+    # ratio between the number of detected faults and the required simulation time
     fault_to_time_ratio: float
+
+    # ratio between the number of detected faults and the number of selected tests
     fault_to_selection_ratio: float
+
+    # overall time to compute the selection
     processing_time: float
+
+    # diversity of the selected test cases
+    diversity: float
 
 
 class SampleTestLoader(TestLoader):
@@ -39,9 +59,21 @@ class ToolEvaluator:
 
     def evaluate(self, tool: TestSelector) -> EvaluationReport:
         tool.initialize(self.test_suite)
+
         selection = tool.select(self.test_suite)
+
         fault_to_time_ratio = self.metric_evaluator.fault_to_time_ratio(self.test_suite, selection)
-        return EvaluationReport(tool_name=tool.get_name(), fault_to_time_ratio=fault_to_time_ratio, fault_to_selection_ratio=0.0, processing_time=0.0)
+        fault_to_selection_ratio=self.metric_evaluator.fault_to_selection_ratio(self.test_suite, selection)
+        processing_time=self.metric_evaluator.processing_time(self.test_suite, selection)
+        diversity=self.metric_evaluator.diversity(self.test_suite, selection)
+
+        return EvaluationReport(
+            tool_name=tool.get_name(),
+            fault_to_time_ratio=fault_to_time_ratio,
+            fault_to_selection_ratio=fault_to_selection_ratio,
+            processing_time=processing_time,
+            diversity=diversity
+        )
 
 
 if __name__ == '__main__':
