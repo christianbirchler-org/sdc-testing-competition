@@ -2,6 +2,8 @@
 tbd
 
 ## Announcements
+tba
+
 The important dates for the competition and the current development of this competition platform are defined as milestones: https://github.com/christianbirchler-org/sdc-testing-competition/milestones
 
 ## Competition Overview
