@@ -9,18 +9,30 @@ class MetricEvaluator:
         pass
 
     def fault_to_time_ratio(self, test_suite: list[SDCTest], selection: list[bool]) -> float:
+        """
+        ratio between the number of detected faults and the required simulation time
+        """
         # TODO
         return 0.0
 
     def fault_to_selection_ratio(self, test_suite: list[SDCTest], selection: list[bool]) -> float:
+        """
+        ratio between the number of detected faults and the number of selected tests
+        """
         # TODO
         return 0.0
 
     def processing_time(self, test_suite: list[SDCTest], selection: list[bool]) -> float:
+        """
+        overall time to compute the selection
+        """
         # TODO
         return 0.0
 
     def diversity(self, test_suite: list[SDCTest], selection: list[bool]) -> float:
+        """
+        diversity of the selected test cases
+        """
         # TODO
         return 0.0
 
@@ -28,20 +40,10 @@ class MetricEvaluator:
 @dataclass
 class EvaluationReport:
     """Class holding evaluation metrics of a tool"""
-
-    # name of the tool
     tool_name: str
-
-    # ratio between the number of detected faults and the required simulation time
     fault_to_time_ratio: float
-
-    # ratio between the number of detected faults and the number of selected tests
     fault_to_selection_ratio: float
-
-    # overall time to compute the selection
     processing_time: float
-
-    # diversity of the selected test cases
     diversity: float
 
 
