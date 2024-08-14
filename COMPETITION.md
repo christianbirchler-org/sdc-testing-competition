@@ -20,7 +20,7 @@ Specifically, the participants implement the predefined interfaces provide by th
 ## Competition Platform
 tbd
 
-```{mermaid}
+```mermaid
 sequenceDiagram
     Alice->>+John: Hello John, how are you?
     Alice->>+John: John, can you hear me?
