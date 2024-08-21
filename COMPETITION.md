@@ -1,14 +1,13 @@
 # Competition Overview
 The competition is in the context of regression testing for test suites executing system tests of self-driving cars in simulation.
-Regression testing involves test selection, prioritization, and minimization[^3].
+Regression testing involves test selection, prioritization, and minimization [^3].
 For the competition, we focus on the former aspect - the test selection.
 
 ## Test Selection
 *Test Selection* is the process of picking only the relevant test cases from the test suite for a particular change.
-In the context of simulation-based testing for SDCs with long running test cases, we select test cases fulfilling certain constraints[^1][^2]:
-- *Time Budget*: TODO
-- *Fault Detection*: TODO
-- *Diversity*: TODO
+In the context of simulation-based testing for SDCs with long running test cases, we select test cases fulfilling certain constraints [^1][^2].
+For the competition we set a time budget:
+- *Time Budget*: A maximal amount of time is available to run the selected test cases.
 
 ```{text}
 [ ][ ][ ][ ]      [x][ ][x][ ]
@@ -18,6 +17,10 @@ In the context of simulation-based testing for SDCs with long running test cases
 ## Goal
 The participants of the tool competition submit a test selector for simulation-based tests.
 Specifically, the participants implement the predefined interfaces provide by the tool competition platform.
+
+- *Time Budget*: A maximal amount of time is available to run the selected test cases.
+- *Fault Detection*: TODO
+- *Diversity*: TODO
 
 ## Competition Platform
 tbd
@@ -32,7 +35,8 @@ sequenceDiagram
 ```
 
 ## Competition Guidelines
-tbd
+There are no major limitations for the implementation of a test selection approach.
+The competitors have only to implement the provided interfaces and ensure that their tool works inside a Docker container.
 
 ## Tool Submission
 tbd
