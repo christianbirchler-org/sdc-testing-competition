@@ -58,8 +58,7 @@ The tool, i.e., the implementation of the provided interfaces, should be in the 
 The competition chairs will evaluate the submitted tools and in case of issues a discussion will happen in the Pull Request.
 
 ## Closed Source
-In case of confidentiality reasons where the source code of the tool can not be disclosed.
-The competitors must submit their tool (copy of their repository) per email:
+In case of confidentiality reasons where the source code of the tool can not be disclosed, the competitors must submit their tool (copy of their repository) per email:
 
 ```text
 TO: birc@zhaw.ch
