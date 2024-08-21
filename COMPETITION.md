@@ -39,7 +39,22 @@ There are no major limitations for the implementation of a test selection approa
 The competitors have only to implement the provided interfaces and ensure that their tool works inside a Docker container.
 
 ## Tool Submission
-tbd
+There are two ways to submit a tool:
+
+## Open Source (Preferred)
+We ask the competitors to submit their tool by opening a Pull Request to this reposotiry.
+The tool, i.e., the implementation of the provided interfaces, should be in the ´tool´ directory.
+The competition chairs will evaluate the submitted tools and in case of issues a discussion will happen in the Pull Request.
+
+## Closed Source
+In case of confidentiality reasons where the source code of the tool can not be disclosed.
+The competitors must submit their tool (copy of their repository) per email:
+
+```text
+TO: birc@zhaw.ch
+SUBJECT: [ICST'25 SDC Tool Competition] Submission <TOOL NAME>
+```
+
 
 ## References
 [^1]: C. Birchler, S. Khatiri, B. Bosshard, A. Gambi, S. Panichella, "Machine learning-based test selection for simulation-based testing of self-driving cars software," Empirical Software Engineering (EMSE) 28, 71 (2023). https://doi.org/10.1007/s10664-023-10286-y
