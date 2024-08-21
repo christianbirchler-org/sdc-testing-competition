@@ -45,7 +45,7 @@ The organizers will evaluate the submitted tools on a virtual machine with the f
 | CPU     | TBD         |
 | GPU     | TBD         |
 | RAM     | TBD         |
-| OS      |             |
+| OS      | TBD         |
 | Network | TBD         |
 
 
