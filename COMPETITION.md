@@ -38,6 +38,17 @@ sequenceDiagram
 There are no major limitations for the implementation of a test selection approach.
 The competitors have only to implement the provided interfaces and ensure that their tool works inside a Docker container.
 
+The organizers will evaluate the submitted tools on a virtual machine with the following specifications:
+
+| HW/SW   | Requirement |
+|---------|-------------|
+| CPU     | TBD         |
+| GPU     | TBD         |
+| RAM     | TBD         |
+| OS      |             |
+| Network | TBD         |
+
+
 ## Tool Submission
 There are two ways to submit a tool:
 
