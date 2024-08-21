@@ -1,5 +1,7 @@
 # Competition Overview
-tbd
+The competition is in the context of regression testing for test suites executing system tests of self-driving cars in simulation.
+Regression testing involves test selection, prioritization, and minimization[Reference].
+For the competition, we focus on the former aspect - the test selection.
 
 ## Test Selection
 *Test Selection* is the process of picking only the relevant test cases from the test suite for a particular change.
