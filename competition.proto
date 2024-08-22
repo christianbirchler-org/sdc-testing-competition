@@ -1,0 +1,22 @@
+syntax = "proto3"
+
+service CompetitionTool {
+  rpc Initialize (InitializationRequest) returns (InitializationReply) {}
+  rpc Select (SelectionRequest) returns (SelectionReply) {}
+}
+
+message InitializationRequest {
+
+}
+
+message InitializationReply {
+
+}
+
+message SelectionRequest {
+
+}
+
+message SelectionReply {
+
+}
