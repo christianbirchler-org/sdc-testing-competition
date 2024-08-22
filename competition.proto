@@ -1,9 +1,10 @@
 syntax = "proto3"
 
 service CompetitionTool {
-  rpc Initialize (InitializationRequest) returns (InitializationReply) {}
-  rpc Select (SelectionRequest) returns (SelectionReply) {}
-}
+  rpc Initialize (stream InitializationRequest) returns (InitializationReply);
+
+// bidirectional streaming for high flexibility
+  rpc Select (stream SelectionRequest) returns (stream SelectionReply);
 
 message InitializationRequest {
 
