@@ -26,6 +26,18 @@ Specifically, the participants implement the predefined interfaces provide by th
 tbd
 
 ```mermaid
+block-beta
+  columns 3
+  d("Evaluator"):1
+  blockArrowId5<["gRPC"]>(x)
+  g("ToolX"):1
+  block:group3:3
+    docker("Docker with Nvidia Runtime")
+  end
+
+```
+
+```mermaid
 sequenceDiagram
     Evaluator ->>+ ToolX: initialize
     ToolX -->>- Evaluator: null
