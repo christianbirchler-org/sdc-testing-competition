@@ -46,11 +46,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 [GPLv3](LICENSE)
 
 ## Contacts
-- Christian Birchler, Zurich University of Applied Sciences & University of Bern
-  - christian.birchler@zhaw.ch
-- Stefan Klikovits, Johannes Kepler University Linz
-  - stefan.klikovits@jku.at
-- Mattia Fazzini, University of Minnesota
-  - mfazzini@umn.edu
-- Sebastiano Panichella, Zurich University of Applied Sciences
-  - spanichella@gmail.com
+| First Name | Last Name  | Affiliation                                                | Email                      |
+|------------|------------|------------------------------------------------------------|----------------------------|
+| Christian  | Birchler   | Zurich University of Applied Sciences & University of Bern | christian.birchler@zhaw.ch |
+| Stefan     | Klikovits  | Johannes Kepler University Linz                            | stefan.klikovits@jku.at    |
+| Mattia     | Fazzini    | University of Minnesota                                    | mfazzini@umn.edu           |
+| Sebastiano | Panichella | Zurich University of Applied Sciences & University of Bern | spanichella@gmail.com      |
