@@ -44,6 +44,7 @@ The organizers will evaluate the submitted tools on a virtual machine with the f
 |---------|-------------|
 | CPU     | TBD         |
 | GPU     | TBD         |
+| CUDA    | TBD         |
 | RAM     | TBD         |
 | OS      | TBD         |
 | Network | TBD         |
@@ -55,6 +56,8 @@ There are two ways to submit a tool:
 ## Open Source (Preferred)
 We ask the competitors to submit their tool by opening a Pull Request to this reposotiry.
 The tool, i.e., the implementation of the provided interfaces, should be in the ´tool´ directory.
+Furthermore, the competitors shall include a `LICENSE.md` for their tools.
+
 The competition chairs will evaluate the submitted tools and in case of issues a discussion will happen in the Pull Request.
 
 ## Closed Source
