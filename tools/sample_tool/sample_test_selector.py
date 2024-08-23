@@ -1,4 +1,5 @@
 import random
+import os
 import competition_pb2_grpc
 import competition_pb2
 import grpc
@@ -32,7 +33,8 @@ if __name__ == "__main__":
     print("start test selector")
     server = grpc.server(fut.ThreadPoolExecutor(max_workers=2))
     competition_pb2_grpc.add_CompetitionToolServicer_to_server(SampleTestSelector(), server)
-    server.add_insecure_port("[::]:50051")
+
+    server.add_insecure_port(os.getenv("GRPC_URL"))
     print("start server")
     server.start()
     print("server is running")

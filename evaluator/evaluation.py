@@ -101,7 +101,7 @@ class ToolEvaluator:
 
 
 if __name__ == "__main__":
-    GRPC_URL = "localhost:50051"
+    GRPC_URL = "localhost:5454"
 
     channel = grpc.insecure_channel(GRPC_URL)
     stub = competition_pb2_grpc.CompetitionToolStub(channel)
