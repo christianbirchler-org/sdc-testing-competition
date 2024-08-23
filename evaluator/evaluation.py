@@ -1,4 +1,6 @@
 from dataclasses import dataclass
+import grpc
+import competition_pb2_grpc
 
 from interfaces import TestSelector, SDCTest, TestLoader
 from tools.sample_tool.sample_test_selector import SampleTestSelector
@@ -40,6 +42,7 @@ class MetricEvaluator:
 @dataclass
 class EvaluationReport:
     """Class holding evaluation metrics of a tool"""
+
     tool_name: str
     fault_to_time_ratio: float
     fault_to_selection_ratio: float
@@ -59,9 +62,17 @@ class SampleTestLoader(TestLoader):
 
 
 class ToolEvaluator:
-    def __init__(self, test_suite: list[SDCTest], metric_evaluator: MetricEvaluator):
+    def __init__(
+        self,
+        grpc_url: string,
+        test_suite: list[SDCTest],
+        metric_evaluator: MetricEvaluator,
+    ):
+        self.grpc_url = grpc_url
         self.test_suite = test_suite
         self.metric_evaluator = metric_evaluator
+        self.channel = grpc.insecure_channel(grpc_url)
+        self.stub = competition_pb2_grpc.CompetitionToolStub(self.channel)
 
     def evaluate(self, tool: TestSelector) -> EvaluationReport:
         tool.initialize(self.test_suite)
@@ -78,16 +89,16 @@ class ToolEvaluator:
             fault_to_time_ratio=fault_to_time_ratio,
             fault_to_selection_ratio=fault_to_selection_ratio,
             processing_time=processing_time,
-            diversity=diversity
+            diversity=diversity,
         )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+    GRPC_URL = "toolX:50051"
     tl = SampleTestLoader()
 
-    te = ToolEvaluator([SDCTest("", []), SDCTest("", [])], MetricEvaluator())
+    te = ToolEvaluator(GRPC_URL, [SDCTest("", []), SDCTest("", [])], MetricEvaluator())
     ts = SampleTestSelector(name="sample_test_selector")
 
     report = te.evaluate(ts)
     print(report)
-
