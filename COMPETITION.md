@@ -64,14 +64,14 @@ The organizers will evaluate the submitted tools on a virtual machine with the f
 ## Tool Submission
 There are two ways to submit a tool:
 
-## Open Source (Preferred)
+### Open Source (preferred)
 We ask the competitors to submit their tool by opening a Pull Request to this reposotiry.
 The tool, i.e., the implementation of the provided interfaces, should be in the ´tool´ directory.
 Furthermore, the competitors shall include a `LICENSE.md` for their tools.
 
 The competition chairs will evaluate the submitted tools and in case of issues a discussion will happen in the Pull Request.
 
-## Closed Source
+### Closed Source
 In case of confidentiality reasons where the source code of the tool can not be disclosed, the competitors must submit their tool (copy of their repository) per email:
 
 ```text
