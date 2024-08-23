@@ -1,20 +1,21 @@
 import random
+import competition_pb2_grpc
 
-from interfaces import TestSelector, SDCTest
 
 
-class SampleTestSelector(TestSelector):
+class SampleTestSelector(competition_pb2_grpc.CompetitionToolServicer):
     """
     This is a sample test selector implementing the TestSelector interface.
     """
-    def __init__(self, name):
-        self.name = name
+    def Initialize(self, request_iterator, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
 
-    def initialize(self, test_suite: list[SDCTest]) -> None:
-        pass
-
-    def select(self, test_suite: list[SDCTest]) -> list[bool]:
-        return [random.random() < 0.5 for _ in test_suite]
-
-    def get_name(self) -> str:
-        return self.name
+    def Select(self, request_iterator, context):
+        """bidirectional streaming for high flexibility
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
