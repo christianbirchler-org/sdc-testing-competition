@@ -8,7 +8,7 @@ service CompetitionTool {
 }
 
 message SDCTestCase {
-
+  string testId = 1;
 }
 
 message InitializationReply {
