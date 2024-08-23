@@ -1,12 +1,13 @@
-syntax = "proto3"
+syntax = "proto3";
 
 service CompetitionTool {
-  rpc Initialize (stream InitializationRequest) returns (InitializationReply);
+  rpc Initialize (stream SDCTestCase) returns (InitializationReply) {}
 
 // bidirectional streaming for high flexibility
-  rpc Select (stream SelectionRequest) returns (stream SelectionReply);
+  rpc Select (stream SDCTestCase) returns (stream SelectionReply) {}
+}
 
-message InitializationRequest {
+message SDCTestCase {
 
 }
 
@@ -14,10 +15,7 @@ message InitializationReply {
 
 }
 
-message SelectionRequest {
-
-}
 
 message SelectionReply {
-
+  string testId = 1;
 }
