@@ -1,37 +1,35 @@
 from dataclasses import dataclass
 import grpc
 import competition_pb2_grpc
-
-from interfaces import TestSelector, SDCTest, TestLoader
-from tools.sample_tool.sample_test_selector import SampleTestSelector
+import competition_pb2
 
 
 class MetricEvaluator:
     def __init__(self):
         pass
 
-    def fault_to_time_ratio(self, test_suite: list[SDCTest], selection: list[bool]) -> float:
+    def fault_to_time_ratio(self, test_suite, selection) -> float:
         """
         ratio between the number of detected faults and the required simulation time
         """
         # TODO
         return 0.0
 
-    def fault_to_selection_ratio(self, test_suite: list[SDCTest], selection: list[bool]) -> float:
+    def fault_to_selection_ratio(self, test_suite, selection) -> float:
         """
         ratio between the number of detected faults and the number of selected tests
         """
         # TODO
         return 0.0
 
-    def processing_time(self, test_suite: list[SDCTest], selection: list[bool]) -> float:
+    def processing_time(self, test_suite, selection) -> float:
         """
         overall time to compute the selection
         """
         # TODO
         return 0.0
 
-    def diversity(self, test_suite: list[SDCTest], selection: list[bool]) -> float:
+    def diversity(self, test_suite, selection) -> float:
         """
         diversity of the selected test cases
         """
@@ -50,42 +48,46 @@ class EvaluationReport:
     diversity: float
 
 
-class SampleTestLoader(TestLoader):
-    def load_next(self) -> SDCTest:
+class SampleTestLoader:
+    def load_next(self):
         pass
 
-    def load_all(self) -> list[SDCTest]:
+    def load_all(self):
         pass
 
-    def has_next(self) -> bool:
+    def has_next(self):
         pass
 
+
+
+def init_iterator():
+    for i in range(10):
+        yield competition_pb2.SDCTestCase(testId=str(i))
 
 class ToolEvaluator:
     def __init__(
         self,
-        grpc_url: string,
-        test_suite: list[SDCTest],
+        grpc_url: str,
         metric_evaluator: MetricEvaluator,
     ):
         self.grpc_url = grpc_url
-        self.test_suite = test_suite
         self.metric_evaluator = metric_evaluator
         self.channel = grpc.insecure_channel(grpc_url)
         self.stub = competition_pb2_grpc.CompetitionToolStub(self.channel)
 
-    def evaluate(self, tool: TestSelector) -> EvaluationReport:
-        tool.initialize(self.test_suite)
+    def evaluate(self) -> EvaluationReport:
 
-        selection = tool.select(self.test_suite)
+        self.stub.Initialize(init_iterator())
 
-        fault_to_time_ratio = self.metric_evaluator.fault_to_time_ratio(self.test_suite, selection)
-        fault_to_selection_ratio = self.metric_evaluator.fault_to_selection_ratio(self.test_suite, selection)
-        processing_time = self.metric_evaluator.processing_time(self.test_suite, selection)
-        diversity = self.metric_evaluator.diversity(self.test_suite, selection)
+
+
+        fault_to_time_ratio = 0.0
+        fault_to_selection_ratio = 0.0
+        processing_time = 0.0
+        diversity = 0.0
 
         return EvaluationReport(
-            tool_name=tool.get_name(),
+            tool_name="someName",
             fault_to_time_ratio=fault_to_time_ratio,
             fault_to_selection_ratio=fault_to_selection_ratio,
             processing_time=processing_time,
@@ -94,11 +96,10 @@ class ToolEvaluator:
 
 
 if __name__ == "__main__":
-    GRPC_URL = "toolX:50051"
+    GRPC_URL = "localhost:50051"
     tl = SampleTestLoader()
 
-    te = ToolEvaluator(GRPC_URL, [SDCTest("", []), SDCTest("", [])], MetricEvaluator())
-    ts = SampleTestSelector(name="sample_test_selector")
+    te = ToolEvaluator(GRPC_URL, MetricEvaluator())
 
-    report = te.evaluate(ts)
+    report = te.evaluate()
     print(report)
