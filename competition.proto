@@ -1,10 +1,18 @@
 syntax = "proto3";
 
 service CompetitionTool {
+  rpc Name(Empty) returns (NameReply) {}
+
   rpc Initialize (stream SDCTestCase) returns (InitializationReply) {}
 
 // bidirectional streaming for high flexibility
   rpc Select (stream SDCTestCase) returns (stream SelectionReply) {}
+}
+
+message Empty {}
+
+message NameReply {
+  string name = 1;
 }
 
 message SDCTestCase {
@@ -14,7 +22,6 @@ message SDCTestCase {
 message InitializationReply {
 
 }
-
 
 message SelectionReply {
   string testId = 1;

@@ -59,27 +59,32 @@ class SampleTestLoader:
         pass
 
 
-
 def init_iterator():
     for i in range(10):
-        yield competition_pb2.SDCTestCase(testId=str(i))
+        yield competition_pb2.SDCTestCase(testId="I" + str(i))
+
+
+def test_suite_iterator():
+    for i in range(7):
+        yield competition_pb2.SDCTestCase(testId="E" + str(i))
+
 
 class ToolEvaluator:
     def __init__(
         self,
-        grpc_url: str,
         metric_evaluator: MetricEvaluator,
     ):
-        self.grpc_url = grpc_url
         self.metric_evaluator = metric_evaluator
-        self.channel = grpc.insecure_channel(grpc_url)
-        self.stub = competition_pb2_grpc.CompetitionToolStub(self.channel)
 
-    def evaluate(self) -> EvaluationReport:
+    def evaluate(self, stub: competition_pb2_grpc.CompetitionToolStub) -> EvaluationReport:
 
-        self.stub.Initialize(init_iterator())
+        name_reply: competition_pb2.NameReply = stub.Name(competition_pb2.Empty())
 
+        stub.Initialize(init_iterator())
+        selection_iterator = stub.Select(test_suite_iterator())
 
+        for test_case in selection_iterator:
+            print(test_case)
 
         fault_to_time_ratio = 0.0
         fault_to_selection_ratio = 0.0
@@ -87,7 +92,7 @@ class ToolEvaluator:
         diversity = 0.0
 
         return EvaluationReport(
-            tool_name="someName",
+            tool_name=name_reply.name,
             fault_to_time_ratio=fault_to_time_ratio,
             fault_to_selection_ratio=fault_to_selection_ratio,
             processing_time=processing_time,
@@ -97,9 +102,10 @@ class ToolEvaluator:
 
 if __name__ == "__main__":
     GRPC_URL = "localhost:50051"
-    tl = SampleTestLoader()
 
-    te = ToolEvaluator(GRPC_URL, MetricEvaluator())
+    channel = grpc.insecure_channel(GRPC_URL)
+    stub = competition_pb2_grpc.CompetitionToolStub(channel)
+    te = ToolEvaluator(MetricEvaluator())
 
-    report = te.evaluate()
+    report = te.evaluate(stub)
     print(report)
