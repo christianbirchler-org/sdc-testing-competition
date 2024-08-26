@@ -28,6 +28,8 @@ The competitors can use any programming language they want.
 
 To make the evaluation of the tools coherent, the competitors have to implement a gRPC interface specified in the `competition.proto` file.
 The gRPC framework is language independent, i.e., there are various languages supported by gRPC.
+The evaluator of the tools will invoke Remote Procedure Calls (RPC) which provide the tools the data for the evaluation.
+Bewlow you see figures illustrating the overall set up.
 
 ```mermaid
 block-beta
