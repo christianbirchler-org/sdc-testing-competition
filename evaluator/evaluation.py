@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 import grpc
+import argparse
 import competition_pb2_grpc
 import competition_pb2
 
@@ -101,7 +102,15 @@ class ToolEvaluator:
 
 
 if __name__ == "__main__":
-    GRPC_URL = "localhost:5454"
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-u", "--url")
+    args = parser.parse_args()
+    print(args.url)
+
+    if args.url:
+        GRPC_URL = args.url
+    else:
+        GRPC_URL = "localhost:5454"
 
     channel = grpc.insecure_channel(GRPC_URL)
     stub = competition_pb2_grpc.CompetitionToolStub(channel)
