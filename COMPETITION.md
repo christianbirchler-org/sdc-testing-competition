@@ -59,6 +59,8 @@ In `tools/sample_tool` is a sample implementation of a trivial test selector.
 It starts a gRPC server and provides implementations of the interfaces.
 Furthermore, the sample tool also provides a `Dockerfile` to run it inside a container.
 
+More information about gRPC you can find here: https://grpc.io/
+
 The organizers will evaluate the submitted tools on a virtual machine with the following specifications:
 
 | HW/SW   | Requirement |
