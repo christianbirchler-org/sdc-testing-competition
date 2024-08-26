@@ -23,7 +23,11 @@ Specifically, the participants implement the predefined interfaces provide by th
 - *Diversity*: TODO
 
 ## Competition Platform
-tbd
+The competition platform aims to provide the participant as much freedom as possible for their implementations.
+The competitors can use any programming language they want.
+
+To make the evaluation of the tools coherent, the competitors have to implement a gRPC interface specified in the `competition.proto` file.
+The gRPC framework is language independent, i.e., there are various languages supported by gRPC.
 
 ```mermaid
 block-beta
