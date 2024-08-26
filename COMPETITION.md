@@ -10,8 +10,9 @@ For the competition we set a time budget:
 - *Time Budget*: A maximal amount of time is available to run the selected test cases.
 
 ```{text}
+ Test Suite        Selection
 [ ][ ][ ][ ]      [x][ ][x][ ]
-[ ][ ][ ][ ]  ->  [x][ ][ ][x]
+[ ][ ][ ][ ]  ->  [x][ ][ ][x]  -> Execution -> Results
 [ ][ ][ ][ ]      [ ][x][ ][ ]
 ```
 ## Goal
