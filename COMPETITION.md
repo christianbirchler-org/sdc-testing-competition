@@ -54,7 +54,10 @@ sequenceDiagram
 
 ## Competition Guidelines
 There are no major limitations for the implementation of a test selection approach.
-The competitors have only to implement the provided interfaces and ensure that their tool works inside a Docker container.
+The competitors have only to implement the provided interfaces (`competition.proto`) and ensure that their tool works inside a Docker container.
+In `tools/sample_tool` is a sample implementation of a trivial test selector.
+It starts a gRPC server and provides implementations of the interfaces.
+Furthermore, the sample tool also provides a `Dockerfile` to run it inside a container.
 
 The organizers will evaluate the submitted tools on a virtual machine with the following specifications:
 
