@@ -1,4 +1,5 @@
 import random
+import argparse
 import os
 import competition_pb2_grpc
 import competition_pb2
@@ -31,11 +32,17 @@ class SampleTestSelector(competition_pb2_grpc.CompetitionToolServicer):
 
 if __name__ == "__main__":
     print("start test selector")
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-p", "--port")
+    args = parser.parse_args()
+    GRPC_PORT = args.port
+    GRPC_URL = "[::]:" + GRPC_PORT
+
     server = grpc.server(fut.ThreadPoolExecutor(max_workers=2))
     competition_pb2_grpc.add_CompetitionToolServicer_to_server(SampleTestSelector(), server)
 
-    server.add_insecure_port(os.getenv("GRPC_URL"))
-    print("start server")
+    server.add_insecure_port(GRPC_URL)
+    print("start server on port {}".format(GRPC_PORT))
     server.start()
     print("server is running")
     server.wait_for_termination()

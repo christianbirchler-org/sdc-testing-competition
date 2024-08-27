@@ -6,4 +6,4 @@ RUN pip install grpcio-tools
 
 COPY . .
 
-ENTRYPOINT ["python", "sample_test_selector.py"]
+ENTRYPOINT ["python", "evaluation.py"]
