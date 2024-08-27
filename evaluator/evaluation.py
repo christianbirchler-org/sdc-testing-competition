@@ -48,6 +48,8 @@ class EvaluationReport:
     processing_time: float
     diversity: float
 
+class InitializationError(Exception):
+    pass
 
 class SampleTestLoader:
     def load_next(self):
@@ -62,12 +64,20 @@ class SampleTestLoader:
 
 def init_iterator():
     for i in range(10):
-        yield competition_pb2.SDCTestCase(testId="I" + str(i))
+        rp1 = competition_pb2.RoadPoint(sequenceNumber=1, x=i+0.1, y=i+0.1)
+        rp2 = competition_pb2.RoadPoint(sequenceNumber=2, x=i+0.1, y=i+0.1)
+        rp3 = competition_pb2.RoadPoint(sequenceNumber=3, x=i+0.1, y=i+0.1)
+        test_case = competition_pb2.SDCTestCase(testId="I" + str(i), roadPoints=[rp1, rp2, rp3])
+        oracle = competition_pb2.Oracle(testCase=test_case, hasFailed=False)
+        yield oracle
 
 
 def test_suite_iterator():
     for i in range(7):
-        yield competition_pb2.SDCTestCase(testId="E" + str(i))
+        rp1 = competition_pb2.RoadPoint(sequenceNumber=1, x=i+0.1, y=i+0.1)
+        rp2 = competition_pb2.RoadPoint(sequenceNumber=2, x=i+0.1, y=i+0.1)
+        rp3 = competition_pb2.RoadPoint(sequenceNumber=3, x=i+0.1, y=i+0.1)
+        yield competition_pb2.SDCTestCase(testId="E" + str(i), roadPoints=[rp1, rp2, rp3])
 
 
 class ToolEvaluator:
@@ -81,7 +91,11 @@ class ToolEvaluator:
 
         name_reply: competition_pb2.NameReply = stub.Name(competition_pb2.Empty())
 
-        stub.Initialize(init_iterator())
+        init_resp: competition_pb2.InitializationReply = stub.Initialize(init_iterator())
+
+        if not init_resp.ok:
+            raise InitializationError()
+
         selection_iterator = stub.Select(test_suite_iterator())
 
         for test_case in selection_iterator:
@@ -104,17 +118,14 @@ class ToolEvaluator:
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-u", "--url")
-    args = parser.parse_args()
-    print(args.url)
 
-    if args.url:
-        GRPC_URL = args.url
-    else:
-        GRPC_URL = "localhost:5454"
+    args = parser.parse_args()
+    GRPC_URL = args.url
 
     channel = grpc.insecure_channel(GRPC_URL)
     stub = competition_pb2_grpc.CompetitionToolStub(channel)
     te = ToolEvaluator(MetricEvaluator())
 
+    # start evaluation
     report = te.evaluate(stub)
     print(report)

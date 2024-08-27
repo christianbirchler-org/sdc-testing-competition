@@ -17,9 +17,10 @@ class SampleTestSelector(competition_pb2_grpc.CompetitionToolServicer):
 
     def Initialize(self, request_iterator, context):
         """Missing associated documentation comment in .proto file."""
-        for sdc_test_case in request_iterator:
-            print("receiving {}".format(sdc_test_case))
-        return competition_pb2.InitializationReply()
+        for oracle in request_iterator:
+            oracle: competition_pb2.Oracle = oracle
+            print("receiving oracle {}".format(oracle))
+        return competition_pb2.InitializationReply(ok=True)
 
     def Select(self, request_iterator, context):
         """bidirectional streaming for high flexibility"""
