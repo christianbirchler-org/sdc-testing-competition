@@ -66,14 +66,6 @@ class EvaluationTestLoader(abc.ABC):
         pass
 
     @abc.abstractmethod
-    def load_all(self):
-        pass
-
-    @abc.abstractmethod
-    def reset_index(self):
-        pass
-
-    @abc.abstractmethod
     def has_next_oracle(self) -> bool:
         pass
 
@@ -111,12 +103,6 @@ class SampleEvaluationTestLoader(EvaluationTestLoader):
         )
         self.current_test_index += 1
         return tc
-
-    def reset_index(self):
-        self.current_index = 0
-
-    def load_all(self) -> None:
-        raise NotImplementedError()
 
     def has_next_oracle(self) -> bool:
         return self.split_index > self.current_oracle_index
