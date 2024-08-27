@@ -20,6 +20,7 @@ class SampleTestSelector(competition_pb2_grpc.CompetitionToolServicer):
         for oracle in request_iterator:
             oracle: competition_pb2.Oracle = oracle
             print("receiving oracle {}".format(oracle))
+
         return competition_pb2.InitializationReply(ok=True)
 
     def Select(self, request_iterator, context):
