@@ -8,11 +8,11 @@ This repository contains information and code for the tool competition on test s
 - [ICST 2025 Conference Website](https://conf.researchr.org/home/icst-2025)
 
 ## Important Dates
-| **Event**             | **Date (AoE)** |
-|-----------------------|----------------|
-| Tool Submission       | TBA            |
-| Results Notification  | TBA            |
-| Tool Paper Submission | TBA            |
+| **Event**                          | **Date (AoE)**     |
+|------------------------------------|--------------------|
+| Tool Submission                    | November 15th 2024 |
+| Results Notification               | December 15th 2024 |
+| Camera-ready Tool Paper Submission | January 10th 2024  |
 
 ## Q&A
 Use [GitHub Discussions](https://github.com/christianbirchler-org/sdc-testing-competition/discussions) for any kind of questions related to the tool competition.
