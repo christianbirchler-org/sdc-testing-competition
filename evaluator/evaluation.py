@@ -39,9 +39,11 @@ class MetricEvaluator:
         test_oracle_mapping = {test.test_id: test for test in test_suite}
 
         for test_id in selection:
-            if test_id not in test_oracle_mapping.keys(): raise TestDoesNotExistError()
+            if test_id not in test_oracle_mapping.keys():
+                raise TestDoesNotExistError()
             test = test_oracle_mapping[test_id]
-            if test.hasFailed: nr_detected_faults += 1
+            if test.hasFailed:
+                nr_detected_faults += 1
             total_simulation_time += test.sim_time
 
         return total_simulation_time / nr_detected_faults
@@ -62,7 +64,7 @@ class MetricEvaluator:
         return nr_detected_faults / len(test_suite)
 
 
-    def diversity(self, test_suite, selection) -> float:
+    def diversity(self, test_suite: list[TestDetails], selection: list[str]) -> float:
         """
         diversity of the selected test cases
         """
@@ -187,7 +189,7 @@ class ToolEvaluator:
             tool_name=name_reply.name,
             time_to_fault_ratio=self.metric_evaluator.time_to_fault_ratio(test_suite=self.test_set, selection=selection),
             fault_to_selection_ratio=self.metric_evaluator.fault_to_selection_ratio(test_suite=self.test_set, selection=selection),
-            diversity=self.metric_evaluator.diversity(test_suite=None, selection=None),
+            diversity=self.metric_evaluator.diversity(test_suite=self.test_set, selection=selection),
         )
 
 
