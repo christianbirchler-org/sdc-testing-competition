@@ -59,8 +59,27 @@ In `tools/sample_tool` is a sample implementation of a trivial test selector.
 It starts a gRPC server and provides implementations of the interfaces.
 Furthermore, the sample tool also provides a `Dockerfile` to run it inside a container.
 
+Build and run the sample test selector tool:
+```bash
+cd tools/sample_tool
+docker build -t my-selector-image .
+docker run --rm --name my-selector-container -t -p 4545:4545 my-selector-image -p 4545
+```
+
+Build and run the evaluator tool that uses the sample dataset and performs an initial evaluation:
+```bash
+cd evaluator
+docker build -t evaluator-image .
+docker run --rm --name evaluator-container -t evaluator-image -u host.docker.internal:4545 -t .
+```
+
+All participants should ensure that the evaluator is able to provide an evaluation report to the console.
+This is a clear indication the the gRPC interfaces are working properly, which is crucual for the competition's evaluation.
+
+
 More information about gRPC you can find here: https://grpc.io/
 
+## Evaluation
 The organizers will evaluate the submitted tools on a virtual machine with the following specifications:
 
 | **HW/SW** | **Requirement** |
