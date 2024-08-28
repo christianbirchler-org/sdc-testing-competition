@@ -63,14 +63,14 @@ More information about gRPC you can find here: https://grpc.io/
 
 The organizers will evaluate the submitted tools on a virtual machine with the following specifications:
 
-| HW/SW   | Requirement |
-|---------|-------------|
-| CPU     | TBD         |
-| GPU     | TBD         |
-| CUDA    | TBD         |
-| RAM     | TBD         |
-| OS      | TBD         |
-| Network | TBD         |
+| **HW/SW** | **Requirement** |
+|-----------|-----------------|
+| CPU       | 8 vCPUs         |
+| GPU       | Nvidia Tesla T4 |
+| CUDA      | TBA             |
+| RAM       | 8 GB            |
+| OS        | Ubuntu/Linux    |
+| Network   | no Internet     |
 
 
 ## Tool Submission
