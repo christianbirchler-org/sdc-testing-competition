@@ -74,7 +74,7 @@ class MetricEvaluator:
 
 @dataclass
 class EvaluationReport:
-    """Class holding evaluation metrics of a tool"""
+    """This class holding evaluation metrics of a tool."""
 
     tool_name: str
     time_to_initialize: float
