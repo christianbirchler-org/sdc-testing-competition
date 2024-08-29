@@ -27,7 +27,7 @@ Specifically, the participants implement the predefined interfaces provide by th
 The competition platform aims to provide the participant as much freedom as possible for their implementations.
 The competitors can use any programming language they want.
 
-To make the evaluation of the tools coherent, the competitors have to implement a gRPC interface specified in the `competition.proto` file.
+To make the evaluation of the tools coherent, the competitors have to implement a gRPC [^4] interface specified in the `competition.proto` file.
 The gRPC framework is language independent, i.e., there are various languages supported by gRPC.
 The evaluator of the tools will invoke Remote Procedure Calls (RPC) which provide the tools the data for the evaluation.
 Bewlow you see figures illustrating the overall set up.
@@ -55,6 +55,9 @@ sequenceDiagram
 ## Competition Guidelines
 There are no major limitations for the implementation of a test selection approach.
 The competitors have only to implement the provided interfaces (`competition.proto`) and ensure that their tool works inside a Docker container.
+
+The participants have to generate first the interface stubs using the `protoc` compile to generate the code based on the interface specification in the `competition.proto` file.
+
 In `tools/sample_tool` is a sample implementation of a trivial test selector.
 It starts a gRPC server and provides implementations of the interfaces.
 Furthermore, the sample tool also provides a `Dockerfile` to run it inside a container.
@@ -115,3 +118,4 @@ SUBJECT: [ICST'25 SDC Tool Competition] Submission <TOOL NAME>
 [^1]: C. Birchler, S. Khatiri, B. Bosshard, A. Gambi, S. Panichella, "Machine learning-based test selection for simulation-based testing of self-driving cars software," Empirical Software Engineering (EMSE) 28, 71 (2023). https://doi.org/10.1007/s10664-023-10286-y
 [^2]: C. Birchler, N. Ganz, S. Khatiri, A. Gambi and S. Panichella, "Cost-effective Simulation-based Test Selection in Self-driving Cars Software with SDC-Scissor," International Conference on Software Analysis, Evolution and Reengineering (SANER), 2022. https://doi.org/10.1109/SANER53432.2022.00030.
 [^3]: Yoo, Shin, and Mark Harman. "Regression testing minimization, selection and prioritization: a survey." Software testing, verification and reliability 22.2 (2012): 67-120.
+[^4]: https://grpc.io/
