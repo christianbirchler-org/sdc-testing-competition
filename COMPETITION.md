@@ -19,6 +19,33 @@ For the competition we set a time budget:
 The participants of the tool competition submit a test selector for simulation-based tests.
 Specifically, the participants implement the predefined interfaces provide by the tool competition platform.
 
+
+
+```
+     ||        |        ||                      ||        |        ||
+     ||        |        ||                      ||        |        ||
+     ||        |        ||                      ||        |        ||
+     ||        |        ||                      ||        |        ||
+     ||        |        ||                      ||        |        ||
+     ||        |  xxxx  ||                      ||        |      xxxx
+     ||        | O----O ||                      ||        |     O----O
+     ||        | xxxxxx ||                      ||        |     xxxxxx
+     ||        | xxxxxx ||                      ||        |     xxxxxx
+     ||        | xxxxxx ||                      ||        |     xxxxxx
+     ||        | xxxxxx ||                      ||        |     xxxxxx
+     ||        | O----O ||                      ||        |     O----O
+     ||        |  xxxx  ||                      ||        |      xxxx
+     ||        |        ||                      ||        |        ||
+     ||        |        ||                      ||        |        ||
+     ||        |        ||                      ||        |        ||
+     ||        |        ||                      ||        |        ||
+     ||        |        ||                      ||        |        ||
+     ||        |        ||                      ||        |        ||
+     ||        |        ||                      ||        |        ||
+     ||        |        ||                      ||        |        ||
+     ||        |        ||                      ||        |        ||
+```
+
 - *Time Budget*: A maximal amount of time is available to run the selected test cases.
 - *Fault Detection*: TODO
 - *Diversity*: TODO
