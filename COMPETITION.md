@@ -70,7 +70,7 @@ Build and run the evaluator tool that uses the sample dataset and performs an in
 ```bash
 cd evaluator
 docker build -t evaluator-image .
-docker run --rm --name evaluator-container -t evaluator-image -u host.docker.internal:4545 -t .
+docker run --rm --name evaluator-container -t evaluator-image -u host.docker.internal:4545
 ```
 
 All participants should ensure that the evaluator is able to provide an evaluation report to the console.

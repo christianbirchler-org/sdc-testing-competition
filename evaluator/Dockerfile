@@ -6,4 +6,4 @@ RUN pip install grpcio-tools
 
 COPY . .
 
-ENTRYPOINT ["python", "evaluation.py"]
+ENTRYPOINT ["python", "evaluation.py", "-t", "./sample_tests/sdc-test-data.json"]
