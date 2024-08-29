@@ -16,6 +16,7 @@ For the competition we set a time budget:
 [ ][ ][ ][ ]      [ ][x][ ][ ]
 ```
 ## Goal
+The goal is to develop cost-effective novel test selection tools.
 The participants of the tool competition submit a test selector for simulation-based tests of SDCs.
 We consider a test **passing** when the car drives **within the lane** during the whole simulation scenario.
 We consider a test **failing** when the car drives **off the lane** during the simulation.
@@ -47,9 +48,7 @@ When the car drives off the lane then the test execution immediately stops to lo
      ||        |        ||                      ||        |        ||
 ```
 
-- *Time Budget*: A maximal amount of time is available to run the selected test cases.
-- *Fault Detection*: TODO
-- *Diversity*: TODO
+
 
 ## Competition Platform
 The competition platform aims to provide the participant as much freedom as possible for their implementations.
@@ -111,7 +110,15 @@ This is a clear indication the the gRPC interfaces are working properly, which i
 More information about gRPC you can find here: https://grpc.io/
 
 ## Evaluation
-The organizers will evaluate the submitted tools on a virtual machine with the following specifications:
+The tools will be evaluated on the following metrics (potential new metrics will be announced in the discussion forum):
+- *Time Budget*: A maximal amount of time is available to run the selected test cases.
+- *Fault Detection*: The number of test failures we observe when running the selected test cases.
+- *Diversity*: The more diverse the test cases are the better. We do not want to run almost the same test cases.
+
+For a clear description of the evaluation metrics, refer to the `MetricEvaluator` class of the evaluator.
+
+
+**Note:** The organizers will evaluate the submitted tools on a virtual machine with the following specifications:
 
 | **HW/SW** | **Requirement** |
 |-----------|-----------------|
@@ -121,6 +128,8 @@ The organizers will evaluate the submitted tools on a virtual machine with the f
 | RAM       | 8 GB            |
 | OS        | Ubuntu/Linux    |
 | Network   | no Internet     |
+
+The competitors have to make sure that their tools will work on the abovementioned specifications.
 
 
 ## Tool Submission
