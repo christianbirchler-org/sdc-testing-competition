@@ -1,8 +1,15 @@
 # Evaluation Tool
 This is the tool that performs trivial evaluation of the implemented test selection tool.
 
-## Use
+## Usage
 Build and run the evaluator tool that uses the sample dataset and performs an initial evaluation:
+```bash
+cd evaluator
+docker build -t evaluator-image .
+docker run --rm --name evaluator-container -t evaluator-image -u <toolHost:toolPort>
+```
+
+### Example
 ```bash
 cd evaluator
 docker build -t evaluator-image .
