@@ -51,4 +51,4 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 | Christian  | Birchler   | Zurich University of Applied Sciences & University of Bern | christian.birchler@zhaw.ch |
 | Stefan     | Klikovits  | Johannes Kepler University Linz                            | stefan.klikovits@jku.at    |
 | Mattia     | Fazzini    | University of Minnesota                                    | mfazzini@umn.edu           |
-| Sebastiano | Panichella |University of Bern | spanichella@gmail.com      |
+| Sebastiano | Panichella | University of Bern                                         | spanichella@gmail.com      |
