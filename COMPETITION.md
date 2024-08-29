@@ -9,19 +9,20 @@ In the context of simulation-based testing for SDCs with long running test cases
 For the competition we set a time budget:
 - *Time Budget*: A maximal amount of time is available to run the selected test cases.
 
-```{text}
+```text
  Test Suite        Selection
 [ ][ ][ ][ ]      [x][ ][x][ ]
-[ ][ ][ ][ ]  ->  [x][ ][ ][x]  -> Execution -> Results
+[ ][ ][ ][ ]  ->  [x][ ][ ][x]  -> Execution of the Selection  -> Results
 [ ][ ][ ][ ]      [ ][x][ ][ ]
 ```
 ## Goal
-The participants of the tool competition submit a test selector for simulation-based tests.
-Specifically, the participants implement the predefined interfaces provide by the tool competition platform.
+The participants of the tool competition submit a test selector for simulation-based tests of SDCs.
+We consider a test **passing** when the car drives **within the lane** during the whole simulation scenario.
+We consider a test **failing** when the car drives **off the lane** during the simulation.
+When the car drives off the lane then the test execution immediately stops to lower the execution costs.
 
-
-
-```
+```text
+            IN-LANE                                    OFF-LANE
      ||        |        ||                      ||        |        ||
      ||        |        ||                      ||        |        ||
      ||        |        ||                      ||        |        ||
