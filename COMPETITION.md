@@ -74,7 +74,7 @@ block-beta
 ```mermaid
 sequenceDiagram
     Evaluator ->>+ ToolX: initialize
-    ToolX -->>- Evaluator: null
+    ToolX -->>- Evaluator: ok
     Evaluator ->>+ ToolX: select
     ToolX -->>- Evaluator: return selection
 ```
