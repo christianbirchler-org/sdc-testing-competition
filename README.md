@@ -3,6 +3,8 @@
 
 This repository contains information and code for the tool competition on test selection for self-driving cars in simulation.
 
+![](example.jpg)
+
 ## Important Links
 - [Competition Details and Instructions](./COMPETITION.md)
 - [ICST 2025 Conference Website](https://conf.researchr.org/home/icst-2025)
