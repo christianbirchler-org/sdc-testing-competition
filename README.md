@@ -1,5 +1,7 @@
 # SDC Testing Competition
 ![Static Badge](https://img.shields.io/badge/Python-3.11-blue)
+![GitHub Discussions](https://img.shields.io/github/discussions/christianbirchler-org/sdc-testing-competition)
+
 
 This repository contains information and code for the tool competition on test selection for self-driving cars in simulation.
 
