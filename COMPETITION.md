@@ -129,7 +129,7 @@ For a clear description of the evaluation metrics, refer to the `MetricEvaluator
 | CPU       | 8 vCPUs         |
 | GPU       | Nvidia Tesla T4 |
 | CUDA      | TBA             |
-| RAM       | 8 GB            |
+| RAM       | 16 GB           |
 | OS        | Ubuntu/Linux    |
 | Network   | no Internet     |
 
