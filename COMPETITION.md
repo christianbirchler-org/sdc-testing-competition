@@ -110,6 +110,10 @@ This is a clear indication the the gRPC interfaces are working properly, which i
 More information about gRPC you can find here: https://grpc.io/
 
 ## Evaluation
+The organizers will use a dataset of test cases for the BeamNG.tech simulator.
+Hence, the participants should consider to use reference test cases for the same simulator.
+There are several test generators available for the BeamNG simulator from the **SBFT@ICSE** workshop series [^5][^6][^7]. 
+
 The tools will be evaluated on the following metrics (potential new metrics will be announced in the discussion forum):
 - *Time Budget*: A maximal amount of time is available to run the selected test cases.
 - *Fault Detection*: The number of test failures we observe when running the selected test cases.
@@ -156,3 +160,8 @@ SUBJECT: [ICST'25 SDC Tool Competition] Submission <TOOL NAME>
 [^2]: C. Birchler, N. Ganz, S. Khatiri, A. Gambi and S. Panichella, "Cost-effective Simulation-based Test Selection in Self-driving Cars Software with SDC-Scissor," International Conference on Software Analysis, Evolution and Reengineering (SANER), 2022. https://doi.org/10.1109/SANER53432.2022.00030.
 [^3]: Yoo, Shin, and Mark Harman. "Regression testing minimization, selection and prioritization: a survey." Software testing, verification and reliability 22.2 (2012): 67-120.
 [^4]: https://grpc.io/
+[^5]: M. Biagiola, S. Klikovits, J. Peltomäki and V. Riccio, "SBFT Tool Competition 2023 - Cyber-Physical Systems Track," 2023 IEEE/ACM International Workshop on Search-Based and Fuzz Testing (SBFT), Melbourne, Australia, 2023, pp. 45-48, doi: 10.1109/SBFT59156.2023.00010. keywords: {Conferences;Organizations;Cyber-physical systems;Fuzzing;Autonomous vehicles;Autonomous Vehicles;Search-Based Software Testing},
+[^6]: Alessio Gambi, Gunel Jahangirova, Vincenzo Riccio, and Fiorella Zampetti. 2023. SBST tool competition 2022. In Proceedings of the 15th Workshop on Search-Based Software Testing (SBST '22). Association for Computing Machinery, New York, NY, USA, 25–32. https://doi.org/10.1145/3526072.3527538
+[^7]: S. Panichella, A. Gambi, F. Zampetti and V. Riccio, "SBST Tool Competition 2021," 2021 IEEE/ACM 14th International Workshop on Search-Based Software Testing (SBST), Madrid, Spain, 2021, pp. 20-27, doi: 10.1109/SBST52555.2021.00011. keywords: {Software testing;Java;System testing;Statistical analysis;Organizations;Tools;Cyber-physical systems;Competition;Tools;Unit Testing;Simulation based Testing;Java;Self driving car software;Automated Test Generation},
+
+
