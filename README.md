@@ -5,7 +5,7 @@
 
 This repository contains information and code for the tool competition on test selection for self-driving cars in simulation.
 
-![](example.jpg)
+![](example.png)
 
 ## Important Links
 - [Competition Details and Instructions](./COMPETITION.md)
