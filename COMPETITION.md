@@ -90,7 +90,7 @@ message SDCTestCase {
 }
 
 message RoadPoint {
-  int64 sequenceNumber = 1;
+  int64 sequenceNumber = 1; // The order of the road points starting with 0. The car starts at the road point with sequenceNumber 0!
   float x = 2; // x-coordinate
   float y = 3; // y-coordinate
 }
