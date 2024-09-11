@@ -98,7 +98,7 @@ message RoadPoint {
 ```
 The road points are coordinates on a 2-dimensional Cartesian plane.
 The simulation will interpolate the road points to shape the road.
->> The more road point there are, the more accurate is the test case projected in the simulation environment as there are less variance due to the interpolation.
+> The more road point there are, the more accurate is the test case projected in the simulation environment as there are less variance due to the interpolation.
 
 ## Competition Guidelines
 There are no major limitations for the implementation of a test selection approach.
