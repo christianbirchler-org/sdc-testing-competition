@@ -79,6 +79,27 @@ sequenceDiagram
     ToolX -->>- Evaluator: return selection
 ```
 
+### Test Case Definition
+For the competition, we define a single test case as a sequence of road points.
+When you look at the `competition.proto` file, you will find the following definitions:
+```protobuf
+...
+message SDCTestCase {
+  string testId = 1; // unique identifier
+  repeated RoadPoint roadPoints = 2; // sequence of road points
+}
+
+message RoadPoint {
+  int64 sequenceNumber = 1;
+  float x = 2; // x-coordinate
+  float y = 3; // y-coordinate
+}
+...
+```
+The road points are coordinates on a 2-dimensional Cartesian plane.
+The simulation will interpolate the road points to shape the road.
+>> The more road point there are, the more accurate is the test case projected in the simulation environment as there are less variance due to the interpolation.
+
 ## Competition Guidelines
 There are no major limitations for the implementation of a test selection approach.
 The competitors have only to implement the provided interfaces (`competition.proto`) and ensure that their tool works inside a Docker container.
