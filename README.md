@@ -29,6 +29,10 @@ For the competition, we focus on the former aspect - the test selection, as deta
 ## Q&A
 Use [GitHub Discussions](https://github.com/christianbirchler-org/sdc-testing-competition/discussions) for any kind of questions related to the tool competition.
 
+> Do not hesitate to ask questions.
+> If something is unclear then it is likely it is unclear for others as well.
+> We appreciate all kind of feedback to make this competition platform as usable as possible.
+
 
 ## Contributing
 The important dates for the competition and the current development of this competition platform are defined as [GitHub Milestones](https://github.com/christianbirchler-org/sdc-testing-competition/milestones).
