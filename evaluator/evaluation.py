@@ -1,4 +1,6 @@
 from dataclasses import dataclass
+import numpy as np
+import shapely
 import time
 import abc
 import sys
@@ -25,13 +27,55 @@ class TestDetails:
     road_points: list[tuple[float, float]]
 
 
+def _curvature_profile(test_detail: TestDetails) -> list[float]:
+    # TODO
+    print("compute curvature profile")
+    road_shape = shapely.LineString(test_detail.road_points)
+
+    delta_s = 3  # 3 meters
+
+    curvature_profile = np.zeros(int(road_shape.length)) # we want the curvature for every meter
+    for s in range(len(curvature_profile)):
+        #s = (i+1)*delta_s
+
+        if s < delta_s/2:
+            continue
+        if s > road_shape.length-delta_s/2:
+            continue
+
+
+        pt_q: shapely.Point = road_shape.interpolate(s-delta_s, normalized=False)
+        pt_r: shapely.Point = road_shape.interpolate(s-delta_s/2, normalized=False)
+
+        pt_s: shapely.Point = road_shape.interpolate(s, normalized=False)
+
+        pt_t: shapely.Point = road_shape.interpolate(s+delta_s/2, normalized=False)
+        pt_u: shapely.Point = road_shape.interpolate(s+delta_s, normalized=False)
+
+        tangent_r_vec = np.array((pt_s.x-pt_q.x, pt_s.y-pt_q.y))
+        tangent_t_vec = np.array((pt_u.x-pt_s.x, pt_u.y-pt_s.y))
+
+        cos_phi = np.dot(tangent_r_vec, tangent_t_vec)/(np.linalg.norm(tangent_r_vec)*np.linalg.norm(tangent_t_vec))
+        phi = np.arccos(cos_phi)
+
+        kappa = phi/delta_s
+        if np.isnan(kappa):
+            continue
+
+        curvature_profile[s] = kappa
+
+    return curvature_profile
+
+
 class MetricEvaluator:
+    """Computation of all evaluation metrics."""
+
     def __init__(self):
         pass
 
     def time_to_fault_ratio(self, test_suite: list[TestDetails], selection: list[str]) -> float:
         """
-        ratio between the required simulation time and the number of detected faults
+        Ratio between the required simulation time and the number of detected faults.
         """
         nr_detected_faults = 0
         total_simulation_time = 0.0
@@ -68,8 +112,12 @@ class MetricEvaluator:
         """
         diversity of the selected test cases
         """
-        # TODO
-        return 0.0
+        curvature_profiles = []
+
+        for test_detail in test_suite:
+            if test_detail.test_id in selection:
+                curvature_profiles.append(_curvature_profile(test_detail))
+        return curvature_profiles
 
 
 @dataclass
