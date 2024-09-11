@@ -77,6 +77,8 @@ class EvaluationReport:
     """This class holding evaluation metrics of a tool."""
 
     tool_name: str
+    test_suite_cnt: int
+    selection_cnt: int
     time_to_initialize: float
     time_to_select_tests: float
     time_to_fault_ratio: float
@@ -184,6 +186,8 @@ class ToolEvaluator:
         selection_end_time = time.time()
 
         return EvaluationReport(
+            test_suite_cnt=len(self.test_set),
+            selection_cnt=len(selection),
             time_to_initialize=(init_end_time-init_start_time),
             time_to_select_tests=(selection_end_time-selection_start_time),
             tool_name=name_reply.name,
