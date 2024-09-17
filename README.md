@@ -40,6 +40,10 @@ The important dates for the competition and the current development of this comp
 Any kind of contributions (e.g., feature requests, bug reports, questions, etc.) are welcome.
 Please refer to [GitHub Discussions](https://github.com/christianbirchler-org/sdc-testing-competition/discussions) to let the community know about your contributions.
 
+### Contributors
+Many thanks to the following contributors who help to build and maintain the repository:
+- [vatozZ](https://github.com/vatozZ)
+
 
 ## License
 ```{text}
