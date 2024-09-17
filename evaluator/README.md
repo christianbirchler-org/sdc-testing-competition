@@ -2,7 +2,16 @@
 This is the tool that performs trivial evaluation of the implemented test selection tool.
 
 ## Usage
-Build and run the evaluator tool that uses the sample dataset and performs an initial evaluation:
+The required test data is stored with Git LFS.
+Hence you need to have Git LFS installed.
+For this, refer to the offical documentation: https://git-lfs.com
+
+After you have installed Git LFS, you can pull the large test data file(s) of this repository.
+```bash
+git lfs pull
+```
+
+Then build and run the evaluator tool that uses the sample dataset and performs an initial evaluation:
 ```bash
 cd evaluator
 docker build -t evaluator-image .
