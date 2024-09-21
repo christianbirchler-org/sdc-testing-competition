@@ -17,7 +17,7 @@ For the competition, we focus on the first aspect - test selection, as detailed 
 
 ## Important Links
 - [Competition Details and Instructions](./COMPETITION.md)
-- [ICST 2025 Conference Website](https://conf.researchr.org/home/icst-2025)
+- [ICST 2025: Tool Competition Self-Driving Car Testing Website](https://conf.researchr.org/track/icst-2025/icst-2025-tool-competition--self-driving-car-testing)
 
 ## Important Dates
 | **Event**                          | **Date (AoE)**     |
