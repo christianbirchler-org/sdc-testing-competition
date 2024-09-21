@@ -11,7 +11,7 @@ However, despite the necessity of systematically testing such complex and automa
 The SDC Testing Competition organized in the context of the [International Conference on Software Testing, Verification and Validation (ICST 2025)](https://conf.researchr.org/home/icst-2025) is an initiative designed to inspire and encourage the Software Testing Community to direct their attention toward SDCs as a rapidly emerging and crucial domain.
 The competition's focus is on regression testing for test suites executing system tests of SDCs in simulation.
 Regression testing involves test selection, prioritization, and minimization.
-For the competition, we focus on the former aspect - the test selection, as detailed in [Competition Details and Instructions](./COMPETITION.md).
+For the competition, we focus on the first aspect - test selection, as detailed in [Competition Details and Instructions](./COMPETITION.md).
 
 ![](example.png)
 
