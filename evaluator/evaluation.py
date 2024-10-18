@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from sklearn.metrics.pairwise import pairwise_distances
 import numpy as np
 import shapely
 import time
@@ -32,7 +33,7 @@ def _curvature_profile(test_detail: TestDetails) -> list[float]:
     print("compute curvature profile")
     road_shape = shapely.LineString(test_detail.road_points)
 
-    delta_s = 3  # 3 meters
+    delta_s = 2  # 10 meters
 
     curvature_profile = np.zeros(int(road_shape.length)) # we want the curvature for every meter
     for s in range(len(curvature_profile)):
@@ -110,14 +111,26 @@ class MetricEvaluator:
 
     def diversity(self, test_suite: list[TestDetails], selection: list[str]) -> float:
         """
-        diversity of the selected test cases
+        TODO: Diversity of the selected test cases
+        Current implementation is not final!!!
+        We might consider different definitions of diversity.
         """
-        curvature_profiles = []
+        curvature_profiles_stats = []
 
         for test_detail in test_suite:
             if test_detail.test_id in selection:
-                curvature_profiles.append(_curvature_profile(test_detail))
-        return curvature_profiles
+                profile = _curvature_profile(test_detail)
+                profile_stat = {
+                    'k_mean': np.mean(profile),
+                    'k_std': np.std(profile)
+                }
+                pt = [profile_stat['k_mean'], profile_stat['k_std']]
+
+                curvature_profiles_stats.append(pt)
+
+        curvature_stats_distances = pairwise_distances(curvature_profiles_stats, curvature_profiles_stats)
+        #return curvature_profiles_stats
+        return float(np.mean(curvature_stats_distances[0, :]))
 
 
 @dataclass
