@@ -6,7 +6,8 @@ import competition_pb2
 import grpc
 import concurrent.futures as fut
 from features import calculate_features
-from features import extract_coordinates
+from rf_prediction import predict_outcome
+
 
 
 
@@ -17,7 +18,7 @@ class SampleTestSelector(competition_pb2_grpc.CompetitionToolServicer):
     """
 
     def Name(self, request, context):
-        return competition_pb2.NameReply(name="random_sample_test_selector")
+        return competition_pb2.NameReply(name="random_forest_static_test_selector")
 
     def Initialize(self, request_iterator, context):
 
@@ -38,19 +39,25 @@ class SampleTestSelector(competition_pb2_grpc.CompetitionToolServicer):
             #print("roadpoints={}".format(sdc_test_case.roadPoints))
             #print ("the features are ", calculate_features(sdc_test_case))
             # print ("tthe road coordinates are ", extract_coordinates(sdc_test_case))
-            print ("the features are ", calculate_features(sdc_test_case))
+            features = calculate_features(sdc_test_case)
+            # print ("the features are ", features)
 
 
+            # get the prediction outcome 
+            rf_prediction_outcome = predict_outcome(features)
+         
+            print("Random Forest predicts", rf_prediction_outcome)
 
 
-
-
-            if random.randint(0, 1) < 1:
+            if rf_prediction_outcome < 1:
                 yield competition_pb2.SelectionReply(testId=sdc_test_case.testId)
                 print("Sending Selection Reply: testId={}".format(sdc_test_case.testId))
 
 
+
+
 if __name__ == "__main__":
+
     print("start test selector")
     parser = argparse.ArgumentParser()
     parser.add_argument("-p", "--port")
