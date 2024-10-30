@@ -21,7 +21,7 @@ For the competition, we focus on the first aspect - test selection, as detailed 
 - [SBFT 2025: Self-Driving Car Testing Tool Competition](https://sbft25.github.io/tools/)
 
 ## Important Dates
-## ICST 2025, Ottawa, Canada
+## ICST 2025, Naples, Italy
 
 | **Event**                          | **Date (AoE)**     |
 |------------------------------------|--------------------|
