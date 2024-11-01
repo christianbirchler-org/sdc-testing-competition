@@ -6,8 +6,6 @@ For the competition, we focus on the first aspect - the test selection.
 ## Test Selection
 *Test Selection* is the process of picking only the relevant test cases from the test suite for a particular change.
 In the context of simulation-based testing for SDCs with long running test cases, we select test cases fulfilling certain constraints [^1][^2].
-For the competition we set a time budget:
-- *Time Budget*: A maximal amount of time is available to run the selected test cases.
 
 ```text
  Test Suite        Selection
