@@ -136,11 +136,10 @@ Hence, the participants should consider to use reference test cases for the same
 There are several test generators available for the BeamNG simulator from the **SBFT@ICSE** workshop series [^5][^6][^7]. 
 
 The tools will be evaluated on the following metrics (potential new metrics will be announced in the discussion forum):
-- *Time Budget*: A maximal amount of time is available to run the selected test cases.
 - *Fault Detection*: The number of test failures we observe when running the selected test cases.
 - *Diversity*: The more diverse the test cases are the better. We do not want to run almost the same test cases.
 
-For a clear description of the evaluation metrics, refer to the `MetricEvaluator` class of the evaluator.
+> For a clear description of the evaluation metrics, refer to the `MetricEvaluator` class of the evaluator!
 
 
 **Note:** The organizers will evaluate the submitted tools on a virtual machine with the following specifications:
