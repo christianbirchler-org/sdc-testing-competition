@@ -31,7 +31,7 @@ class FeaturesSelector(pb_grpc.CompetitionToolServicer):
             test_cases.append(sdc_test_case)
 
         # clusters = util.cluster_road_segments(test_cases)
-        clusters = util.cluster_test_cases(test_cases)
+        clusters = util.cluster_road_segments(test_cases)
         # Choose at most 3 test cases from each cluster
         print(f"Found {len(clusters)} clusters")
 
@@ -56,8 +56,8 @@ class FeaturesSelector(pb_grpc.CompetitionToolServicer):
             xs = [pt.x for pt in sdc_test_case.roadPoints]
             ys = [pt.y for pt in sdc_test_case.roadPoints]
             features = util.extract_road_features(xs, ys)
-            # if features.complexity() < complexity_threshold:
-            #     continue
+            if features.complexity() < complexity_threshold:
+                continue
 
             test_cases.append(sdc_test_case)
 
