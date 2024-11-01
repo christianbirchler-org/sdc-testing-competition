@@ -1,0 +1,24 @@
+services:
+  evaluator:
+    build:
+      context: ./evaluator
+      dockerfile: Dockerfile
+    depends_on:
+      - selector
+    image: evaluator
+    command:
+      - "--url=host.docker.internal:${TOOL_PORT}"
+    volumes:
+      - ./evaluator/data:/app/data
+
+  selector:
+    build:
+      context: ./selector
+      dockerfile: Dockerfile
+    command:
+      - "--port=${TOOL_PORT}"
+    image: selector
+    ports:
+      - "${TOOL_PORT}:${TOOL_PORT}"
+    environment:
+      PORT: ${TOOL_PORT}
