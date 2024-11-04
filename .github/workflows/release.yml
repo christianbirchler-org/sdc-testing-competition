@@ -20,5 +20,5 @@ jobs:
         run: |
           gh release create "$tag" \
               --repo="$GITHUB_REPOSITORY" \
-              --title="${tag#v}" \
+              --title="${tag}" \
               --generate-notes
