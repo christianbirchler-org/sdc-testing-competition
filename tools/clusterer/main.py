@@ -1,11 +1,8 @@
 import argparse
-import random
 from concurrent import futures
 
 import grpc
 import pb.competition_pb2_grpc as pb_grpc
-
-from tool.selector_dtw import DTWDistanceSelector
 from tool.selector_features import FeaturesSelector
 
 if __name__ == "__main__":

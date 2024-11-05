@@ -2,7 +2,6 @@ import random
 
 import pb.competition_pb2 as pb
 import pb.competition_pb2_grpc as pb_grpc
-from tool import util
 
 
 class RandomSelector(pb_grpc.CompetitionToolServicer):

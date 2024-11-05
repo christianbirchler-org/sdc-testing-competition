@@ -8,7 +8,7 @@ from tool import util
 
 class DTWDistanceSelector(pb_grpc.CompetitionToolServicer):
     def __init__(self):
-        self.batch_size = 192//4
+        self.batch_size = 192 // 4
         self.outlier_cluster = -1
 
     def Name(self, request, context):

@@ -5,13 +5,12 @@ import numpy as np
 import pb.competition_pb2 as pb
 from dtw import dtw
 from frechetdist import frdist
+from scipy.cluster.hierarchy import fcluster, linkage
 from scipy.ndimage import gaussian_filter1d
 from sklearn.cluster import DBSCAN
 from sklearn.preprocessing import StandardScaler
-
-from scipy.cluster.hierarchy import linkage, fcluster
-
 from tool import model
+
 
 def compute_curvature_profile(test_case: pb.SDCTestCase) -> float:
     def angle_between_vectors(v1, v2):
@@ -34,8 +33,14 @@ def compute_curvature_profile(test_case: pb.SDCTestCase) -> float:
 
     for i in range(1, n - 1):
         # Create vectors between consecutive points
-        v1 = (road_points[i].x - road_points[i-1].x, road_points[i].y - road_points[i-1].y)
-        v2 = (road_points[i+1].x - road_points[i].x, road_points[i+1].y - road_points[i].y)
+        v1 = (
+            road_points[i].x - road_points[i - 1].x,
+            road_points[i].y - road_points[i - 1].y,
+        )
+        v2 = (
+            road_points[i + 1].x - road_points[i].x,
+            road_points[i + 1].y - road_points[i].y,
+        )
 
         # Compute the angle between vectors and add to the curvature sum
         curvature_sum += angle_between_vectors(v1, v2)
@@ -45,33 +50,50 @@ def compute_curvature_profile(test_case: pb.SDCTestCase) -> float:
 
     return curvature_profile
 
+
 # Function to compute the Frechet distance between two test cases
 def frechet_distance(tc1: pb.SDCTestCase, tc2: pb.SDCTestCase) -> float:
-    road1 = [(tc1.roadPoints[i].x, tc1.roadPoints[i].y) for i in range(len(tc1.roadPoints))]
-    road2 = [(tc2.roadPoints[i].x, tc2.roadPoints[i].y) for i in range(len(tc2.roadPoints))]
+    road1 = [
+        (tc1.roadPoints[i].x, tc1.roadPoints[i].y) for i in range(len(tc1.roadPoints))
+    ]
+    road2 = [
+        (tc2.roadPoints[i].x, tc2.roadPoints[i].y) for i in range(len(tc2.roadPoints))
+    ]
 
     # Calculate Frechet distance
     frechet_dist = frdist(road1, road2)
     return frechet_dist
 
+
 # # Calculate Frechet distance
 def dtw_distance(tc1: pb.SDCTestCase, tc2: pb.SDCTestCase) -> float:
-    road1 = [(tc1.roadPoints[i].x, tc1.roadPoints[i].y) for i in range(len(tc1.roadPoints))]
-    road2 = [(tc2.roadPoints[i].x, tc2.roadPoints[i].y) for i in range(len(tc2.roadPoints))]
+    road1 = [
+        (tc1.roadPoints[i].x, tc1.roadPoints[i].y) for i in range(len(tc1.roadPoints))
+    ]
+    road2 = [
+        (tc2.roadPoints[i].x, tc2.roadPoints[i].y) for i in range(len(tc2.roadPoints))
+    ]
 
     DTW = dtw(road1, road2, dist_method="euclidean")
     return DTW.distance
 
+
 def euclidean_distance(tc1: pb.SDCTestCase, tc2: pb.SDCTestCase) -> float:
-    road1 = [(tc1.roadPoints[i].x, tc1.roadPoints[i].y) for i in range(len(tc1.roadPoints))]
-    road2 = [(tc2.roadPoints[i].x, tc2.roadPoints[i].y) for i in range(len(tc2.roadPoints))]
+    road1 = [
+        (tc1.roadPoints[i].x, tc1.roadPoints[i].y) for i in range(len(tc1.roadPoints))
+    ]
+    road2 = [
+        (tc2.roadPoints[i].x, tc2.roadPoints[i].y) for i in range(len(tc2.roadPoints))
+    ]
 
     euclidean_dist = np.linalg.norm(np.array(road1) - np.array(road2))
     return euclidean_dist
 
+
 # Function to compute the distance between two objects
 def compute_distance(i, j, objects):
     return i, j, euclidean_distance(objects[i], objects[j])
+
 
 # Function to compute the distance matrix in parallel
 def compute_distance_matrix_parallel(objects):
@@ -79,12 +101,14 @@ def compute_distance_matrix_parallel(objects):
     dist_matrix = np.zeros((n, n))
 
     # Create a list of all pairs (i, j) where i < j to avoid redundant calculations
-    pairs = [(i, j) for i in range(n) for j in range(i+1, n)]
+    pairs = [(i, j) for i in range(n) for j in range(i + 1, n)]
 
     # Use ThreadPoolExecutor to compute distances in parallel
     with ThreadPoolExecutor() as executor:
         # Map the function to compute distances in parallel for each pair
-        results = executor.map(lambda pair: compute_distance(pair[0], pair[1], objects), pairs)
+        results = executor.map(
+            lambda pair: compute_distance(pair[0], pair[1], objects), pairs
+        )
 
     # Fill in the distance matrix with the results
     for i, j, dist in results:
@@ -98,6 +122,7 @@ def compute_distance_matrix_parallel(objects):
     dist_matrix = (dist_matrix - min_val) / (max_val - min_val)
 
     return dist_matrix
+
 
 def cluster_test_cases(test_cases):
     # Compute the distance matrix in parallel
@@ -113,7 +138,7 @@ def cluster_test_cases(test_cases):
     # Z = linkage(dist_matrix, method='average')
     # clusters = fcluster(Z, t=1.4, criterion='distance')
 
-    db = DBSCAN(eps=0.05, min_samples=4, metric='precomputed')
+    db = DBSCAN(eps=0.05, min_samples=4, metric="precomputed")
     clusters = db.fit_predict(dist_matrix)
 
     # Group test cases by their clusters
@@ -127,22 +152,27 @@ def cluster_test_cases(test_cases):
 
 
 def calculate_distance(x, y):
-    dist = np.sqrt(np.diff(x)**2 + np.diff(y)**2)
+    dist = np.sqrt(np.diff(x) ** 2 + np.diff(y) ** 2)
     return np.sum(dist)
+
 
 def calculate_sinuosity(x, y):
     actual_distance = calculate_distance(x, y)
-    straight_line_distance = np.sqrt((x[-1] - x[0])**2 + (y[-1] - y[0])**2)
-    return actual_distance / straight_line_distance if straight_line_distance != 0 else 1
+    straight_line_distance = np.sqrt((x[-1] - x[0]) ** 2 + (y[-1] - y[0]) ** 2)
+    return (
+        actual_distance / straight_line_distance if straight_line_distance != 0 else 1
+    )
+
 
 def calculate_curvature(x, y):
     dx = np.gradient(x)
     dy = np.gradient(y)
     ddx = np.gradient(dx)
     ddy = np.gradient(dy)
-    curvature = np.abs(dx * ddy - dy * ddx) / (dx**2 + dy**2)**1.5
+    curvature = np.abs(dx * ddy - dy * ddx) / (dx**2 + dy**2) ** 1.5
     curvature = gaussian_filter1d(curvature, sigma=2)
     return curvature
+
 
 def count_segments(curvature, curvature_threshold=0.05):
     """Count the number of straight and curved segments based on curvature threshold."""
@@ -150,21 +180,28 @@ def count_segments(curvature, curvature_threshold=0.05):
     curved_segments = np.sum(curvature >= curvature_threshold)
     return straight_segments, curved_segments
 
+
 def categorize_turns(curvature, mild_threshold=0.05, sharp_threshold=0.15):
     """Categorize turns into mild, moderate, and sharp based on curvature thresholds."""
     mild_turns = np.sum((curvature >= mild_threshold) & (curvature < sharp_threshold))
-    moderate_turns = np.sum((curvature >= sharp_threshold) & (curvature < sharp_threshold * 2))
+    moderate_turns = np.sum(
+        (curvature >= sharp_threshold) & (curvature < sharp_threshold * 2)
+    )
     sharp_turns = np.sum(curvature >= sharp_threshold * 2)
     return mild_turns, moderate_turns, sharp_turns
+
 
 def calculate_segment_lengths(x, y, segment_indices):
     """Calculate the lengths of segments based on indices where segments change."""
     segment_lengths = []
     for i in range(1, len(segment_indices)):
-        segment_length = calculate_distance(x[segment_indices[i-1]:segment_indices[i]],
-                                            y[segment_indices[i-1]:segment_indices[i]])
+        segment_length = calculate_distance(
+            x[segment_indices[i - 1] : segment_indices[i]],
+            y[segment_indices[i - 1] : segment_indices[i]],
+        )
         segment_lengths.append(segment_length)
     return np.mean(segment_lengths) if segment_lengths else 0
+
 
 def calculate_heading_changes(x, y):
     headings = np.arctan2(np.diff(y), np.diff(x))
@@ -177,6 +214,7 @@ def calculate_heading_changes(x, y):
 
     return left_turns, right_turns, np.abs(heading_changes)
 
+
 def extract_road_features(x, y) -> model.RoadFeatures:
     sinuosity = calculate_sinuosity(x, y)
     curvature = calculate_curvature(x, y)
@@ -186,7 +224,9 @@ def extract_road_features(x, y) -> model.RoadFeatures:
     curvature_std = np.std(curvature)
 
     # Curvature variability index
-    curvature_variability_index = curvature_std / curvature_mean if curvature_mean != 0 else 0
+    curvature_variability_index = (
+        curvature_std / curvature_mean if curvature_mean != 0 else 0
+    )
 
     # Count segments
     straight_segments, curved_segments = count_segments(curvature)
@@ -227,6 +267,7 @@ def extract_road_features(x, y) -> model.RoadFeatures:
         average_segment_length=average_segment_length,
     )
 
+
 def cluster_road_segments(test_cases):
     feature_matrix = []
     for test_case in test_cases:
@@ -249,8 +290,8 @@ def cluster_road_segments(test_cases):
     # labels = kmeans.labels_
 
     # Cluster the feature matrix using Agglomerative Clustering
-    Z = linkage(feature_matrix, method='average')
-    labels = fcluster(Z, t=2.7, criterion='distance')
+    Z = linkage(feature_matrix, method="average")
+    labels = fcluster(Z, t=2.7, criterion="distance")
 
     # Group test cases by their clusters
     clustered_test_cases = {}

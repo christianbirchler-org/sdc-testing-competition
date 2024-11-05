@@ -1,8 +1,6 @@
 import math
 import random
 
-import numpy as np
-
 import pb.competition_pb2 as pb
 import pb.competition_pb2_grpc as pb_grpc
 from tool import util

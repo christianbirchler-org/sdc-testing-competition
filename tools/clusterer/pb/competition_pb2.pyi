@@ -1,7 +1,12 @@
-from google.protobuf.internal import containers as _containers
+from typing import ClassVar as _ClassVar
+from typing import Iterable as _Iterable
+from typing import Mapping as _Mapping
+from typing import Optional as _Optional
+from typing import Union as _Union
+
 from google.protobuf import descriptor as _descriptor
 from google.protobuf import message as _message
-from typing import ClassVar as _ClassVar, Iterable as _Iterable, Mapping as _Mapping, Optional as _Optional, Union as _Union
+from google.protobuf.internal import containers as _containers
 
 DESCRIPTOR: _descriptor.FileDescriptor
 
@@ -21,7 +26,11 @@ class Oracle(_message.Message):
     HASFAILED_FIELD_NUMBER: _ClassVar[int]
     testCase: SDCTestCase
     hasFailed: bool
-    def __init__(self, testCase: _Optional[_Union[SDCTestCase, _Mapping]] = ..., hasFailed: bool = ...) -> None: ...
+    def __init__(
+        self,
+        testCase: _Optional[_Union[SDCTestCase, _Mapping]] = ...,
+        hasFailed: bool = ...,
+    ) -> None: ...
 
 class SDCTestCase(_message.Message):
     __slots__ = ("testId", "roadPoints")
@@ -29,7 +38,11 @@ class SDCTestCase(_message.Message):
     ROADPOINTS_FIELD_NUMBER: _ClassVar[int]
     testId: str
     roadPoints: _containers.RepeatedCompositeFieldContainer[RoadPoint]
-    def __init__(self, testId: _Optional[str] = ..., roadPoints: _Optional[_Iterable[_Union[RoadPoint, _Mapping]]] = ...) -> None: ...
+    def __init__(
+        self,
+        testId: _Optional[str] = ...,
+        roadPoints: _Optional[_Iterable[_Union[RoadPoint, _Mapping]]] = ...,
+    ) -> None: ...
 
 class RoadPoint(_message.Message):
     __slots__ = ("sequenceNumber", "x", "y")
@@ -39,7 +52,12 @@ class RoadPoint(_message.Message):
     sequenceNumber: int
     x: float
     y: float
-    def __init__(self, sequenceNumber: _Optional[int] = ..., x: _Optional[float] = ..., y: _Optional[float] = ...) -> None: ...
+    def __init__(
+        self,
+        sequenceNumber: _Optional[int] = ...,
+        x: _Optional[float] = ...,
+        y: _Optional[float] = ...,
+    ) -> None: ...
 
 class InitializationReply(_message.Message):
     __slots__ = ("ok",)
