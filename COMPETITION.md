@@ -133,6 +133,9 @@ The organizers will use a dataset of test cases for the BeamNG.tech simulator.
 Hence, the participants should consider to use reference test cases for the same simulator.
 There are several test generators available for the BeamNG simulator from the **SBFT@ICSE** workshop series [^5][^6][^7]. 
 
+The evaluation will be based on BeamNG's built-in autopilot with a *risk factor (RF)* of 1.5 and a *maximum speed* of 120km/h.
+We will use an OOB threashold (percentage the SDC is allowed to drive off the lane) of 50% but we might experiment with smaller values as well.
+
 The tools will be evaluated on the following metrics (potential new metrics will be announced in the discussion forum):
 - *Fault Detection*: The number of test failures we observe when running the selected test cases.
 - *Diversity*: The more diverse the test cases are the better. We do not want to run almost the same test cases.
