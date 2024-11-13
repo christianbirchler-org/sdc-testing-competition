@@ -25,7 +25,7 @@ For the competition, we focus on the first aspect - test selection, as detailed 
 
 | **Event**                          | **Date (AoE)**     |
 |------------------------------------|--------------------|
-| Tool Submission                    | November 15th 2024 |
+| Tool Submission                    | November 17th 2024 |
 | Results Notification               | December 15th 2024 |
 | Camera-ready Tool Paper Submission | January 10th 2025  |
 
