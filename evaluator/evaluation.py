@@ -109,7 +109,7 @@ class MetricEvaluator:
             test = test_oracle_mapping[test_id]
             if test.hasFailed: nr_detected_faults += 1
 
-        return nr_detected_faults / len(test_suite)
+        return nr_detected_faults / len(selection)
 
 
     def diversity(self, test_suite: list[TestDetails], selection: list[str]) -> float:
