@@ -29,7 +29,11 @@ class TestDetails:
 
 
 def _curvature_profile(test_detail: TestDetails) -> list[float]:
-    # TODO
+    """
+    Compute the curvature for every meter of the road.
+
+    The following website was used as a reference: https://de.wikipedia.org/wiki/Kr%C3%BCmmung
+    """
     print("compute curvature profile")
     road_shape = shapely.LineString(test_detail.road_points)
 
@@ -39,9 +43,8 @@ def _curvature_profile(test_detail: TestDetails) -> list[float]:
     for s in range(len(curvature_profile)):
         #s = (i+1)*delta_s
 
-        if s < delta_s/2:
-            continue
-        if s > road_shape.length-delta_s/2:
+        # ignore the edge cases close to the ends of the road
+        if (s < delta_s/2) or (s > road_shape.length-delta_s/2):
             continue
 
 
@@ -129,7 +132,7 @@ class MetricEvaluator:
                 curvature_profiles_stats.append(pt)
 
         curvature_stats_distances = pairwise_distances(curvature_profiles_stats, curvature_profiles_stats)
-        #return curvature_profiles_stats
+
         return float(np.mean(curvature_stats_distances[0, :]))
 
 
