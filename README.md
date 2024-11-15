@@ -55,7 +55,7 @@ Please refer to [GitHub Discussions](https://github.com/christianbirchler-org/sd
 Many thanks to the following contributors who help to build and maintain the repository:
 - [ChristianBirchler](https://github.com/ChristianBirchler)
 - [vatozZ](https://github.com/vatozZ)
-
+- [FasihMunirMalik](https://github.com/FasihMunirMalik)
 
 ## License
 ```{text}
