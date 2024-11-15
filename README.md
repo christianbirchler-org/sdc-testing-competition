@@ -78,9 +78,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 [GPLv3](LICENSE)
 
 ## Contacts
-| First Name | Last Name  | Affiliation                                                | Email                      |
-|------------|------------|------------------------------------------------------------|----------------------------|
-| Christian  | Birchler   | Zurich University of Applied Sciences & University of Bern | christian.birchler@zhaw.ch |
-| Stefan     | Klikovits  | Johannes Kepler University Linz                            | stefan.klikovits@jku.at    |
-| Mattia     | Fazzini    | University of Minnesota                                    | mfazzini@umn.edu           |
-| Sebastiano | Panichella | University of Bern                                         | spanichella@gmail.com / sebastiano.panichella@unibe.ch      |
+| **First Name** | **Last Name** | **Affiliation**                                            | **Email**                                              |
+|----------------|---------------|------------------------------------------------------------|--------------------------------------------------------|
+| Christian      | Birchler      | Zurich University of Applied Sciences & University of Bern | christian.birchler@zhaw.ch                             |
+| Stefan         | Klikovits     | Johannes Kepler University Linz                            | stefan.klikovits@jku.at                                |
+| Mattia         | Fazzini       | University of Minnesota                                    | mfazzini@umn.edu                                       |
+| Sebastiano     | Panichella    | University of Bern                                         | spanichella@gmail.com / sebastiano.panichella@unibe.ch |
