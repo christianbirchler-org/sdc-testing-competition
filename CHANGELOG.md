@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - ICST 2025 tool competition results
 - SBFT 2025 tool competition results
 
+## [v1.1.5] - 2024-11-18
+### Changed
+- Submission deadline for the ICST call
+
 ## [v1.1.4] - 2024-11-14
 ### Fixed
 - Fault to selection ratio metric
