@@ -5,10 +5,6 @@ import competition_pb2_grpc
 import competition_pb2
 import grpc
 import concurrent.futures as fut
-from features import calculate_features
-from features import extract_coordinates
-
-
 
 
 class SampleTestSelector(competition_pb2_grpc.CompetitionToolServicer):
@@ -20,10 +16,7 @@ class SampleTestSelector(competition_pb2_grpc.CompetitionToolServicer):
         return competition_pb2.NameReply(name="random_sample_test_selector")
 
     def Initialize(self, request_iterator, context):
-
         """Missing associated documentation comment in .proto file."""
-        
-        
         for oracle in request_iterator:
             oracle: competition_pb2.Oracle = oracle
             print("hasFailed={}\ttestId={}".format(oracle.hasFailed, oracle.testCase.testId))
@@ -34,20 +27,9 @@ class SampleTestSelector(competition_pb2_grpc.CompetitionToolServicer):
         """bidirectional streaming for high flexibility"""
         for sdc_test_case in request_iterator:
             sdc_test_case: competition_pb2.SDCTestCase = sdc_test_case
-            print("Received Test Case: testId={}".format(sdc_test_case.testId))
-            #print("roadpoints={}".format(sdc_test_case.roadPoints))
-            #print ("the features are ", calculate_features(sdc_test_case))
-            # print ("tthe road coordinates are ", extract_coordinates(sdc_test_case))
-            print ("the features are ", calculate_features(sdc_test_case))
-
-
-
-
-
-
+            print("testId={}".format(sdc_test_case.testId))
             if random.randint(0, 1) < 1:
                 yield competition_pb2.SelectionReply(testId=sdc_test_case.testId)
-                print("Sending Selection Reply: testId={}".format(sdc_test_case.testId))
 
 
 if __name__ == "__main__":
