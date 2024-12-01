@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+service CompetitionTool {
+  rpc Name(Empty) returns (NameReply) {}
+
+  rpc Initialize (stream Oracle) returns (InitializationReply) {}
+
+// bidirectional streaming for high flexibility
+  rpc Select (stream SDCTestCase) returns (stream SelectionReply) {}
+}
+
+message Empty {}
+
+message NameReply {
+  string name = 1;
+}
+
+message Oracle {
+  SDCTestCase testCase = 1;
+  bool hasFailed = 2;
+}
+
+message SDCTestCase {
+  string testId = 1;
+  repeated RoadPoint roadPoints = 2;
+}
+
+message RoadPoint {
+  int64 sequenceNumber = 1;
+  float x = 2;
+  float y = 3;
+}
+
+message InitializationReply {
+  bool ok = 1;
+}
+
+message SelectionReply {
+  string testId = 1;
+}
