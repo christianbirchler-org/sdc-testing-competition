@@ -30,12 +30,12 @@ For the competition, we focus on the first aspect - test selection, as detailed 
 | Camera-ready Tool Paper Submission | January 10th 2025  |
 
 ## SBFT 2025, Ottawa, Canada
-| **Event**               | **Date (AoE)**    |
-|-------------------------|-------------------|
-| Tool Submission         | December 6th 2024 |
-| Notification            | January 17th 2025 |
-| Tool Competition Report | January 24th 2025 |
-| Camera Ready            | February 5th 2025 |
+| **Event**               | **Date (AoE)**     |
+|-------------------------|--------------------|
+| Tool Submission         | December 15th 2024 |
+| Notification            | January 17th 2025  |
+| Tool Competition Report | January 24th 2025  |
+| Camera Ready            | February 5th 2025  |
 
 ## Q&A
 Use [GitHub Discussions](https://github.com/christianbirchler-org/sdc-testing-competition/discussions) for any kind of questions related to the tool competition.
