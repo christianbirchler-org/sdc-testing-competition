@@ -1,0 +1,6 @@
+grpcio-tools==1.67.0
+numpy==2.1.2
+scikit-learn==1.5.2
+dtw-python==1.5.3
+scipy==1.14.1
+frechetdist==0.6
