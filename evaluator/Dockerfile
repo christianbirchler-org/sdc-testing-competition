@@ -2,7 +2,7 @@ FROM python:3.11
 
 WORKDIR /app
 
-RUN pip install grpcio-tools numpy Shapely scikit-learn
+RUN pip install grpcio-tools numpy Shapely
 
 COPY . .
 
