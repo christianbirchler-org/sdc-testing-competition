@@ -19,7 +19,7 @@ class SampleTestSelector(competition_pb2_grpc.CompetitionToolServicer):
         """Missing associated documentation comment in .proto file."""
         for oracle in request_iterator:
             oracle: competition_pb2.Oracle = oracle
-            # print("hasFailed={}\ttestId={}".format(oracle.hasFailed, oracle.testCase.testId))
+            print("hasFailed={}\ttestId={}".format(oracle.hasFailed, oracle.testCase.testId))
 
         return competition_pb2.InitializationReply(ok=True)
 
@@ -27,7 +27,7 @@ class SampleTestSelector(competition_pb2_grpc.CompetitionToolServicer):
         """bidirectional streaming for high flexibility"""
         for sdc_test_case in request_iterator:
             sdc_test_case: competition_pb2.SDCTestCase = sdc_test_case
-            # print("testId={}".format(sdc_test_case.testId))
+            print("testId={}".format(sdc_test_case.testId))
             if random.randint(0, 1) < 1:
                 yield competition_pb2.SelectionReply(testId=sdc_test_case.testId)
 
