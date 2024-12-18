@@ -151,12 +151,16 @@ class EvaluationReport:
 
 
 class EvaluationTestLoader(abc.ABC):
+    """Abstract test loader for loading the evaluation data."""
+
     @abc.abstractmethod
     def get_test_details_lst(self) -> list[TestDetails]:
+        """Return list of all test cases and their oracle."""
         pass
 
     @abc.abstractmethod
     def get_test_details_dict(self) -> dict:
+        """Get test cases by their hash id."""
         pass
 
 
@@ -172,7 +176,10 @@ def _make_test_details_list(raw_test_cases) -> list[TestDetails]:
 
 
 class SampleEvaluationTestLoader(EvaluationTestLoader):
+    """Sample test loader for the provided data."""
+
     def __init__(self, file_path: str, training_prop: float):
+        """Initialize test loader with path to dataset."""
         super().__init__()
         self.raw_test_cases: list = None
         with open(file_path, 'r') as fp:
@@ -185,24 +192,25 @@ class SampleEvaluationTestLoader(EvaluationTestLoader):
         self.split_index = int(training_prop*len(self.raw_test_cases))
         self.current_test_index = self.split_index
 
-
     def get_test_details_lst(self) -> list[TestDetails]:
+        """Return test cases in a list."""
         return self.test_details_lst
-        self.test_details_dict = {test_details.test_id: test_details for test_details in self.test_details_lst}
 
     def get_test_details_dict(self) -> dict:
+        """Return test cases in a dictionary."""
         return self.test_details_dict
 
     def load(self, test_id: str) -> TestDetails:
+        """Return test case with a specific id."""
         return self.test_details_dict[test_id]
 
     def get_test_ids(self):
+        """Return al test case ids."""
         return self.test_details_dict.keys()
 
 
-
-# generators/iterators are used to implement gRPC streams
 def _init_iterator(train_set: list[TestDetails]):
+    """Python generator for the initialization interface for gRPC."""
     for test_detail in train_set:
         road_points = [competition_pb2.RoadPoint(sequenceNumber=i, x=pts[0], y=pts[1]) for i, pts in enumerate(test_detail.road_points)]
         test_case = competition_pb2.SDCTestCase(testId=test_detail.test_id, roadPoints=road_points)
@@ -210,8 +218,8 @@ def _init_iterator(train_set: list[TestDetails]):
         yield oracle
 
 
-# generators/iterators are used to implement gRPC streams
 def _test_suite_iterator(test_set: list[TestDetails]):
+    """Python generator for the selection interface for gRPC."""
     for test_detail in test_set:
         road_points = [competition_pb2.RoadPoint(sequenceNumber=i, x=pts[0], y=pts[1]) for i, pts in enumerate(test_detail.road_points)]
         test_case = competition_pb2.SDCTestCase(testId=test_detail.test_id, roadPoints=road_points)
@@ -219,7 +227,10 @@ def _test_suite_iterator(test_set: list[TestDetails]):
 
 
 class ToolEvaluator:
+    """Evaluator to compute evaluation metrics for test selectors."""
+
     def __init__(self, metric_evaluator: MetricEvaluator, test_loader: EvaluationTestLoader, train_proportion=0.8):
+        """Initialize evaluator with test loader and metric evaluator."""
         self.metric_evaluator = metric_evaluator
         self.test_loader: EvaluationTestLoader = test_loader
         self.train_proportion = train_proportion
@@ -228,7 +239,7 @@ class ToolEvaluator:
         self.test_set: list[TestDetails] = test_loader.get_test_details_lst()[self.train_max_idx:]
 
     def evaluate(self, stub: competition_pb2_grpc.CompetitionToolStub) -> EvaluationReport:
-
+        """Generate evaluation report for the given tool (stub)."""
         # get the tool name
         name_reply: competition_pb2.NameReply = stub.Name(competition_pb2.Empty())
 
@@ -279,7 +290,6 @@ if __name__ == "__main__":
         print('provide path to test cases -t/--tests')
         TESTS_FILE = "../sample_tests/sdc-test-data.json"
 
-
     # initialization of business objects
     tl = SampleEvaluationTestLoader(file_path=TESTS_FILE, training_prop=0.8)
     me = MetricEvaluator()
@@ -287,7 +297,7 @@ if __name__ == "__main__":
 
     # set up gRPC conection stub
     channel = grpc.insecure_channel(GRPC_URL)
-    stub = competition_pb2_grpc.CompetitionToolStub(channel) # stub represents the tool
+    stub = competition_pb2_grpc.CompetitionToolStub(channel)  # stub represents the tool
 
     # start evaluation
     report = te.evaluate(stub)
