@@ -8,6 +8,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - ICST 2025 tool competition results
 - SBFT 2025 tool competition results
 
+## [v1.1.8] - 2024-12-18
+### Fixed
+- Missing scikit dependency for the evaluator
+
 ## [v1.1.7] - 2024-12-12
 ### Changed
 - Submission deadline for SBFT call extended to January 3rd
