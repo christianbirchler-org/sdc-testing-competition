@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from sklearn.metrics.pairwise import pairwise_distances
-from pymongo import MongoClient
+from pymongo import MongoClient, Collection
 import numpy as np
 import shapely
 import time
@@ -230,9 +230,17 @@ def _test_suite_iterator(test_set: list[TestDetails]):
 class SensoDatTestLoader(EvaluationTestLoader):
     """Test Loader for tests stored in MongoDB."""
 
-    def __init__(self, client: MongoClient):
-        """Initialize MongoDB connection."""
-        self.client = client
+    def __init__(self, collection: Collection):
+        """Initialize with a MongoDB collection."""
+        self.collection = collection
+
+    def get_test_details_lst(self) -> list[TestDetails]:
+        """Return list of all test cases and their oracle."""
+        pass
+
+    def get_test_details_dict(self) -> dict:
+        """Get test cases by their hash id."""
+        pass
 
 
 class ToolEvaluator:
