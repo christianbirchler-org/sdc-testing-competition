@@ -1,8 +1,10 @@
+from dotenv import load_dotenv
 from dataclasses import dataclass
 from sklearn.metrics.pairwise import pairwise_distances
 from pymongo import MongoClient
 from pymongo.collection import Collection
 import numpy as np
+import os
 import shapely
 import time
 import abc
@@ -240,8 +242,9 @@ class SensoDatTestLoader(EvaluationTestLoader):
         querry = [
             {
                 '$project': {
-                    'sim_time': '$OpenDRIVE.header.sdc_test_info.@test_duration',
-                    'test_id': '$_id',
+                    '_id': 0,
+                    'sim_time': {'$toDouble': '$OpenDRIVE.header.sdc_test_info.@test_duration'},
+                    'test_id': {'$toString': '$_id'},
                     'hasFailed': {
                         '$eq': [
                             '$OpenDRIVE.header.sdc_test_info.@test_outcome', 'FAIL'
@@ -344,10 +347,16 @@ if __name__ == "__main__":
         TESTS_FILE = args.tests
     else:
         print('provide path to test cases -t/--tests')
-        TESTS_FILE = "../sample_tests/sdc-test-data.json"
+        TESTS_FILE = "sample_tests/sdc-test-data.json"
 
-    # initialization of business objects
-    tl = SampleEvaluationTestLoader(file_path=TESTS_FILE, training_prop=0.8)
+    load_dotenv()
+
+    uri = os.getenv('SENSODAT_URI')
+    client = MongoClient(uri)
+    coll: Collection = client.get_database('sdc_sim_data').get_collection('campaign_11_frenetic')
+
+    tl = SensoDatTestLoader(coll)
+
     me = MetricEvaluator()
     te = ToolEvaluator(me, tl)
 
