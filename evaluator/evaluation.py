@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from sklearn.metrics.pairwise import pairwise_distances
-from pymongo import MongoClient, Collection
+from pymongo import MongoClient
+from pymongo.collection import Collection
 import numpy as np
 import shapely
 import time
@@ -236,11 +237,49 @@ class SensoDatTestLoader(EvaluationTestLoader):
 
     def get_test_details_lst(self) -> list[TestDetails]:
         """Return list of all test cases and their oracle."""
-        pass
+        querry = [
+            {
+                '$project': {
+                    'sim_time': '$OpenDRIVE.header.sdc_test_info.@test_duration',
+                    'test_id': '$_id',
+                    'hasFailed': {
+                        '$eq': [
+                            '$OpenDRIVE.header.sdc_test_info.@test_outcome', 'FAIL'
+                        ]
+                    },
+                    'road_points': {
+                        '$map': {
+                            'input': '$OpenDRIVE.road.planView.geometry',
+                            'as': 'road_points',
+                            'in': [
+                                {
+                                    '$toDouble': '$$road_points.@x'
+                                }, {
+                                    '$toDouble': '$$road_points.@y'
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        ]
+
+        cursor = self.collection.aggregate(querry)
+        test_details: list = []
+        for item in cursor:
+            td = TestDetails(
+                test_id=item['test_id'],
+                hasFailed=item['hasFailed'],
+                sim_time=item['sim_time'],
+                road_points=[(pt[0], pt[1]) for pt in item['road_points']]  # convert to list of tuples
+            )
+            test_details.append(td)
+
+        return test_details
 
     def get_test_details_dict(self) -> dict:
         """Get test cases by their hash id."""
-        pass
+        return {'0': TestDetails(test_id='0', hasFailed=True, sim_time=1.0, road_points=[(0.0, 0.0)])}
 
 
 class ToolEvaluator:
