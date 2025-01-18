@@ -145,6 +145,7 @@ class EvaluationReport:
     """This class holding evaluation metrics of a tool."""
 
     tool_name: str
+    benchmark: str
     test_suite_cnt: int
     selection_cnt: int
     time_to_initialize: float
@@ -156,6 +157,10 @@ class EvaluationReport:
 
 class EvaluationTestLoader(abc.ABC):
     """Abstract test loader for loading the evaluation data."""
+    @abc.abstractmethod
+    def benchmark(self) -> str:
+        """Return the name of the benchmark."""
+        pass
 
     @abc.abstractmethod
     def get_test_details_lst(self) -> list[TestDetails]:
@@ -185,6 +190,7 @@ class SampleEvaluationTestLoader(EvaluationTestLoader):
     def __init__(self, file_path: str, training_prop: float):
         """Initialize test loader with path to dataset."""
         super().__init__()
+        self.file_path = file_path
         self.raw_test_cases: list = None
         with open(file_path, 'r') as fp:
             self.raw_test_cases = json.load(fp)
@@ -195,6 +201,10 @@ class SampleEvaluationTestLoader(EvaluationTestLoader):
         self.current_oracle_index = 0
         self.split_index = int(training_prop*len(self.raw_test_cases))
         self.current_test_index = self.split_index
+
+    def benchmark(self) -> str:
+        """Return the name of the benchmark."""
+        return self.file_path
 
     def get_test_details_lst(self) -> list[TestDetails]:
         """Return test cases in a list."""
@@ -236,6 +246,10 @@ class SensoDatTestLoader(EvaluationTestLoader):
     def __init__(self, collection: Collection):
         """Initialize with a MongoDB collection."""
         self.collection = collection
+
+    def benchmark(self) -> str:
+        """Return the name of the benchmark."""
+        return self.collection.name
 
     def get_test_details_lst(self) -> list[TestDetails]:
         """Return list of all test cases and their oracle."""
@@ -321,6 +335,7 @@ class ToolEvaluator:
 
         return EvaluationReport(
             test_suite_cnt=len(self.test_set),
+            benchmark=self.test_loader.benchmark(),
             selection_cnt=len(selection),
             time_to_initialize=(init_end_time-init_start_time),
             time_to_select_tests=(selection_end_time-selection_start_time),
@@ -332,11 +347,18 @@ class ToolEvaluator:
 
 
 if __name__ == "__main__":
+    # load environment variables fro .env file
+    load_dotenv()
+    uri = os.getenv('SENSODAT_URI')
+
     # handle CLI arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("-u", "--url")
     parser.add_argument("-t", "--tests")
+    parser.add_argument("-c", "--collection")
     args = parser.parse_args()
+
+    tl: EvaluationTestLoader = None
     if args.url:
         GRPC_URL = args.url
     else:
@@ -344,17 +366,16 @@ if __name__ == "__main__":
         sys.exit()
 
     if args.tests:
-        TESTS_FILE = args.tests
+        test_file = args.tests
+        tl = SampleEvaluationTestLoader(test_file, 0.8)
+    elif args.collection:
+        sensodat_collection = args.collection
+        client = MongoClient(uri)
+        coll: Collection = client.get_database('sdc_sim_data').get_collection(sensodat_collection)
+        tl = SensoDatTestLoader(coll)
     else:
-        print('provide path to test cases -t/--tests')
-
-    load_dotenv()
-
-    uri = os.getenv('SENSODAT_URI')
-    client = MongoClient(uri)
-    coll: Collection = client.get_database('sdc_sim_data').get_collection('campaign_11_frenetic')
-
-    tl = SensoDatTestLoader(coll)
+        print('provide path to test cases -t/--tests or a collection -c/--collection of SensoDat')
+        exit(1)
 
     me = MetricEvaluator()
     te = ToolEvaluator(me, tl)
