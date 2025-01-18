@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from sklearn.metrics.pairwise import pairwise_distances
 from pymongo import MongoClient
 from pymongo.collection import Collection
+from pathlib import Path
 import numpy as np
 import os
 import shapely
@@ -155,8 +156,35 @@ class EvaluationReport:
     diversity: float
 
 
+def save_csv(report: EvaluationReport, file_path: Path):
+    """Persist the evaluation report."""
+    output = ''
+    output += str(report.tool_name)
+    output += ','
+    output += str(report.benchmark)
+    output += ','
+    output += str(report.test_suite_cnt)
+    output += ','
+    output += str(report.selection_cnt)
+    output += ','
+    output += str(report.time_to_initialize)
+    output += ','
+    output += str(report.time_to_select_tests)
+    output += ','
+    output += str(report.time_to_fault_ratio)
+    output += ','
+    output += str(report.fault_to_selection_ratio)
+    output += ','
+    output += str(report.diversity)
+    output += '\n'
+
+    with open(file_path, 'a') as fp:
+        fp.write(output)
+
+
 class EvaluationTestLoader(abc.ABC):
     """Abstract test loader for loading the evaluation data."""
+
     @abc.abstractmethod
     def benchmark(self) -> str:
         """Return the name of the benchmark."""
@@ -386,4 +414,5 @@ if __name__ == "__main__":
 
     # start evaluation
     report = te.evaluate(stub)
+    save_csv(report, 'results.txt')
     print(report)
