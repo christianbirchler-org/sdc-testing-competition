@@ -347,7 +347,6 @@ if __name__ == "__main__":
         TESTS_FILE = args.tests
     else:
         print('provide path to test cases -t/--tests')
-        TESTS_FILE = "sample_tests/sdc-test-data.json"
 
     load_dotenv()
 
