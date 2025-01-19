@@ -391,7 +391,7 @@ if __name__ == "__main__":
         GRPC_URL = args.url
     else:
         print('provide url to the tool with -u/--url')
-        sys.exit()
+        sys.exit(1)
 
     if args.tests:
         test_file = args.tests
