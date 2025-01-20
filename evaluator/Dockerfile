@@ -8,4 +8,4 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-ENTRYPOINT ["python", "evaluation.py", "-t", "./sample_tests/sdc-test-data.json"]
+ENTRYPOINT ["bash"]
