@@ -415,5 +415,5 @@ if __name__ == "__main__":
 
     # start evaluation
     report = te.evaluate(stub)
-    save_csv(report, Path(os.getcwd()+'/output/results.txt'))
+    save_csv(report, Path(os.getcwd()+'/output/results.csv'))
     print(report)
