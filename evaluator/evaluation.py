@@ -39,7 +39,7 @@ def _curvature_profile(test_detail: TestDetails) -> list[float]:
 
     The following website was used as a reference: https://de.wikipedia.org/wiki/Kr%C3%BCmmung
     """
-    print("compute curvature profile")
+    #print("compute curvature profile")
     road_shape = shapely.LineString(test_detail.road_points)
 
     delta_s = 2  # 10 meters
@@ -178,6 +178,7 @@ def save_csv(report: EvaluationReport, file_path: Path):
     output += str(report.diversity)
     output += '\n'
 
+    file_path.parent.mkdir(parents=True, exist_ok=True)
     with open(file_path, 'a') as fp:
         fp.write(output)
 
@@ -358,7 +359,7 @@ class ToolEvaluator:
         for test_case in selection_iterator:
             test_case: competition_pb2.SDCTestCase = test_case
             selection.append(test_case.testId)
-            print(test_case.testId)
+            #print(test_case.testId)
         selection_end_time = time.time()
 
         return EvaluationReport(
@@ -414,5 +415,5 @@ if __name__ == "__main__":
 
     # start evaluation
     report = te.evaluate(stub)
-    save_csv(report, 'results.txt')
+    save_csv(report, Path(os.getcwd()+'/output/results.txt'))
     print(report)
