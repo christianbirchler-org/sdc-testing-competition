@@ -10,3 +10,4 @@ for col in "${SENSODAT_COLLECTIONS[@]}"; do
 done
 
 docker cp evaluator:/app/output .
+docker stop evaluator
