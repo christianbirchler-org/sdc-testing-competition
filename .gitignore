@@ -2,3 +2,5 @@ results.txt
 .env
 .idea
 __pycache__
+.DS_Store
+node_modules
