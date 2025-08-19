@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>ICST SDC Tool Competition</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css">
+
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h3>SBFT/ICST Tool Competition: Self-Driving Car Testing</h3>
+
+					<div style="font-size: 22px; width: 100%;">
+						<div style="display: inline-block; margin: 30px;" >
+							<img src="christian.jpg" height="190px" alt="" />
+							<div style="text-decoration: underline">Christian Birchler</div>
+							<div style="font-style: italic; font-size: 12px;">University of Bern</div>
+							<div style="font-style: italic; font-size: 12px;">Zurich University of Applied Sciences</div>
+							<div style="font-size: 12px;">Switzerland</div>
+						</div>
+						<div style="display: inline-block; margin: 30px;">
+							<img src="stefan.jpg" height="190px" alt="" />
+							<div>Stefan Klikovits</div>
+							<div style="font-style: italic; font-size: 12px;">Johannes Keppler University Linz</div>
+							<div style="font-size: 12px;">Austria</div>
+						</div>
+						<div style="display: inline-block; margin: 30px;">
+							<img src="mattia.jpg" height="190px" alt="" />
+							<div>Mattia Fazzini</div>
+							<div style="font-style: italic; font-size: 12px;">University of Minnesota</div>
+							<div style="font-size: 12px;">USA</div>
+						</div>
+						<div style="display: inline-block; margin: 30px;">
+							<img src="sebastiano.jpg" height="190px" alt="" />
+							<div>Sebastiano Panichella</div>
+							<div style="font-style: italic; font-size: 12px;">University of Bern</div>
+							<div style="font-size: 12px;">Switzerland</div>
+						</div>
+					</div>
+				</section>
+
+				<section>
+					<h4>Self-Driving Car Competition</h4>
+					<h4 class="r-fit-text fragment">Context</h4>
+				</section>
+
+				<section data-auto-animate data-background-image="real-world-test.jpg" data-background-size="contain" data-background-position="center" data-background-opacity=0.3>
+					<div style="font-size: 50px;">
+					<div data-id="pros" class="fragment" style="display: inline-block; margin: 10%; background-color: red; opacity: 0.7; border-radius: 15px;">
+						<ul>
+							<li class="fragment">Cost</li>
+							<li class="fragment">Replicability</li>
+						</ul>
+					</div>
+					<div data-id="cons" class="fragment" style="display: inline-block; margin: 10%;background-color: green; opacity: 0.7; border-radius: 15px;">
+						<ul>
+							<li class="fragment">Realism</li>
+							<li class="fragment">Reliability</li>
+						</ul>
+					</div>
+					</div>
+				</section>
+
+				<section data-auto-animate data-transition="none" data-background-image="simulation-test.png" data-background-size="contain" data-background-position="center" data-background-opacity=0.3>
+					<div style="font-size: 50px;">
+					<div data-id="pros" style="display: inline-block; margin: 10%; background-color: red; opacity: 0.7; border-radius: 15px;">
+						<ul>
+							<li>Cost</li>
+							<li>Replicability</li>
+						</ul>
+					</div>
+					<div data-id="cons" style="display: inline-block; margin: 10%; background-color: green; opacity: 0.7; border-radius: 15px;">
+						<ul>
+							<li>Realism</li>
+							<li>Reliability</li>
+						</ul>
+					</div>
+					</div>
+				</section>
+				<section data-auto-animate data-auto-animate-duration="3.0" data-background-image="simulation-test.png" data-background-size="contain" data-background-position="center" data-background-opacity=0.3>
+					<div style="font-size: 50px;">
+					<div data-id="pros" style="display: inline-block; margin: 10%; background-color: green; opacity: 0.7; border-radius: 15px;">
+						<ul>
+							<li>Cost</li>
+							<li>Replicability</li>
+						</ul>
+					</div>
+					<div data-id="cons" style="display: inline-block; margin: 10%; background-color: red; opacity: 0.7; border-radius: 15px;">
+						<ul>
+							<li>Realism</li>
+							<li>Reliability</li>
+						</ul>
+					</div>
+					</div>
+				</section>
+
+				<section>
+					<div class="r-fit-text">BeamNG.tech Simulator</div>
+				</section>
+
+				<section data-background-video="https://user-images.githubusercontent.com/93574498/207164554-3f3d9478-3970-4c08-b1e3-2b656313ae33.webm" data-background-video-loop="loop" data-background-size="contain">
+					<p></p>
+				</section>
+
+				<section>
+					<img src="https://github.com/BeamNG/BeamNGpy/raw/master/media/camera.png" data-preload></img>
+					<img src="https://github.com/BeamNG/BeamNGpy/raw/master/media/lidar.gif" data-preload></img>
+				</section>
+
+				<section data-auto-animate>
+					<h1 class="r-fit-text">How is a test defined?</h1>
+					<img class="fragment" src="test-definition.png" height="300px"></img>
+				</section>
+				<section data-auto-animate>
+					<h1 class="r-fit-text">How is a test defined?</h1>
+					<img src="test-definition-interpolated.png" height="300px"></img>
+				</section>
+
+
+				<section>
+					<h1 class="r-fit-text">When is a test <span style="color: red;">failing</span> or <span style="color: green;">passing</span>?</h1>
+					<aside class="notes"></aside>
+				</section>
+				<section data-auto-animate>
+					<h1 style="padding-bottom: 50px;">&nbsp;</h1>
+					<div>
+						<div style="height: 200px; width: 900px; background: grey"></div>
+						<div style="left: 0px; top: -100px; position: relative; height: 5px; width: 900px; background: black"></div>
+						<img style="left: -400px; top: -100px; position: relative; height: 60px;" src="car.png">
+					</div>
+					<aside class="notes"></aside>
+				</section>
+				<section data-auto-animate data-auto-animate-duration="3.0" data-auto-animate-unmatched="false">
+					<h1 class="fragment" style="color: green; padding-bottom: 50px;">Passed</h1>
+					<div>
+						<div style="top: 0px; position: relative; height: 200px; width: 900px; background: grey"></div>
+						<div style="left: 0px; top: -100px; position: relative; height: 5px; width: 900px; background: black"></div>
+						<img style="left: 355px; top: -100px; position: relative; height: 60px;" src="car.png">
+					</div>
+					<aside class="notes"></aside>
+				</section>
+				<section data-auto-animate data-auto-animate-unmatched="false">
+					<h1 style="padding-bottom: 50px;">&nbsp;</h1>
+					<div>
+						<div style="height: 200px; width: 900px; background: grey"></div>
+						<div style="left: 0px; top: -100px; position: relative; height: 5px; width: 900px; background: black"></div>
+						<img style="left: -400px; top: -100px; position: relative; height: 60px;" src="car.png">
+					</div>
+					<aside class="notes"></aside>
+				</section>
+				<section data-auto-animate data-auto-animate-duration="3.0" data-auto-animate-unmatched="false">
+					<h1 class="fragment" style="color: red; padding-bottom: 50px;">Failed</h1>
+					<div>
+						<div style="top: 0px; position: relative; height: 200px; width: 900px; background: grey"></div>
+						<div style="left: 0px; top: -100px; position: relative; height: 5px; width: 900px; background: black"></div>
+						<img style="left: 355px; top: -40px; position: relative; height: 60px;" src="car.png">
+					</div>
+					<aside class="notes"></aside>
+				</section>
+
+				<section data-background-image="elephant.png" data-background-size="contain"></section>
+
+
+				<section data-auto-animate>
+					<h3>Regression Testing</h3>
+
+					<css-doodle data-id="grid" style="display: inline-block;" grid="5">
+						:doodle {
+						width: 8em; height: 8em;
+						gap: 10px;
+						}
+						background: gray;
+
+					</css-doodle>
+				</section>
+				<section data-auto-animate>
+					<h3>Regression Testing</h3>
+
+					<css-doodle data-id="grid" style="display: inline-block;" grid="5">
+						:doodle {
+						width: 8em; height: 8em;
+						gap: 10px;
+						}
+						background: gray;
+
+						:nth-child(1) {
+						background: orange;
+						}
+						@nth(9) {
+						background: orange;
+						}
+						@nth(12) {
+						background: orange;
+						}
+						@nth(20) {
+						background: orange;
+						}
+						@nth(21) {
+						background: orange;
+						}
+
+
+					</css-doodle>
+				</section>
+				<section data-auto-animate>
+					<h3>Regression Testing</h3>
+
+					<css-doodle data-id="grid" style="display: inline-block;" grid="5">
+						:doodle {
+						width: 8em; height: 8em;
+						gap: 10px;
+						}
+						background: gray;
+
+						:nth-child(1) {
+						background: transparent;
+						}
+						@nth(9) {
+						background: transparent;
+						}
+						@nth(12) {
+						background: transparent;
+						}
+						@nth(20) {
+						background: transparent;
+						}
+						@nth(21) {
+						background: transparent;
+						}
+
+
+					</css-doodle>
+				</section>
+
+				<section data-auto-animate>
+					<h3>Regression Testing</h3>
+					<css-doodle data-id="grid" style="display: inline-block;" grid="5">
+						:doodle {
+						width: 8em; height: 8em;
+						gap: 10px;
+						}
+						background: gray;
+
+						:nth-child(1) {
+						background: transparent;
+						}
+						@nth(9) {
+						background: transparent;
+						}
+						@nth(12) {
+						background: transparent;
+						}
+						@nth(20) {
+						background: transparent;
+						}
+						@nth(21) {
+						background: transparent;
+						}
+						@nth(2) {
+						background: green;
+						}
+						@nth(5) {
+						background: green;
+						}
+						@nth(8) {
+						background: green;
+						}
+						@nth(11) {
+						background: green;
+						}
+						@nth(14) {
+						background: green;
+						}
+						@nth(18) {
+						background: green;
+						}
+						@nth(24) {
+						background: green;
+						}
+
+
+					</css-doodle>
+
+				</section>
+				<section data-auto-animate>
+					<h3>Regression Testing</h3>
+					<css-doodle data-id="grid" style="display: inline-block;" grid="5">
+						:doodle {
+						width: 8em; height: 8em;
+						gap: 10px;
+						}
+						background: transparent;
+
+						@nth(2) {
+						background: green;
+						}
+						@nth(5) {
+						background: green;
+						}
+						@nth(8) {
+						background: green;
+						}
+						@nth(11) {
+						background: green;
+						}
+						@nth(14) {
+						background: green;
+						}
+						@nth(18) {
+						background: green;
+						}
+						@nth(24) {
+						background: green;
+						}
+
+					</css-doodle>
+				</section>
+
+				<section>
+					<div class="r-fit-text fragment"><span style="color: orange; font-style: italic; text-decoration: underline;">What</span> tests should be selected?</div>
+					<div class="r-fit-text fragment"><span style="color: purple; font-style: italic; text-decoration: underline;">How</span> should tests be selected?</div>
+				</section>
+
+				<section data-background-image="github.png" data-background-size="contain" data-background-position="center" data-background-opacity=0.3>
+					<ul>
+						<li class="fragment">Competition code on GitHub</li>
+						<li class="fragment">Troubleshooting with Issues and Discussion Forum</li>
+						<li class="fragment">Docker Images of all Tools!</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Infrastructure</h2>
+					<div class="mermaid">
+				 		<pre>
+				 			%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+
+				 			sequenceDiagram
+				 			Evaluator ->>+ ToolX: initialize
+				 			ToolX -->>- Evaluator: ok
+				 			Evaluator ->>+ ToolX: select
+				 			ToolX -->>- Evaluator: return selection
+
+				 		</pre>
+					</div>
+
+					<div class="mermaid">
+				 		<pre>
+				 			%%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+				 			block-beta
+				 			columns 3
+				 			d("Evaluator (Docker Container)"):1
+				 			blockArrowId5<["gRPC"]>(x)
+				 				g("ToolX (Docker Container)"):1
+				 				block:group3:3
+				 				docker("Docker with Nvidia Runtime")
+				 				end
+
+				 		</pre>
+					</div>
+
+				</section>
+
+				<section>
+					<h2>Protocol Buffers</h2>
+
+					<pre>
+						<code style="font-size: 11px; line-height: 12px;" data-trim-noescapedata>
+syntax = "proto3";
+
+service CompetitionTool {
+  rpc Name(Empty) returns (NameReply) {}
+  rpc Initialize (stream Oracle) returns (InitializationReply) {}
+  rpc Select (stream SDCTestCase) returns (stream SelectionReply) {}
+}
+
+message Empty {}
+message NameReply {
+  string name = 1;
+}
+message Oracle {
+  SDCTestCase testCase = 1;
+  bool hasFailed = 2;
+}
+message SDCTestCase {
+  string testId = 1;
+  repeated RoadPoint roadPoints = 2;
+}
+message RoadPoint {
+  int64 sequenceNumber = 1;
+  float x = 2;
+  float y = 3;
+}
+message InitializationReply {
+  bool ok = 1;
+}
+message SelectionReply {
+  string testId = 1;
+}
+						</code>
+					</pre>
+
+				</section>
+
+
+
+
+				<section>
+					<pre>
+						<code style="font-size: 20px; line-height: 30px;" data-trim-noescapedata>
+syntax = "proto3";
+
+service CompetitionTool {
+  rpc Name(Empty) returns (NameReply) {}
+  rpc Initialize (stream Oracle) returns (InitializationReply) {}
+  rpc Select (stream SDCTestCase) returns (stream SelectionReply) {}
+}
+...
+						</code>
+					</pre>
+
+				</section>
+
+
+
+
+				<section >
+					<div class="r-fit-text">What are the evaluation metrics?</div>
+					<pre><code data-trim-noescapedata>
+@dataclass
+class EvaluationReport:
+    """This class holds evaluation metrics of a tool."""
+
+    tool_name: str
+    benchmark: str
+    test_suite_cnt: int
+    selection_cnt: int
+    time_to_initialize: float
+    time_to_select_tests: float
+    time_to_fault_ratio: float
+    fault_to_selection_ratio: float
+    diversity: float
+
+					</code></pre>
+
+
+				</section>
+
+				<section>
+
+					<h3>Benchmark</h3>
+					<div style="font-size: 35px;"><a href="https://github.com/christianbirchler-org/sensodat">SensoDat: Simulation-based Sensor Dataset of Self-driving Cars</a></div>
+					<div><img src="sensodat.png" height="150px;" alt="" /></div>
+					<ul>
+						<li>32,580 Test Cases</li>
+						<li>Generated by three test generators</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Experiments</h3>
+					<p>The experiments are conducted on an Open Stack virtual machine (VM) with <span style="color: orange;">16GB of RAM</span>, eight virtual CPUs, and an <span style="color: orange;">Nvidia Tesla T4 GPU</span>.</p>
+				</section>
+
+				<section>
+					<p class="r-fit-text">Results of SBFT Competition</p>
+					<img src="sbft-results.png" alt="" />
+				</section>
+				<section data-background-image="trophy.png" data-background-size="contain" data-background-opacity="0.3">
+					<div style="" class="fragment">
+					<h3>RoadGeom</h3>
+					<div>Prakash Aryan</div>
+					<div>Birla Institute of Technology and Science, Dubai</div>
+					<div>University of Bern, Switzerland</div>
+					</div>
+				</section>
+
+				<section data-background-image="sbft-paper.png" data-background-size="contain" data-background-opacity="0.7">
+				</section>
+
+				<section>
+					<p class="r-fit-text">Results of ICST Competition</p>
+				</section>
+
+				<section>
+					<h3>Finding 1</h3>
+					<div>On average, the <span style="color: orange;">random</span> test selector <span style="color: orange;">selects</span> the <span style="color: orange;">most test cases</span> (µ = 88.17) compared to all tools.</div>
+				</section>
+				<section>
+
+					<h3>Finding 2</h3>
+					<div>DETOUR required on average (µ = 61.77sec) to initialize the tool with the provided initialization data. All <span style="color: orange;">other tools did not require more than a second</span>.</div>
+				</section>
+				<section>
+
+					<h3>Finding 3</h3>
+					<div>For the selection phase, DETOUR requires, on average, most of the time (µ = 15.67sec) followed by DRVN Tool (µ = 10.49sec). <span style="color: orange;">The remaining tools did not require more than three seconds on average.</span></div>
+				</section>
+				<section>
+					<h3>Finding 4</h3>
+
+					<div>The random selector has, on average, the worst <span style="color: orange;">Simulation Time to Fault Ratio</span> with µ = 156.23. With an average of µ = 65.39, the <span style="color: orange;">ITS4SDC</span> tool has the <span style="color: orange;">best ratio.</span></div>
+				</section>
+				<section>
+
+					<h3>Finding 5</h3>
+
+					<div>The <span style="color: orange;">ITS4SDC</span> tool has, on average, the best <span style="color: orange;">Fault to Selection Ratio</span> (µ = 0.8) and the random baseline the worst with µ = 0.38.</div>
+				</section>
+				<section>
+
+					<h3>Finding 6</h3>
+					<div>There is no clear indication that the <span style="color: orange;">diversity metric</span> differs among all tools.</div>
+
+				</section>
+
+				<section data-background-image="trophy.png" data-background-size="contain" data-background-opacity="0.3">
+					<div style="" class="fragment">
+					<h3>ITS4SDC</h3>
+					<div>Ali ihsan Güllü, Faiz Ali Shah, Dietmar Pfahl</div>
+					<div>University of Tartu, Estonia</div>
+					</div>
+				</section>
+
+				<section data-background-image="report.png" data-background-size="contain" data-background-opacity="0.7">
+				</section>
+
+				<section data-background-image="special-issue.png" data-background-size="contain" data-background-opacity="0.7">
+				</section>
+
+				<section>
+					<div><h3>Thank you all!</h3></div>
+					<div class="fragment">
+					<div>Any feedback and/or ideas are welcome for future editions.</div>
+					<img src="qr.png" height="200px"></img>
+
+					<p style="font-size: 30px;"><a href="https://github.com/christianbirchler-org/sdc-testing-competition">github.com/christianbirchler-org/sdc-testing-competition</a></p>
+					</div>
+
+				</section>
+
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+
+		<script src="https://cdn.jsdelivr.net/npm/reveal.js-mermaid-plugin@11.4.1/plugin/mermaid/mermaid.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/css-doodle@0.42.2/css-doodle.min.js"></script>
+
+
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+				slideNumber: true,
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMermaid ]
+			});
+		</script>
+	</body>
+</html>
