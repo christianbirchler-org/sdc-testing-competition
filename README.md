@@ -35,8 +35,8 @@ Many thanks to the following contributors who help to build and maintain the rep
 
 ## License
 ```{text}
-Test Selection Tool Competition Platform
-Copyright (C) 2024  Christian Birchler
+SDC Testing Competition Platform
+Copyright (C) 2025  Christian Birchler
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
