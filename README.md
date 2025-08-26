@@ -28,9 +28,7 @@ cat competition/<YEAR>.md # e.g., cat competition/2026.md
 ```
 
 Generate stubs for the interface, that needs an implementation.
-``` bash
-
-```
+On the gRPC website is a list of [supported languages](https://grpc.io/docs/languages/) and instructions to generate stubs for the interfaces defined in the `.proto` files.
 
 
 ## Q&A
