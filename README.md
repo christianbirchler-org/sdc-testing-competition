@@ -27,8 +27,20 @@ Read the competition instruction:
 cat competition/<YEAR>.md # e.g., cat competition/2026.md
 ```
 
+First, create a new subdirectory in the associated competition tools directory. E.g., for the competition on test prioritization:
+``` bash
+mkdir tools/prioritizers/<myTool>
+```
+
 Generate stubs for the interfaces, that need an implementation for the competition.
 On the gRPC website is a list of [supported languages](https://grpc.io/docs/languages/) and instructions to generate stubs for the interfaces defined in the `.proto` files.
+
+Example with Python:
+``` bash
+python -m pip install grpcio grpcio-tools
+
+python -m grpc_tools.protoc -I../../protos --python_out=. --pyi_out=. --grpc_python_out=. ../../protos/helloworld.proto
+```
 
 ### Evaluate the tools
 We provide for each competition an evaluation tool that acts as a gRPC client.
