@@ -27,9 +27,8 @@ Read the competition instruction:
 cat competition/<YEAR>.md # e.g., cat competition/2026.md
 ```
 
-Generate stubs for the interface, that needs an implementation.
+Generate stubs for the interfaces, that need an implementation for the competition.
 On the gRPC website is a list of [supported languages](https://grpc.io/docs/languages/) and instructions to generate stubs for the interfaces defined in the `.proto` files.
-
 
 ## Q&A
 Use [GitHub Discussions](https://github.com/christianbirchler-org/sdc-testing-competition/discussions) for any kind of questions related to the tool competition.
