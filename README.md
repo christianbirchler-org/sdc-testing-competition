@@ -30,6 +30,12 @@ cat competition/<YEAR>.md # e.g., cat competition/2026.md
 Generate stubs for the interfaces, that need an implementation for the competition.
 On the gRPC website is a list of [supported languages](https://grpc.io/docs/languages/) and instructions to generate stubs for the interfaces defined in the `.proto` files.
 
+### Evaluate the tools
+We provide for each competition an evaluation tool that acts as a gRPC client.
+First, start your tool, which is a gRPC service.
+Secondly, run the evaluation tool.
+The output of the evaluation tool should provide a summary of the evaluation metrics.
+
 ## Q&A
 Use [GitHub Discussions](https://github.com/christianbirchler-org/sdc-testing-competition/discussions) for any kind of questions related to the tool competition.
 
