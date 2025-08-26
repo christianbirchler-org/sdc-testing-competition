@@ -15,6 +15,7 @@ Regression testing involves test selection, prioritization, and minimization.
 
 ## Quickstart
 
+### Taking part in a competition
 Clone the repository and fetch large files from Git LFS.
 ``` bash
 git clone git@github.com:christianbirchler-org/sdc-testing-competition.git
@@ -23,8 +24,14 @@ git lfs fetch
 
 Read the competition instruction:
 ``` bash
-cat <YEAR>.md # e.g., cat 2026.md
+cat competition/<YEAR>.md # e.g., cat competition/2026.md
 ```
+
+Generate stubs for the interface, that needs an implementation.
+``` bash
+
+```
+
 
 ## Q&A
 Use [GitHub Discussions](https://github.com/christianbirchler-org/sdc-testing-competition/discussions) for any kind of questions related to the tool competition.
