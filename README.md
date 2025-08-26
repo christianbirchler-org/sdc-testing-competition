@@ -13,6 +13,8 @@ The competition's current focus is on regression testing for test suites executi
 Regression testing involves test selection, prioritization, and minimization.
 ![](example.png)
 
+## Quickstart
+
 ## Q&A
 Use [GitHub Discussions](https://github.com/christianbirchler-org/sdc-testing-competition/discussions) for any kind of questions related to the tool competition.
 
