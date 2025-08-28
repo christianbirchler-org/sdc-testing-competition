@@ -39,7 +39,7 @@ Example with Python:
 ``` bash
 python -m pip install grpcio grpcio-tools
 
-python -m grpc_tools.protoc -I../../protos --python_out=. --pyi_out=. --grpc_python_out=. ../../protos/helloworld.proto
+python -m grpc_tools.protoc -I./tools/prioritizers/<yourTool> --python_out=./tools/prioritizers/<yourTool> --pyi_out=./tools/prioritizers/<yourTool> --grpc_python_out=./tools/prioritizers/<yourTool> path/to/protofile.proto
 ```
 
 ### Evaluate the tools
