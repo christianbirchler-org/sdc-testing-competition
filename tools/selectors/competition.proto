@@ -1,12 +1,19 @@
 syntax = "proto3";
 
+// SDC Testing Competition 2026 gRPC Interface
+// Based on meeting with Christian Birchler (28-08-25)
+// New metrics from roadmap paper: reality gap, cost-effectiveness, safety assessment
+
 service CompetitionTool {
   rpc Name(Empty) returns (NameReply) {}
-
+  
   rpc Initialize (stream Oracle) returns (InitializationReply) {}
-
-// bidirectional streaming for high flexibility
+  
+  // Bidirectional streaming for test selection
   rpc Select (stream SDCTestCase) returns (stream SelectionReply) {}
+  
+  // New 2026 method: Check what metrics a tool supports
+  rpc GetSupportedMetrics(Empty) returns (MetricsSupport) {}
 }
 
 message Empty {}
@@ -15,11 +22,37 @@ message NameReply {
   string name = 1;
 }
 
+// Original Oracle extended with 2026 metrics (backward compatible)
 message Oracle {
   SDCTestCase testCase = 1;
-  bool hasFailed = 2;
+  bool hasFailed = 2;  // Keep original pass/fail
+  
+  // Optional 2026 extensions
+  optional float executionTime = 3;    // Test execution time in seconds  
+  optional string failureDetails = 4;  // Detailed failure description
+  optional TestMetrics metrics = 5;    // New comprehensive metrics
 }
 
+// New 2026 metrics based on roadmap paper discussion
+message TestMetrics {
+  // Reality Gap Assessment (simulation vs real-world alignment)
+  optional float realityGapScore = 1;      // [0.0, 1.0] - higher means better alignment
+  optional float visualFidelity = 2;       // [0.0, 1.0] - visual accuracy score
+  
+  // Cost-Effectiveness Analysis
+  optional float computationalCost = 3;    // CPU/GPU time in seconds
+  optional float testingEffectiveness = 4; // [0.0, 1.0] - fault detection capability
+  
+  // Safety Assessment (human perception alignment)
+  optional float safetyRisk = 5;           // [0.0, 1.0] - risk assessment score
+  optional float humanAlignment = 6;       // [0.0, 1.0] - matches human evaluation
+  
+  // Oracle Quality Assessment  
+  optional float oracleReliability = 7;    // [0.0, 1.0] - oracle consistency
+  optional float automationLevel = 8;      // [0.0, 1.0] - degree of automation
+}
+
+// Original test case definition (unchanged)
 message SDCTestCase {
   string testId = 1;
   repeated RoadPoint roadPoints = 2;
@@ -33,8 +66,21 @@ message RoadPoint {
 
 message InitializationReply {
   bool ok = 1;
+  optional string message = 2;  // Optional tool status message
 }
 
+// Selection reply with optional 2026 fields
 message SelectionReply {
   string testId = 1;
+  optional float confidence = 2;  // [0.0, 1.0] - selection confidence
+  optional string reasoning = 3;   // Why this test was selected
+}
+
+// New 2026 capability reporting
+message MetricsSupport {
+  bool supportsRealityGap = 1;
+  bool supportsCostEffectiveness = 2;
+  bool supportsSafetyAssessment = 3;
+  bool supportsOracleQuality = 4;
+  string toolVersion = 5;
 }

@@ -1,7 +1,7 @@
 import random
 import argparse
 import os
-import competition_pb2_grpc
+import tools.selectors.competition_pb2_grpc as competition_pb2_grpc
 import competition_pb2
 import grpc
 import concurrent.futures as fut

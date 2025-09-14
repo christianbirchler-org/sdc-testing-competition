@@ -5,7 +5,7 @@ import warnings
 
 import competition_pb2 as competition__pb2
 
-GRPC_GENERATED_VERSION = '1.66.0'
+GRPC_GENERATED_VERSION = '1.74.0'
 GRPC_VERSION = grpc.__version__
 _version_not_supported = False
 
@@ -26,7 +26,11 @@ if _version_not_supported:
 
 
 class CompetitionToolStub(object):
-    """Missing associated documentation comment in .proto file."""
+    """SDC Testing Competition 2026 gRPC Interface
+    Based on meeting with Christian Birchler (28-08-25)
+    New metrics from roadmap paper: reality gap, cost-effectiveness, safety assessment
+
+    """
 
     def __init__(self, channel):
         """Constructor.
@@ -49,10 +53,19 @@ class CompetitionToolStub(object):
                 request_serializer=competition__pb2.SDCTestCase.SerializeToString,
                 response_deserializer=competition__pb2.SelectionReply.FromString,
                 _registered_method=True)
+        self.GetSupportedMetrics = channel.unary_unary(
+                '/CompetitionTool/GetSupportedMetrics',
+                request_serializer=competition__pb2.Empty.SerializeToString,
+                response_deserializer=competition__pb2.MetricsSupport.FromString,
+                _registered_method=True)
 
 
 class CompetitionToolServicer(object):
-    """Missing associated documentation comment in .proto file."""
+    """SDC Testing Competition 2026 gRPC Interface
+    Based on meeting with Christian Birchler (28-08-25)
+    New metrics from roadmap paper: reality gap, cost-effectiveness, safety assessment
+
+    """
 
     def Name(self, request, context):
         """Missing associated documentation comment in .proto file."""
@@ -67,7 +80,14 @@ class CompetitionToolServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def Select(self, request_iterator, context):
-        """bidirectional streaming for high flexibility
+        """Bidirectional streaming for test selection
+        """
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def GetSupportedMetrics(self, request, context):
+        """New 2026 method: Check what metrics a tool supports
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -91,6 +111,11 @@ def add_CompetitionToolServicer_to_server(servicer, server):
                     request_deserializer=competition__pb2.SDCTestCase.FromString,
                     response_serializer=competition__pb2.SelectionReply.SerializeToString,
             ),
+            'GetSupportedMetrics': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetSupportedMetrics,
+                    request_deserializer=competition__pb2.Empty.FromString,
+                    response_serializer=competition__pb2.MetricsSupport.SerializeToString,
+            ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
             'CompetitionTool', rpc_method_handlers)
@@ -100,7 +125,11 @@ def add_CompetitionToolServicer_to_server(servicer, server):
 
  # This class is part of an EXPERIMENTAL API.
 class CompetitionTool(object):
-    """Missing associated documentation comment in .proto file."""
+    """SDC Testing Competition 2026 gRPC Interface
+    Based on meeting with Christian Birchler (28-08-25)
+    New metrics from roadmap paper: reality gap, cost-effectiveness, safety assessment
+
+    """
 
     @staticmethod
     def Name(request,
@@ -173,6 +202,33 @@ class CompetitionTool(object):
             '/CompetitionTool/Select',
             competition__pb2.SDCTestCase.SerializeToString,
             competition__pb2.SelectionReply.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def GetSupportedMetrics(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/CompetitionTool/GetSupportedMetrics',
+            competition__pb2.Empty.SerializeToString,
+            competition__pb2.MetricsSupport.FromString,
             options,
             channel_credentials,
             insecure,
