@@ -1,6 +1,0 @@
-pymongo
-python-dotenv
-grpcio-tools
-numpy
-Shapely
-scikit-learn
