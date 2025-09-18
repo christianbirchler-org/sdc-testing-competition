@@ -266,6 +266,7 @@ class ToolEvaluator:
         prioritization_start_time = time.time()
 
         # TODO: assess and measure prioritization here
+        prioritization_iterator = stub.Prioritize(_test_suite_iterator(self.train_set))
 
         prioritization_end_time = time.time()
 

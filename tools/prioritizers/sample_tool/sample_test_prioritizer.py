@@ -15,7 +15,7 @@ class SampleTestPrioritizer(competition_2026_pb2_grpc.CompetitionToolServicer):
 
     def Initialize(self, request_iterator, context):
         for oracle in request_iterator:
-            print("do something with the retrieved oracle")
+            print("initialization received testId={}".format(oracle.testCase.testId))
 
         return competition_2026_pb2.InitializationReply(ok=True)  # if initialization failed then ok=False
 
@@ -23,7 +23,7 @@ class SampleTestPrioritizer(competition_2026_pb2_grpc.CompetitionToolServicer):
         """TODO: Implement the random prioritization."""
         for sdc_test_case in request_iterator:
             sdc_test_case: competition_2026_pb2.SDCTestCase = sdc_test_case
-            print("testId={}".format(sdc_test_case.testId))
+            print("prioritization received testId={}".format(sdc_test_case.testId))
             yield competition_2026_pb2.PrioritizationReply(testId=sdc_test_case.testId)
 
 
