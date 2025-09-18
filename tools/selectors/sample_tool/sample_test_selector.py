@@ -9,7 +9,7 @@ import concurrent.futures as fut
 
 class SampleTestSelector(competition_pb2_grpc.CompetitionToolServicer):
     """
-    This is a sample test selector implementing the TestSelector interface.
+    This is a sample test selector implementing the gRPC interface.
     """
 
     def Name(self, request, context):
