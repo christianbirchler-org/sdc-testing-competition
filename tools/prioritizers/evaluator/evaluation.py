@@ -268,6 +268,10 @@ class ToolEvaluator:
         # TODO: assess and measure prioritization here
         prioritization_iterator = stub.Prioritize(_test_suite_iterator(self.train_set))
 
+        for test_details in prioritization_iterator:
+            # TODO: evaluate the ordering here!
+            print('received test case')
+
         prioritization_end_time = time.time()
 
         return EvaluationReport()  # TODO
