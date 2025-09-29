@@ -1,6 +1,6 @@
 # SDC Testing Competition
 <a href="https://christianbirchler-org.github.io/sdc-testing-competition/"><img src="https://img.shields.io/badge/SDC_Competition-Website-blue" alt="Description of Badge"></a>
-![Static Badge](https://img.shields.io/badge/Python-3.11-blue)
+![Static Badge](https://img.shields.io/badge/Python-3.13-blue)
 ![GitHub Discussions](https://img.shields.io/github/discussions/christianbirchler-org/sdc-testing-competition)
 ![GitHub Issues or Pull Requests](https://img.shields.io/github/issues/christianbirchler-org/sdc-testing-competition)
 
