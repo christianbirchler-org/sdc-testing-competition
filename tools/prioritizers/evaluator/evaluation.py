@@ -396,6 +396,7 @@ class ToolEvaluator:
         # tool returns a prioritization of test cases
         prioritization_start_time = time.time()
         prioritization_iterator = stub.Prioritize(_test_suite_iterator(self.train_set))
+
         prioritization_end_time = time.time()
 
         #build the prioritized list

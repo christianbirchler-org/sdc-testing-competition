@@ -90,4 +90,3 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ## Contacts
 - Responsible of the repository: [Christian Birchler](https://www.christianbirchler.org)
-- [Competition Organizers](./competitions/README.md)
