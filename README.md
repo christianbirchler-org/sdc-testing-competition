@@ -97,4 +97,4 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 [GPLv3](LICENSE)
 
 ## Contacts
-- Responsible of the repository: [Christian Birchler](https://www.christianbirchler.org)
+- Responsible for the repository: [Christian Birchler](https://www.christianbirchler.org)
