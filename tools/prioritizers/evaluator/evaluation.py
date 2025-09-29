@@ -28,6 +28,12 @@ class TestDoesNotExistError(Exception):
     pass
 
 
+class PrioritizationError(Exception):
+    """Raised when the prioritization list is invalid."""
+    pass
+
+
+
 @dataclass
 class TestDetails:
     test_id: str
@@ -86,11 +92,136 @@ class MetricEvaluator:
     def __init__(self):
         pass
 
+    def compute_apdf(self, test_suite: list[TestDetails], prioritized_list: list[str]):
+        """
+        Computes Average Percentage of Fault Detected (APFD) metric
+        """
+        test_dict = {test.test_id: test for test in test_suite}
+        num_tests = len(prioritized_list)
+        failed_positions = []
+
+        for i, test_id in enumerate(prioritized_list):
+            test = test_dict.get(test_id)
+            if test and test.hasFailed:
+                failed_positions.append(i + 1)  # indexing starts at 1
+
+        num_failed = len(failed_positions)
+
+        if num_tests == 0 or num_failed == 0:
+            return 1.0  # perfect score if no faults or no tests
+
+        sum_failed_ranks = sum(failed_positions)
+        apfd = 1 - (sum_failed_ranks / (num_tests * num_failed)) + 1 / (2 * num_tests)
+
+        return apfd
+
+
+    def compute_apdfc(self, test_suite: list[TestDetails], prioritized_list: list[str]):
+        """
+        Compute Cost-aware variant of Average Percentage of Fault Detected metric (APFD_C)
+        """
+
+        test_dict = {test.test_id: test for test in test_suite}
+        sim_times = []
+        cumulative_costs_to_faults = []
+
+        cumulative_time = 0.0
+        total_cost = 0.0
+        num_failed = 0
+
+        for test_id in prioritized_list:
+            test = test_dict.get(test_id)
+            if test is None:
+                continue
+            sim_times.append(test.sim_time)
+            cumulative_time += test.sim_time
+            total_cost += test.sim_time
+            if test.hasFailed:
+                cumulative_costs_to_faults.append(cumulative_time)
+                num_failed += 1
+
+        if num_failed == 0 or total_cost == 0:
+            return 1.0  # perfect score if no faults or no cost
+
+        sum_cfi = sum(cumulative_costs_to_faults)
+        apfdc = 1 - (sum_cfi / (total_cost * num_failed)) + 1 / (2 * num_failed)
+
+        return apfdc
+
+
+    def compute_time_to_first_fault(self, test_suite: list[TestDetails], prioritized_list: list[str]):
+        """
+        Returns Time to first fault as a float, or None if no fault is found.
+        """
+        cumulative_time = 0.0
+        test_dict = {test.test_id: test for test in test_suite}
+
+        for test_id in prioritized_list:
+            test = test_dict.get(test_id)
+            cumulative_time += test.sim_time
+            if test.hasFailed:
+                return cumulative_time
+        return None  # no failure found in selection
+
+
+    def compute_time_to_last_fault(self, test_suite: list[TestDetails], prioritized_list: list[str]):
+        """
+        Returns Time to last fault as a float, or None if no fault is found.
+        """
+        cumulative_time = 0.0
+        cumulative_time_to_last_fault = None
+
+        test_dict = {test.test_id: test for test in test_suite}
+
+        for i, test_id in enumerate(prioritized_list):
+            test = test_dict.get(test_id)
+            cumulative_time += test.sim_time
+            if test.hasFailed:
+                cumulative_time_to_last_fault = cumulative_time
+
+        return cumulative_time_to_last_fault
+
+
+def check_prioritization_validity(self, test_suite: list[TestDetails], prioritized_list: list[str]):
+        """
+        Check if the prioritized list is well-formed:
+        - All IDs in the prioritized_list exist in the test_suite
+        - No duplicates
+        - No missing test cases
+
+        Raises:
+        - PrioritizationError if the prioritized_list is invalid.
+        """
+        test_ids = {test.test_id for test in test_suite}
+        seen = set()
+
+        for test_id in prioritized_list:
+            if test_id not in test_ids:
+                raise PrioritizationError(f"Invalid test ID in prioritization: {test_id}")
+            if test_id in seen:
+                raise PrioritizationError(f"Duplicate test ID in prioritization: {test_id}")
+            seen.add(test_id)
+
+        if len(seen) != len(test_ids):
+            missing = test_ids - seen
+            raise PrioritizationError(f"Prioritization list does not cover all test cases. Missing: {missing}")
+
 
 
 @dataclass
 class EvaluationReport:
-    """TODO: This class holding evaluation metrics of a tool."""
+    """ This class holds evaluation metrics of a tool."""
+
+    test_suite_cnt: int
+    benchmark: str
+    time_to_initialize: float
+    time_to_prioritize_tests: float
+    tool_name: str
+    time_to_first_fault: float | None
+    time_to_last_fault: float | None
+    apfd: float
+    apfdc: float
+
 
 
 class EvaluationTestLoader(abc.ABC):
@@ -264,17 +395,30 @@ class ToolEvaluator:
 
         # tool returns a prioritization of test cases
         prioritization_start_time = time.time()
-
-        # TODO: assess and measure prioritization here
         prioritization_iterator = stub.Prioritize(_test_suite_iterator(self.train_set))
-
-        for test_details in prioritization_iterator:
-            # TODO: evaluate the ordering here!
-            print('received test case')
 
         prioritization_end_time = time.time()
 
-        return EvaluationReport()  # TODO
+        #build the prioritized list
+        prioritized_list = []
+        for test_case in prioritization_iterator:
+            test_case: competition_2026_pb2.SDCTestCase = test_case
+            prioritized_list.append(test_case.testId)
+
+        # check if the prioritized list is well-formed (throws PrioritizationError on fail)
+        self.metric_evaluator.check_prioritization_validity(test_suite=self.test_set, prioritized_list=prioritized_list)
+
+        return EvaluationReport(
+            test_suite_cnt=len(self.test_set),
+            benchmark=self.test_loader.benchmark(),
+            time_to_initialize=(init_end_time-init_start_time),
+            time_to_prioritize_tests=(prioritization_end_time - prioritization_start_time),
+            tool_name=name_reply.name,
+            time_to_first_fault=self.metric_evaluator.compute_time_to_first_fault(test_suite=self.test_set, prioritized_list=prioritized_list),
+            time_to_last_fault=self.metric_evaluator.compute_time_to_last_fault(test_suite=self.test_set, prioritized_list=prioritized_list),
+            apfd=self.metric_evaluator.compute_apfd(test_suite=self.test_set, prioritized_list=prioritized_list),
+            apfdc=self.metric_evaluator.compute_apfdc(test_suite=self.test_set, prioritized_list=prioritized_list)
+        )
 
 
 if __name__ == "__main__":
