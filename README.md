@@ -64,9 +64,16 @@ Please refer to [GitHub Discussions](https://github.com/christianbirchler-org/sd
 
 ### Contributors
 Many thanks to the following contributors who help to build and maintain the repository:
+
+> The order is purely chronological.
+
 - [ChristianBirchler](https://github.com/ChristianBirchler)
 - [vatozZ](https://github.com/vatozZ)
 - [FasihMunirMalik](https://github.com/FasihMunirMalik)
+- [prakash-aryan](https://github.com/prakash-aryan)
+- [luistar](https://github.com/luistar)
+- [Fulcinator](https://github.com/Fulcinator)
+
 
 ## License
 ```{text}
