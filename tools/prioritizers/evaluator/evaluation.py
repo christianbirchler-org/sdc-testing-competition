@@ -92,7 +92,7 @@ class MetricEvaluator:
     def __init__(self):
         pass
 
-    def compute_apdf(self, test_suite: list[TestDetails], prioritized_list: list[str]):
+    def compute_apfd(self, test_suite: list[TestDetails], prioritized_list: list[str]):
         """
         Computes Average Percentage of Fault Detected (APFD) metric
         """
@@ -181,8 +181,7 @@ class MetricEvaluator:
 
         return cumulative_time_to_last_fault
 
-
-def check_prioritization_validity(self, test_suite: list[TestDetails], prioritized_list: list[str]):
+    def check_prioritization_validity(self, test_suite: list[TestDetails], prioritized_list: list[str]):
         """
         Check if the prioritized list is well-formed:
         - All IDs in the prioritized_list exist in the test_suite
@@ -395,14 +394,14 @@ class ToolEvaluator:
 
         # tool returns a prioritization of test cases
         prioritization_start_time = time.time()
-        prioritization_iterator = stub.Prioritize(_test_suite_iterator(self.train_set))
+        prioritization_iterator = stub.Prioritize(_test_suite_iterator(self.test_set))
 
         prioritization_end_time = time.time()
 
         #build the prioritized list
         prioritized_list = []
         for test_case in prioritization_iterator:
-            test_case: competition_2026_pb2.SDCTestCase = test_case
+            test_case: competition_2026_pb2.PrioritizationReply = test_case
             prioritized_list.append(test_case.testId)
 
         # check if the prioritized list is well-formed (throws PrioritizationError on fail)
@@ -417,7 +416,7 @@ class ToolEvaluator:
             time_to_first_fault=self.metric_evaluator.compute_time_to_first_fault(test_suite=self.test_set, prioritized_list=prioritized_list),
             time_to_last_fault=self.metric_evaluator.compute_time_to_last_fault(test_suite=self.test_set, prioritized_list=prioritized_list),
             apfd=self.metric_evaluator.compute_apfd(test_suite=self.test_set, prioritized_list=prioritized_list),
-            apfdc=self.metric_evaluator.compute_apfdc(test_suite=self.test_set, prioritized_list=prioritized_list)
+            apfdc=self.metric_evaluator.compute_apdfc(test_suite=self.test_set, prioritized_list=prioritized_list)
         )
 
 
