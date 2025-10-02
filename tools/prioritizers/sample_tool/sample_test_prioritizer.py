@@ -2,6 +2,7 @@ import grpc
 import argparse
 import concurrent.futures as fut
 
+import random
 import competition_2026_pb2
 import competition_2026_pb2_grpc
 
@@ -20,8 +21,13 @@ class SampleTestPrioritizer(competition_2026_pb2_grpc.CompetitionToolServicer):
         return competition_2026_pb2.InitializationReply(ok=True)  # if initialization failed then ok=False
 
     def Prioritize(self, request_iterator, context):
-        """TODO: Implement the random prioritization."""
-        for sdc_test_case in request_iterator:
+        """
+        This sample implementation simply shuffles the tests randomly 
+        """
+        tests = list(request_iterator)
+        random.shuffle(tests)
+
+        for sdc_test_case in tests:
             sdc_test_case: competition_2026_pb2.SDCTestCase = sdc_test_case
             print("prioritization received testId={}".format(sdc_test_case.testId))
             yield competition_2026_pb2.PrioritizationReply(testId=sdc_test_case.testId)
