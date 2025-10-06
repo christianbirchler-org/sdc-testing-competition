@@ -3,8 +3,15 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
-- Future editions of the tool competitions
+
+## [v2.0.0] - 2025-10-06
+### Added
+- Prioritization Competition Guidelines for 2026
+- Two sample prioritization tools
+- Website with general information and links
+
+### Changed
+- Compatibility for Python 3.13
 
 ## [v1.2.1] - 2025-04-29
 ### Added
