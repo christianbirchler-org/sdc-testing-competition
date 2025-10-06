@@ -43,6 +43,8 @@ python -m pip install grpcio grpcio-tools
 python -m grpc_tools.protoc -I./tools/prioritizers/<yourTool> --python_out=./tools/prioritizers/<yourTool> --pyi_out=./tools/prioritizers/<yourTool> --grpc_python_out=./tools/prioritizers/<yourTool> path/to/protofile.proto
 ```
 
+You can also checkout the sample tools and simply reuse the stubs there without the need to transpile the interface by yourself.
+
 ### Evaluate the tools
 We provide for each competition an evaluation tool that acts as a gRPC client.
 First, start your tool, which is a gRPC service.
