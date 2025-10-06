@@ -6,3 +6,5 @@ __pycache__
 node_modules
 website/examples/
 website/test/
+tools/prioritizers/sample_tool_cpp/ml_prioritizer
+tools/prioritizers/sample_tool_cpp/sample_prioritizer
