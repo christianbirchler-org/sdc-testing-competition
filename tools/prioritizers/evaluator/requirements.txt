@@ -1,0 +1,13 @@
+dnspython==2.8.0
+grpcio==1.76.0
+grpcio-tools==1.76.0
+numpy==2.4.1
+protobuf==6.33.4
+psycopg==3.3.2
+psycopg-binary==3.3.2
+psycopg-pool==3.3.0
+pymongo==4.16.0
+python-dotenv==1.2.1
+setuptools==80.10.2
+shapely==2.1.2
+typing_extensions==4.15.0
