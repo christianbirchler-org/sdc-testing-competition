@@ -195,7 +195,7 @@ $$
 LANGUAGE SQL;
 
 
-CREATE OR REPLACE FUNCTION get_data_of_experiment(experiment_id INT)
+CREATE OR REPLACE FUNCTION get_data_of_experiment(ex_id INT)
 RETURNS TABLE (
 treatment_id INT,
 time_to_prioritize_tests FLOAT,
@@ -227,7 +227,7 @@ t3.experiment_id INT
 FROM treatments t1
 JOIN samples_subjects t2 ON t1.subject_id=t2.subject_id
 JOIN samples t3 ON t2.sample_id=t3.sample_id
-WHERE t3.experiment_id=2;
+WHERE t3.experiment_id=ex_id;
 $$
 LANGUAGE SQL;
 
