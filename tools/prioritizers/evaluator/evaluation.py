@@ -38,12 +38,28 @@ if __name__ == "__main__":
     # handle CLI arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("-u", "--url")
+    parser.add_argument("--sample-size")
+    parser.add_argument("--subject-size")
     args = parser.parse_args()
+
+
+    SAMPLE_SIZE = 50
+    SUBJECT_SIZE = 100
 
     if args.url:
         GRPC_URL = args.url
     else:
         print('provide url to the tool with -u/--url')
+        sys.exit(1)
+    if args.sample_size:
+        SAMPLE_SIZE = int(args.sample_size)
+    else:
+        print('provide sample size to the tool with --sample-size')
+        sys.exit(1)
+    if args.url:
+        SUBJECT_SIZE = int(args.subject_size)
+    else:
+        print('provide subject size to the tool with -u/--url')
         sys.exit(1)
 
 
@@ -57,5 +73,5 @@ if __name__ == "__main__":
         channel = grpc.insecure_channel(GRPC_URL)
         stub = competition_2026_pb2_grpc.CompetitionToolStub(channel)  # stub represents the tool
 
-        experimental_results = es.start_experiment(stub=stub, sample_size=50, subject_size=300)
+        experimental_results = es.start_experiment(stub=stub, sample_size=SAMPLE_SIZE, subject_size=SUBJECT_SIZE)
         print(experimental_results)
