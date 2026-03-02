@@ -1,0 +1,13 @@
+torch
+numpy
+scipy
+pandas
+scikit-learn
+pyyaml
+tqdm
+matplotlib
+onnx
+onnxscript
+onnxruntime
+tensorboard
+xmltodict
