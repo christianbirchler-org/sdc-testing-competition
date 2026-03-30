@@ -1,0 +1,590 @@
+* SDC Competition 2026
+#+PROPERTY: header-args:sql :engine postgresql :database sdc_testing_competition_2026
+#+PROPERTY: header-args+ :dbuser (getenv "DBUSER") :dbpassword (getenv "DBPASSWORD") :dbhost (getenv "DBHOST")
+
+
+First we inspect the data about the experiments.
+
+#+begin_src sql
+SELECT *
+FROM experiments
+LIMIT 5;
+#+end_src
+
+#+RESULTS:
+| experiment_id | tool_name                      | start_utc                  | end_utc                    |
+|---------------+--------------------------------+----------------------------+----------------------------|
+|             1 | random_sample_test_prioritizer | 2026-02-04 14:18:03.234114 | 2026-02-04 14:18:06.767464 |
+|             2 | random_sample_test_prioritizer | 2026-02-04 14:18:09.572216 | 2026-02-04 14:18:14.287368 |
+|             3 | random_sample_test_prioritizer | 2026-02-04 14:18:16.922712 | 2026-02-04 14:18:23.536938 |
+|             4 | random_sample_test_prioritizer | 2026-02-04 14:18:26.275314 | 2026-02-04 14:18:34.76862  |
+|             5 | random_sample_test_prioritizer | 2026-02-04 14:18:37.644753 | 2026-02-04 14:18:47.395932 |
+
+
+
+#+begin_src sql
+SELECT tool_name, count(*)
+FROM experiments
+GROUP BY tool_name;
+#+end_src
+
+#+RESULTS:
+| tool_name                      | count |
+|--------------------------------+-------|
+| ITEP4SDC                       |   400 |
+| random_sample_test_prioritizer |   400 |
+
+
+We see we have conducted 800 experiments, which makes sense as we run 400 for the random baseline and 400 for ITEP4SDC.
+
+#+begin_src sql
+SELECT *
+FROM samples
+LIMIT 5;
+#+end_src
+
+#+RESULTS:
+| sample_id | sampling_strategy_id | experiment_id |
+|-----------+----------------------+---------------|
+|         1 |                    0 |             1 |
+|         2 |                    0 |             2 |
+|         3 |                    0 |             3 |
+|         4 |                    0 |             4 |
+|         5 |                    0 |             5 |
+
+#+begin_src sql
+SELECT *
+FROM subjects
+LIMIT 5;
+#+end_src
+
+#+RESULTS:
+| subject_id | test_suite_size |
+|------------+-----------------|
+|          1 |              30 |
+|          2 |              30 |
+|          3 |              30 |
+|          4 |              30 |
+|          5 |              30 |
+
+
+We see each sample is associated to one experiment.
+
+#+begin_src sql
+SELECT *
+FROM samples_subjects
+LIMIT 5;
+#+end_src
+
+#+RESULTS:
+| samples_subjects_id | sample_id | subject_id |
+|---------------------+-----------+------------|
+|                   1 |         1 |        566 |
+|                   2 |         1 |        567 |
+|                   3 |         1 |        568 |
+|                   4 |         1 |        569 |
+|                   5 |         1 |        570 |
+
+
+#+begin_src sql
+CREATE OR REPLACE VIEW sample_characchteristics AS
+SELECT ss.sample_id, count(ss.samples_subjects_id) AS sample_size, max(s.test_suite_size) AS subjects_size
+FROM samples_subjects ss
+JOIN subjects s ON ss.subject_id=s.subject_id
+GROUP BY ss.sample_id
+ORDER BY sample_size, subjects_size;
+#+end_src
+
+#+RESULTS:
+| CREATE VIEW |
+|-------------|
+
+
+#+begin_src sql
+SELECT * FROM sample_characchteristics LIMIT 20;
+#+end_src
+
+#+RESULTS:
+| sample_id | sample_size | subjects_size |
+|-----------+-------------+---------------|
+|       401 |          10 |            10 |
+|         1 |          10 |            10 |
+|       402 |          10 |            20 |
+|         2 |          10 |            20 |
+|         3 |          10 |            30 |
+|       403 |          10 |            30 |
+|         4 |          10 |            40 |
+|       404 |          10 |            40 |
+|         5 |          10 |            50 |
+|       405 |          10 |            50 |
+|       406 |          10 |            60 |
+|         6 |          10 |            60 |
+|         7 |          10 |            70 |
+|       407 |          10 |            70 |
+|         8 |          10 |            80 |
+|       408 |          10 |            80 |
+|         9 |          10 |            90 |
+|       409 |          10 |            90 |
+|       410 |          10 |           100 |
+|        10 |          10 |           100 |
+
+
+The treatment data consists the actual evaluation data of each treatment.
+
+#+begin_src sql
+SELECT *
+FROM treatments
+LIMIT 5;
+#+end_src
+
+#+RESULTS:
+| treatment_id | time_to_prioritize_tests | time_to_first_fault | time_to_last_fault |                apfd |               apfdc | subject_id | is_successful |
+|--------------+--------------------------+---------------------+--------------------+---------------------+---------------------+------------+---------------|
+|            1 |       0.8364179134368896 |   32.65474534034729 |  1120.080979347229 | 0.49000000000000005 |  0.6587118154912702 |          2 | t             |
+|            2 |       0.9025769233703613 |  15.943056106567383 | 1602.9565770626068 | 0.46041666666666664 |  0.5103730626861503 |          3 | t             |
+|            3 |       0.8633177280426025 |  60.069817543029785 | 1684.9823801517487 |  0.5029411764705883 | 0.49485762695202273 |          4 | t             |
+|            4 |       0.8045880794525146 |  13.355456352233887 | 1527.4806218147278 | 0.44523809523809527 |  0.4706201291555887 |          5 | t             |
+|            5 |       0.8359191417694092 |  7.8938703536987305 | 1412.6597368717194 |  0.4774509803921569 |  0.5241168274796033 |          6 | t             |
+
+
+#+begin_src sql
+SELECT *
+FROM treatments t
+JOIN subjects su ON t.subject_id=su.subject_id
+JOIN samples_subjects ss ON su.subject_id=ss.subject_id
+JOIN samples sa ON ss.sample_id=sa.sample_id
+JOIN experiments e ON sa.experiment_id=e.experiment_id
+LIMIT 5;
+#+end_src
+
+#+RESULTS:
+| treatment_id | time_to_prioritize_tests | time_to_first_fault | time_to_last_fault |               apfd |               apfdc | subject_id | is_successful | subject_id | test_suite_size | samples_subjects_id | sample_id | subject_id | sample_id | sampling_strategy_id | experiment_id | experiment_id | tool_name                      | start_utc                  | end_utc                   |
+|--------------+--------------------------+---------------------+--------------------+--------------------+---------------------+------------+---------------+------------+-----------------+---------------------+-----------+------------+-----------+----------------------+---------------+---------------+--------------------------------+----------------------------+---------------------------|
+|         1314 |      0.42140960693359375 |  47.490403175354004 |  4552.803955316544 | 0.4397321428571428 | 0.45272890067831567 |       1398 | t             |       1398 |              80 |                 833 |        48 |       1398 |        48 |                    0 |            48 |            48 | random_sample_test_prioritizer | 2026-02-04 14:31:51.987122 | 2026-02-04 14:32:04.87801 |
+|         1315 |      0.48141050338745117 |   303.0082039833069 | 4494.2866406440735 | 0.4884722222222222 |  0.4769458451683271 |       1399 | t             |       1399 |              80 |                 834 |        48 |       1399 |        48 |                    0 |            48 |            48 | random_sample_test_prioritizer | 2026-02-04 14:31:51.987122 | 2026-02-04 14:32:04.87801 |
+|         1316 |      0.33906054496765137 |   34.61571383476257 |   4325.77188873291 |           0.528125 |  0.5460722379920522 |       1400 | t             |       1400 |              80 |                 835 |        48 |       1400 |        48 |                    0 |            48 |            48 | random_sample_test_prioritizer | 2026-02-04 14:31:51.987122 | 2026-02-04 14:32:04.87801 |
+|         1317 |       0.3803119659423828 |  180.42264819145203 |  4705.088579177856 | 0.5054166666666666 |  0.5114010122945469 |       1401 | t             |       1401 |              80 |                 836 |        48 |       1401 |        48 |                    0 |            48 |            48 | random_sample_test_prioritizer | 2026-02-04 14:31:51.987122 | 2026-02-04 14:32:04.87801 |
+|         1318 |      0.39861464500427246 |  185.74700689315796 | 3687.1141850948334 | 0.5020833333333333 |  0.5477338001708769 |       1402 | t             |       1402 |              80 |                 837 |        48 |       1402 |        48 |                    0 |            48 |            48 | random_sample_test_prioritizer | 2026-02-04 14:31:51.987122 | 2026-02-04 14:32:04.87801 |
+
+
+
+Now let us compose all the data of each treatment.
+
+#+begin_src sql
+SELECT
+t.treatment_id,
+time_to_prioritize_tests,
+time_to_first_fault,
+time_to_last_fault,
+apfd,
+apfdc,
+t.subject_id,
+is_successful,
+--subject_id,
+test_suite_size,
+samples_subjects_id,
+ss.sample_id,
+--subject_id,
+--sample_id,
+sampling_strategy_id,
+e.experiment_id,
+--experiment_id,
+tool_name,
+start_utc,
+end_utc
+FROM treatments t
+LEFT JOIN subjects su ON t.subject_id=su.subject_id
+JOIN samples_subjects ss ON su.subject_id=ss.subject_id
+JOIN samples sa ON ss.sample_id=sa.sample_id
+JOIN experiments e ON sa.experiment_id=e.experiment_id
+LIMIT 5;
+#+end_src
+
+#+RESULTS:
+| treatment_id | time_to_prioritize_tests | time_to_first_fault | time_to_last_fault |               apfd |               apfdc | subject_id | is_successful | test_suite_size | samples_subjects_id | sample_id | sampling_strategy_id | experiment_id | tool_name                      | start_utc                  | end_utc                   |
+|--------------+--------------------------+---------------------+--------------------+--------------------+---------------------+------------+---------------+-----------------+---------------------+-----------+----------------------+---------------+--------------------------------+----------------------------+---------------------------|
+|         1314 |      0.42140960693359375 |  47.490403175354004 |  4552.803955316544 | 0.4397321428571428 | 0.45272890067831567 |       1398 | t             |              80 |                 833 |        48 |                    0 |            48 | random_sample_test_prioritizer | 2026-02-04 14:31:51.987122 | 2026-02-04 14:32:04.87801 |
+|         1315 |      0.48141050338745117 |   303.0082039833069 | 4494.2866406440735 | 0.4884722222222222 |  0.4769458451683271 |       1399 | t             |              80 |                 834 |        48 |                    0 |            48 | random_sample_test_prioritizer | 2026-02-04 14:31:51.987122 | 2026-02-04 14:32:04.87801 |
+|         1316 |      0.33906054496765137 |   34.61571383476257 |   4325.77188873291 |           0.528125 |  0.5460722379920522 |       1400 | t             |              80 |                 835 |        48 |                    0 |            48 | random_sample_test_prioritizer | 2026-02-04 14:31:51.987122 | 2026-02-04 14:32:04.87801 |
+|         1317 |       0.3803119659423828 |  180.42264819145203 |  4705.088579177856 | 0.5054166666666666 |  0.5114010122945469 |       1401 | t             |              80 |                 836 |        48 |                    0 |            48 | random_sample_test_prioritizer | 2026-02-04 14:31:51.987122 | 2026-02-04 14:32:04.87801 |
+|         1318 |      0.39861464500427246 |  185.74700689315796 | 3687.1141850948334 | 0.5020833333333333 |  0.5477338001708769 |       1402 | t             |              80 |                 837 |        48 |                    0 |            48 | random_sample_test_prioritizer | 2026-02-04 14:31:51.987122 | 2026-02-04 14:32:04.87801 |
+
+
+Let us start evaluating the random baseline.
+
+#+begin_src sql
+CREATE OR REPLACE FUNCTION experiments_aggregated_results_of(TEXT) RETURNS TABLE(
+experiment_id INT,
+nr_successes INT,
+nr_fails INT,
+min_apfd FLOAT,
+min_apfdc FLOAT,
+min_time_to_prioritize_tests FLOAT,
+min_time_to_first_fault FLOAT,
+min_time_to_last_fault FLOAT,
+max_apfd FLOAT,
+max_apfdc FLOAT,
+max_time_to_prioritize_tests FLOAT,
+max_time_to_first_fault FLOAT,
+max_time_to_last_fault FLOAT,
+mean_apfd FLOAT,
+mean_apfdc FLOAT,
+mean_time_to_prioritize_tests FLOAT,
+mean_time_to_first_fault FLOAT,
+mean_time_to_last_fault FLOAT,
+stddev_apfd FLOAT,
+stddev_apfdc FLOAT,
+stddev_time_to_prioritize_tests FLOAT,
+stddev_time_to_first_fault FLOAT,
+stddev_time_to_last_fault FLOAT
+) AS $$
+SELECT
+e.experiment_id,
+--sa.sample_id,
+count(t.is_successful) FILTER (WHERE t.is_successful=true) AS nr_successful,
+count(t.is_successful) FILTER (WHERE t.is_successful=false) AS nr_successful,
+min(t.apfd) AS min_apfd,
+min(t.apfdc) AS min_apfdc,
+min(t.time_to_prioritize_tests) AS min_time_to_prioritize_tests,
+min(t.time_to_first_fault) AS min_time_to_first_fault,
+min(t.time_to_last_fault) AS min_time_to_last_fault,
+max(t.apfd) AS max_apfd,
+max(t.apfdc) AS max_apfdc,
+max(t.time_to_prioritize_tests) AS max_time_to_prioritize_tests,
+max(t.time_to_first_fault) AS max_time_to_first_fault,
+max(t.time_to_last_fault) AS max_time_to_last_fault,
+avg(t.apfd) AS mean_apfd,
+avg(t.apfdc) AS mean_apfdc,
+avg(t.time_to_prioritize_tests) AS mean_time_to_prioritize_tests,
+avg(t.time_to_first_fault) AS mean_time_to_first_fault,
+avg(t.time_to_last_fault) AS mean_time_to_last_fault,
+stddev(t.apfd) AS stddev_apfd,
+stddev(t.apfdc) AS stddev_apfdc,
+stddev(t.time_to_prioritize_tests) AS stddev_time_to_prioritize_tests,
+stddev(t.time_to_first_fault) AS stddev_time_to_first_fault,
+stddev(t.time_to_last_fault) AS stddev_time_to_last_fault
+FROM treatments t
+LEFT JOIN subjects su ON t.subject_id=su.subject_id
+JOIN samples_subjects ss ON su.subject_id=ss.subject_id
+JOIN samples sa ON ss.sample_id=sa.sample_id
+JOIN experiments e ON sa.experiment_id=e.experiment_id
+WHERE tool_name=$1
+GROUP BY e.experiment_id;
+$$
+LANGUAGE SQL;
+#+end_src
+
+#+RESULTS:
+| CREATE FUNCTION |
+|-----------------|
+
+
+
+
+
+#+begin_src sql
+CREATE OR REPLACE FUNCTION experiments_aggregated_successful_results_of(TEXT) RETURNS TABLE(
+experiment_id INT,
+min_apfd FLOAT,
+min_apfdc FLOAT,
+min_time_to_prioritize_tests FLOAT,
+min_time_to_first_fault FLOAT,
+min_time_to_last_fault FLOAT,
+max_apfd FLOAT,
+max_apfdc FLOAT,
+max_time_to_prioritize_tests FLOAT,
+max_time_to_first_fault FLOAT,
+max_time_to_last_fault FLOAT,
+mean_apfd FLOAT,
+mean_apfdc FLOAT,
+mean_time_to_prioritize_tests FLOAT,
+mean_time_to_first_fault FLOAT,
+mean_time_to_last_fault FLOAT,
+stddev_apfd FLOAT,
+stddev_apfdc FLOAT,
+stddev_time_to_prioritize_tests FLOAT,
+stddev_time_to_first_fault FLOAT,
+stddev_time_to_last_fault FLOAT
+) AS $$
+SELECT
+e.experiment_id,
+--sa.sample_id,
+min(t.apfd) AS min_apfd,
+min(t.apfdc) AS min_apfdc,
+min(t.time_to_prioritize_tests) AS min_time_to_prioritize_tests,
+min(t.time_to_first_fault) AS min_time_to_first_fault,
+min(t.time_to_last_fault) AS min_time_to_last_fault,
+max(t.apfd) AS max_apfd,
+max(t.apfdc) AS max_apfdc,
+max(t.time_to_prioritize_tests) AS max_time_to_prioritize_tests,
+max(t.time_to_first_fault) AS max_time_to_first_fault,
+max(t.time_to_last_fault) AS max_time_to_last_fault,
+avg(t.apfd) AS mean_apfd,
+avg(t.apfdc) AS mean_apfdc,
+avg(t.time_to_prioritize_tests) AS mean_time_to_prioritize_tests,
+avg(t.time_to_first_fault) AS mean_time_to_first_fault,
+avg(t.time_to_last_fault) AS mean_time_to_last_fault,
+stddev(t.apfd) AS stddev_apfd,
+stddev(t.apfdc) AS stddev_apfdc,
+stddev(t.time_to_prioritize_tests) AS stddev_time_to_prioritize_tests,
+stddev(t.time_to_first_fault) AS stddev_time_to_first_fault,
+stddev(t.time_to_last_fault) AS stddev_time_to_last_fault
+FROM treatments t
+LEFT JOIN subjects su ON t.subject_id=su.subject_id
+JOIN samples_subjects ss ON su.subject_id=ss.subject_id
+JOIN samples sa ON ss.sample_id=sa.sample_id
+JOIN experiments e ON sa.experiment_id=e.experiment_id
+WHERE tool_name=$1 AND t.is_successful=true
+GROUP BY e.experiment_id;
+$$
+LANGUAGE SQL;
+#+end_src
+
+#+RESULTS:
+| CREATE FUNCTION |
+|-----------------|
+
+
+
+
+
+
+
+#+begin_src sql
+SELECT experiment_id, nr_successes, nr_fails FROM experiments_aggregated_results_of('random_sample_test_prioritizer') ORDER BY experiment_id LIMIT 1;
+#+end_src
+
+#+RESULTS:
+| experiment_id | nr_successes | nr_fails |
+|---------------+--------------+----------|
+|             1 |            9 |        0 |
+
+
+#+begin_src sql
+SELECT experiment_id, nr_successes, nr_fails FROM experiments_aggregated_results_of('ITEP4SDC') ORDER BY experiment_id LIMIT 1;
+#+end_src
+
+#+RESULTS:
+| experiment_id | nr_successes | nr_fails |
+|---------------+--------------+----------|
+|           401 |            7 |        2 |
+
+
+#+begin_src sql
+
+CREATE OR REPLACE FUNCTION experiments_aggregated_results_with_sample_info_of(TEXT) RETURNS TABLE(
+sample_id INT,
+sampling_strategy_id INT,
+experiment_id INT,
+nr_successes INT,
+nr_fails INT,
+min_apfd FLOAT,
+min_apfdc FLOAT,
+min_time_to_prioritize_tests FLOAT,
+min_time_to_first_fault FLOAT,
+min_time_to_last_fault FLOAT,
+max_apfd FLOAT,
+max_apfdc FLOAT,
+max_time_to_prioritize_tests FLOAT,
+max_time_to_first_fault FLOAT,
+max_time_to_last_fault FLOAT,
+mean_apfd FLOAT,
+mean_apfdc FLOAT,
+mean_time_to_prioritize_tests FLOAT,
+mean_time_to_first_fault FLOAT,
+mean_time_to_last_fault FLOAT,
+stddev_apfd FLOAT,
+stddev_apfdc FLOAT,
+stddev_time_to_prioritize_tests FLOAT,
+stddev_time_to_first_fault FLOAT,
+stddev_time_to_last_fault FLOAT,
+sample_size INT,
+subjects_size INT
+) AS
+$$
+SELECT s.sample_id, sampling_strategy_id, ea.experiment_id, ea.nr_successes, ea.nr_fails, min_apfd, min_apfdc, min_time_to_prioritize_tests, min_time_to_first_fault, min_time_to_last_fault, max_apfd, max_apfdc, max_time_to_prioritize_tests, max_time_to_first_fault, max_time_to_last_fault, mean_apfd, mean_apfdc, mean_time_to_prioritize_tests, mean_time_to_first_fault, mean_time_to_last_fault, stddev_apfd, stddev_apfdc, stddev_time_to_prioritize_tests, stddev_time_to_first_fault, stddev_time_to_last_fault, sample_size, subjects_size
+FROM samples s
+JOIN experiments_aggregated_results_of($1) ea ON s.experiment_id=ea.experiment_id
+JOIN sample_characchteristics sc ON s.sample_id=sc.sample_id;
+$$
+LANGUAGE SQL;
+#+end_src
+
+#+RESULTS:
+| CREATE FUNCTION |
+|-----------------|
+
+
+#+begin_src sql
+ SELECT * FROM experiments_aggregated_results_with_sample_info_of('random_sample_test_prioritizer') LIMIT 3;
+#+end_src
+
+#+RESULTS:
+| sample_id | sampling_strategy_id | experiment_id | nr_successes | nr_fails |            min_apfd |           min_apfdc | min_time_to_prioritize_tests | min_time_to_first_fault | min_time_to_last_fault |           max_apfd |          max_apfdc | max_time_to_prioritize_tests | max_time_to_first_fault | max_time_to_last_fault |          mean_apfd |         mean_apfdc | mean_time_to_prioritize_tests | mean_time_to_first_fault | mean_time_to_last_fault |          stddev_apfd |        stddev_apfdc | stddev_time_to_prioritize_tests | stddev_time_to_first_fault | stddev_time_to_last_fault | sample_size | subjects_size |
+|-----------+----------------------+---------------+--------------+----------+---------------------+---------------------+------------------------------+-------------------------+------------------------+--------------------+--------------------+------------------------------+-------------------------+------------------------+--------------------+--------------------+-------------------------------+--------------------------+-------------------------+----------------------+---------------------+---------------------------------+----------------------------+---------------------------+-------------+---------------|
+|       384 |                    0 |           384 |          199 |        0 | 0.33522727272727276 | 0.32221492515521327 |            0.131727933883667 |      2.3422815799713135 |     1549.3973429203033 | 0.6308333333333334 | 0.6607662947822982 |          0.20255494117736816 |       850.9593803882599 |     2786.3466074466705 | 0.4967329666664327 | 0.5206707409234539 |             0.171195631650225 |       133.51366774520682 |       2166.008956650394 | 0.055827921916115526 | 0.06409603585576525 |            0.008367972796030335 |           133.187187265802 |        228.20718502549462 |         200 |            40 |
+|       351 |                    0 |           351 |          179 |        0 | 0.42012987012987013 | 0.40686499175762464 |           0.3128833770751953 |       4.321596145629883 |       5103.95830488205 | 0.5904761904761905 | 0.6153778270600503 |           0.4182446002960205 |       790.2834205627441 |      6973.579434156418 | 0.4998636464988651 | 0.5074974990143495 |           0.38536885463991644 |       159.65212906139524 |       6045.168670696919 |  0.03322181000658793 | 0.04066630574244879 |            0.016896035867915295 |         145.66026846165974 |        364.44610488687465 |         180 |           110 |
+|       184 |                    0 |           184 |           99 |        0 |             0.34125 | 0.33692392024602213 |          0.13435935974121094 |       7.290269613265991 |     1591.0926711559296 | 0.6124999999999999 | 0.6941208227351894 |           0.2054893970489502 |       512.8245348930359 |     2727.8100306987762 | 0.5015418185708845 | 0.5258755158147349 |           0.17096172197900636 |       128.58895552037941 |         2123.7263378519 |  0.05728506118425562 | 0.07037138395477617 |            0.009681082484849569 |         105.44301814905725 |        231.80737628359873 |         100 |            40 |
+
+#+begin_src sql
+ SELECT * FROM experiments_aggregated_results_with_sample_info_of('ITEP4SDC') LIMIT 3;
+#+end_src
+
+#+RESULTS:
+| sample_id | sampling_strategy_id | experiment_id | nr_successes | nr_fails | min_apfd | min_apfdc | min_time_to_prioritize_tests | min_time_to_first_fault | min_time_to_last_fault |           max_apfd |          max_apfdc | max_time_to_prioritize_tests | max_time_to_first_fault | max_time_to_last_fault |           mean_apfd |          mean_apfdc | mean_time_to_prioritize_tests | mean_time_to_first_fault | mean_time_to_last_fault |         stddev_apfd |       stddev_apfdc | stddev_time_to_prioritize_tests | stddev_time_to_first_fault | stddev_time_to_last_fault | sample_size | subjects_size |
+|-----------+----------------------+---------------+--------------+----------+----------+-----------+------------------------------+-------------------------+------------------------+--------------------+--------------------+------------------------------+-------------------------+------------------------+---------------------+---------------------+-------------------------------+--------------------------+-------------------------+---------------------+--------------------+---------------------------------+----------------------------+---------------------------+-------------+---------------|
+|       617 |                    0 |           617 |            1 |      108 |       -1 |        -1 |                           -1 |                      -1 |                     -1 | 0.7690756302521008 | 0.7843188573044846 |           1.4674193859100342 |       64.41293501853943 |     6446.7801649570465 | -0.9837699483463109 | -0.9836301022265643 |            -0.977363124899908 |      -0.3998813301051429 |       58.15394646749584 | 0.16944671391996372 | 0.1709067502742004 |             0.23633591444888621 |         6.2654228554220195 |         617.5853323323431 |         110 |           170 |
+|       753 |                    0 |           753 |            1 |      178 |       -1 |        -1 |                           -1 |                      -1 |                     -1 | 0.7729199372056514 | 0.8171948954210277 |           1.1702539920806885 |       45.40556573867798 |      6021.611256361008 | -0.9900954193452198 | -0.9898480732099383 |           -0.9878756760218956 |      -0.7407510293928604 |       32.64587294056429 | 0.13251425777070625 | 0.1358235235207361 |             0.16221239938660886 |         3.4685148332094835 |        450.15110030070423 |         180 |           130 |
+|       652 |                    0 |           652 |            5 |      124 |       -1 |        -1 |                           -1 |                      -1 |                     -1 |             0.8375 | 0.8590317892869386 |             1.04451584815979 |      104.87603306770325 |      5302.798857212067 | -0.9309746167808333 | -0.9299736241796591 |           -0.9216524815374567 |       2.4353127109912016 |       148.4185459576836 | 0.34515614851711623 | 0.3501768139881112 |             0.39170190562281526 |         17.364851993094817 |         764.2714065899448 |         130 |           120 |
+
+
+
+#+begin_src sql
+SELECT
+count(*) AS nr_experiments,
+sum(nr_successes) AS total_nr_successes,
+sum(nr_fails) AS total_nr_fails,
+ROUND(AVG(min_apfd)::numeric, 2) AS min_apfd,
+ROUND(AVG(min_apfdc)::numeric, 2) AS min_apfdc,
+ROUND(AVG(min_time_to_prioritize_tests)::numeric, 2) AS min_time_to_prioritize_tests,
+ROUND(AVG(min_time_to_first_fault)::numeric, 2) AS min_time_to_first_fault,
+ROUND(AVG(min_time_to_last_fault)::numeric, 2) AS min_time_to_last_fault,
+ROUND(AVG(max_apfd)::numeric, 2) AS max_apfd,
+ROUND(AVG(max_apfdc)::numeric, 2) AS max_apfdc,
+ROUND(AVG(max_time_to_prioritize_tests)::numeric, 2) AS max_time_to_prioritize_tests,
+ROUND(AVG(max_time_to_first_fault)::numeric, 2) AS max_time_to_first_fault,
+ROUND(AVG(max_time_to_last_fault)::numeric, 2) AS max_time_to_last_fault,
+ROUND(AVG(mean_apfd)::numeric, 2) AS mean_apfd,
+ROUND(AVG(mean_apfdc)::numeric, 2) AS mean_apfdc,
+ROUND(AVG(mean_time_to_prioritize_tests)::numeric, 2) AS mean_time_to_prioritize_tests,
+ROUND(AVG(mean_time_to_first_fault)::numeric, 2) AS mean_time_to_first_fault,
+ROUND(AVG(mean_time_to_last_fault)::numeric, 2) AS mean_time_to_last_fault,
+ROUND(AVG(stddev_apfd)::numeric, 2) AS stddev_apfd,
+ROUND(AVG(stddev_apfdc)::numeric, 2) AS stddev_apfdc,
+ROUND(AVG(stddev_time_to_prioritize_tests)::numeric, 2) AS stddev_time_to_prioritize_tests,
+ROUND(AVG(stddev_time_to_first_fault)::numeric, 2) AS stddev_time_to_first_fault,
+ROUND(AVG(stddev_time_to_last_fault)::numeric, 2) AS stddev_time_to_last_fault
+FROM experiments_aggregated_results_with_sample_info_of('random_sample_test_prioritizer');
+#+end_src
+
+#+RESULTS:
+| nr_experiments | total_nr_successes | total_nr_fails | min_apfd | min_apfdc | min_time_to_prioritize_tests | min_time_to_first_fault | min_time_to_last_fault | max_apfd | max_apfdc | max_time_to_prioritize_tests | max_time_to_first_fault | max_time_to_last_fault | mean_apfd | mean_apfdc | mean_time_to_prioritize_tests | mean_time_to_first_fault | mean_time_to_last_fault | stddev_apfd | stddev_apfdc | stddev_time_to_prioritize_tests | stddev_time_to_first_fault | stddev_time_to_last_fault |
+|----------------+--------------------+----------------+----------+-----------+------------------------------+-------------------------+------------------------+----------+-----------+------------------------------+-------------------------+------------------------+-----------+------------+-------------------------------+--------------------------+-------------------------+-------------+--------------+---------------------------------+----------------------------+---------------------------|
+|            400 |              41600 |              0 |     0.38 |      0.39 |                         0.37 |                    6.65 |                4898.84 |     0.62 |      0.67 |                         0.52 |                  668.30 |                6613.83 |      0.50 |       0.52 |                          0.46 |                   145.75 |                 5781.33 |        0.05 |         0.06 |                            0.03 |                     132.02 |                    349.89 |
+
+
+
+#+begin_src sql
+SELECT
+count(*) AS nr_experiments,
+sum(nr_successes) AS total_nr_successes,
+sum(nr_fails) AS total_nr_fails,
+ROUND(AVG(min_apfd)::numeric, 2) AS min_apfd,
+ROUND(AVG(min_apfdc)::numeric, 2) AS min_apfdc,
+ROUND(AVG(min_time_to_prioritize_tests)::numeric, 2) AS min_time_to_prioritize_tests,
+ROUND(AVG(min_time_to_first_fault)::numeric, 2) AS min_time_to_first_fault,
+ROUND(AVG(min_time_to_last_fault)::numeric, 2) AS min_time_to_last_fault,
+ROUND(AVG(max_apfd)::numeric, 2) AS max_apfd,
+ROUND(AVG(max_apfdc)::numeric, 2) AS max_apfdc,
+ROUND(AVG(max_time_to_prioritize_tests)::numeric, 2) AS max_time_to_prioritize_tests,
+ROUND(AVG(max_time_to_first_fault)::numeric, 2) AS max_time_to_first_fault,
+ROUND(AVG(max_time_to_last_fault)::numeric, 2) AS max_time_to_last_fault,
+ROUND(AVG(mean_apfd)::numeric, 2) AS mean_apfd,
+ROUND(AVG(mean_apfdc)::numeric, 2) AS mean_apfdc,
+ROUND(AVG(mean_time_to_prioritize_tests)::numeric, 2) AS mean_time_to_prioritize_tests,
+ROUND(AVG(mean_time_to_first_fault)::numeric, 2) AS mean_time_to_first_fault,
+ROUND(AVG(mean_time_to_last_fault)::numeric, 2) AS mean_time_to_last_fault,
+ROUND(AVG(stddev_apfd)::numeric, 2) AS stddev_apfd,
+ROUND(AVG(stddev_apfdc)::numeric, 2) AS stddev_apfdc,
+ROUND(AVG(stddev_time_to_prioritize_tests)::numeric, 2) AS stddev_time_to_prioritize_tests,
+ROUND(AVG(stddev_time_to_first_fault)::numeric, 2) AS stddev_time_to_first_fault,
+ROUND(AVG(stddev_time_to_last_fault)::numeric, 2) AS stddev_time_to_last_fault
+FROM experiments_aggregated_results_with_sample_info_of('ITEP4SDC');
+
+#+end_src
+
+#+RESULTS:
+| nr_experiments | total_nr_successes | total_nr_fails | min_apfd | min_apfdc | min_time_to_prioritize_tests | min_time_to_first_fault | min_time_to_last_fault | max_apfd | max_apfdc | max_time_to_prioritize_tests | max_time_to_first_fault | max_time_to_last_fault | mean_apfd | mean_apfdc | mean_time_to_prioritize_tests | mean_time_to_first_fault | mean_time_to_last_fault | stddev_apfd | stddev_apfdc | stddev_time_to_prioritize_tests | stddev_time_to_first_fault | stddev_time_to_last_fault |
+|----------------+--------------------+----------------+----------+-----------+------------------------------+-------------------------+------------------------+----------+-----------+------------------------------+-------------------------+------------------------+-----------+------------+-------------------------------+--------------------------+-------------------------+-------------+--------------+---------------------------------+----------------------------+---------------------------|
+|            400 |               5941 |          35659 |    -1.00 |     -1.00 |                        -1.00 |                   -1.00 |                  -1.00 |     0.45 |      0.52 |                         0.42 |                   69.23 |                2928.31 |     -0.74 |      -0.73 |                         -0.80 |                     6.87 |                  163.67 |        0.41 |         0.42 |                            0.37 |                      15.20 |                    501.68 |
+
+
+
+
+
+
+
+We observe that ITEP4SDC has multiple treatments that failed, i.e., the tools was not able to return a test order for several test suites.
+
+
+
+
+
+#+begin_src sql
+SELECT
+--count(*) AS nr_experiments,
+ROUND(AVG(min_apfd)::numeric, 2) AS min_apfd,
+ROUND(AVG(min_apfdc)::numeric, 2) AS min_apfdc,
+ROUND(AVG(min_time_to_prioritize_tests)::numeric, 2) AS min_time_to_prioritize_tests,
+ROUND(AVG(min_time_to_first_fault)::numeric, 2) AS min_time_to_first_fault,
+ROUND(AVG(min_time_to_last_fault)::numeric, 2) AS min_time_to_last_fault,
+ROUND(AVG(max_apfd)::numeric, 2) AS max_apfd,
+ROUND(AVG(max_apfdc)::numeric, 2) AS max_apfdc,
+ROUND(AVG(max_time_to_prioritize_tests)::numeric, 2) AS max_time_to_prioritize_tests,
+ROUND(AVG(max_time_to_first_fault)::numeric, 2) AS max_time_to_first_fault,
+ROUND(AVG(max_time_to_last_fault)::numeric, 2) AS max_time_to_last_fault,
+ROUND(AVG(mean_apfd)::numeric, 2) AS mean_apfd,
+ROUND(AVG(mean_apfdc)::numeric, 2) AS mean_apfdc,
+ROUND(AVG(mean_time_to_prioritize_tests)::numeric, 2) AS mean_time_to_prioritize_tests,
+ROUND(AVG(mean_time_to_first_fault)::numeric, 2) AS mean_time_to_first_fault,
+ROUND(AVG(mean_time_to_last_fault)::numeric, 2) AS mean_time_to_last_fault,
+ROUND(AVG(stddev_apfd)::numeric, 2) AS stddev_apfd,
+ROUND(AVG(stddev_apfdc)::numeric, 2) AS stddev_apfdc,
+ROUND(AVG(stddev_time_to_prioritize_tests)::numeric, 2) AS stddev_time_to_prioritize_tests,
+ROUND(AVG(stddev_time_to_first_fault)::numeric, 2) AS stddev_time_to_first_fault,
+ROUND(AVG(stddev_time_to_last_fault)::numeric, 2) AS stddev_time_to_last_fault
+FROM experiments_aggregated_successful_results_of('ITEP4SDC');
+#+end_src
+
+#+RESULTS:
+| min_apfd | min_apfdc | min_time_to_prioritize_tests | min_time_to_first_fault | min_time_to_last_fault | max_apfd | max_apfdc | max_time_to_prioritize_tests | max_time_to_first_fault | max_time_to_last_fault | mean_apfd | mean_apfdc | mean_time_to_prioritize_tests | mean_time_to_first_fault | mean_time_to_last_fault | stddev_apfd | stddev_apfdc | stddev_time_to_prioritize_tests | stddev_time_to_first_fault | stddev_time_to_last_fault |
+|----------+-----------+------------------------------+-------------------------+------------------------+----------+-----------+------------------------------+-------------------------+------------------------+-----------+------------+-------------------------------+--------------------------+-------------------------+-------------+--------------+---------------------------------+----------------------------+---------------------------|
+|     0.74 |      0.76 |                         0.76 |                   22.69 |                2451.42 |     0.84 |      0.92 |                         0.80 |                   87.90 |                3706.99 |      0.79 |       0.83 |                          0.78 |                    54.77 |                 3016.25 |        0.03 |         0.05 |                            0.02 |                      28.31 |                    553.80 |
+
+
+
+
+
+
+
+
+#+begin_src sql
+SELECT
+--count(*) AS nr_experiments,
+ROUND(AVG(min_apfd)::numeric, 2) AS min_apfd,
+ROUND(AVG(min_apfdc)::numeric, 2) AS min_apfdc,
+ROUND(AVG(min_time_to_prioritize_tests)::numeric, 2) AS min_time_to_prioritize_tests,
+ROUND(AVG(min_time_to_first_fault)::numeric, 2) AS min_time_to_first_fault,
+ROUND(AVG(min_time_to_last_fault)::numeric, 2) AS min_time_to_last_fault
+--ROUND(AVG(max_apfd)::numeric, 2) AS max_apfd,
+--ROUND(AVG(max_apfdc)::numeric, 2) AS max_apfdc,
+--ROUND(AVG(max_time_to_prioritize_tests)::numeric, 2) AS max_time_to_prioritize_tests,
+--ROUND(AVG(max_time_to_first_fault)::numeric, 2) AS max_time_to_first_fault,
+--ROUND(AVG(max_time_to_last_fault)::numeric, 2) AS max_time_to_last_fault
+--ROUND(AVG(mean_apfd)::numeric, 2) AS mean_apfd,
+--ROUND(AVG(mean_apfdc)::numeric, 2) AS mean_apfdc,
+--ROUND(AVG(mean_time_to_prioritize_tests)::numeric, 2) AS mean_time_to_prioritize_tests,
+--ROUND(AVG(mean_time_to_first_fault)::numeric, 2) AS mean_time_to_first_fault,
+--ROUND(AVG(mean_time_to_last_fault)::numeric, 2) AS mean_time_to_last_fault
+--ROUND(AVG(stddev_apfd)::numeric, 2) AS stddev_apfd,
+--ROUND(AVG(stddev_apfdc)::numeric, 2) AS stddev_apfdc,
+--ROUND(AVG(stddev_time_to_prioritize_tests)::numeric, 2) AS stddev_time_to_prioritize_tests,
+--ROUND(AVG(stddev_time_to_first_fault)::numeric, 2) AS stddev_time_to_first_fault,
+--ROUND(AVG(stddev_time_to_last_fault)::numeric, 2) AS stddev_time_to_last_fault
+FROM experiments_aggregated_successful_results_of('random_sample_test_prioritizer');
+#+end_src
+
+#+RESULTS:
+| min_apfd | min_apfdc | min_time_to_prioritize_tests | min_time_to_first_fault | min_time_to_last_fault |
+|----------+-----------+------------------------------+-------------------------+------------------------|
+|     0.38 |      0.39 |                         0.37 |                    6.65 |                4898.84 |
