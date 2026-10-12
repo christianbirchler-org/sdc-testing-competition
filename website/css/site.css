@@ -73,6 +73,9 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .site-header {
   background: var(--surface);
   border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .header-inner {
@@ -677,7 +680,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
   }
 
   .scenario-figure, scenario-figure img {
-    width: 100%
+    width: min(100%, 650px);
     /*display: none;*/
   }
 
