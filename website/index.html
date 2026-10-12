@@ -1,109 +1,254 @@
-<!DOCTYPE html>
+<!doctype html>
+<html lang="en">
 <head>
-  <title>SDC Tool Competition</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="The Self-Driving Car Testing Competition at ICST 2027: intra-scenario minimization for simulation-based autonomous driving tests.">
+  <meta name="theme-color" content="#29153e">
+  <title>SDC Testing Competition | ICST 2027</title>
+
+  <!-- Bulma provides base styles and utilities; site.css defines our own visual identity. -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+  <link rel="stylesheet" href="css/site.css">
 </head>
 <body>
-<h1>SDC Tool Competition</h1>
+  <a class="skip-link" href="#main">Skip to main content</a>
 
-<p>
-Self-driving cars (SDCs) are equipped with onboard cameras and various sensors have already demonstrated the possibility of autonomous driving in real environments, leading to great interest in various application domains.
-However, despite the necessity of systematically testing such complex and automated systems to ensure their safe operation in real-world environments, there has been relatively limited investment in this direction so far.
-</p>
+  <!-- MAINTAINERS: dates, contacts and announcements are edited in this HTML file.
+       Change colors and spacing in css/site.css. Keep historical slide URLs intact. -->
+  <header class="site-header">
+    <div class="container site-container header-inner">
+      <a href="#top" class="site-brand" aria-label="SDC Testing Competition home">
+        <span class="brand-symbol" aria-hidden="true">SDC</span>
+        <span class="brand-type"><strong>Self-Driving Car Testing</strong><span>Competition</span></span>
+      </a>
 
-<p>
-The SDC Testing Competition is an initiative designed to inspire and encourage the Software Testing Community to direct their attention toward SDCs as a rapidly emerging and crucial domain.
-The competition's current focus is on regression testing for test suites executing system tests of SDCs in simulation.
-Regression testing involves test selection, prioritization, and minimization.
-</p>
+      <button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-controls="primary-nav" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
 
+      <nav class="site-nav" id="primary-nav" aria-label="Primary navigation">
+        <a href="#challenge">The challenge</a>
+        <a href="#dates">Dates</a>
+        <a href="#participate">Participate</a>
+        <a href="#organizers">Organizers</a>
+        <a href="#archive">Past editions</a>
+        <a class="nav-github" href="https://github.com/christianbirchler-org/sdc-testing-competition" target="_blank" rel="noopener noreferrer">GitHub <span aria-hidden="true">&nearr;</span></a>
+      </nav>
+    </div>
+  </header>
 
-<h2>2026</h2>
+  <main id="main">
+    <section class="hero-section" id="top" aria-labelledby="hero-title">
+      <div class="container site-container hero-inner">
+        <div class="hero-copy">
+          <p class="eyebrow eyebrow-light">ICST 2027 &middot; SAN SEBASTI&Aacute;N, SPAIN</p>
+          <h1 id="hero-title">Self-Driving Car <span>Testing Competition.</span></h1>
+          <p class="hero-lede">Advancing the testing of autonomous driving systems through open, reproducible challenges in simulation.</p>
+          <p class="edition-intro"><strong>2027 edition</strong> Intra-scenario minimization</p>
+          <div class="hero-actions">
+            <a class="button action-primary" href="https://github.com/christianbirchler-org/sdc-testing-competition/blob/main/competitions/2027.md">Read the 2027 guidelines <span aria-hidden="true">&nearr;</span></a>
+            <a class="button action-secondary" href="#challenge">Explore the challenge <span aria-hidden="true">&darr;</span></a>
+          </div>
+        </div>
+        
+        <figure class="scenario-figure" aria-label="Illustration: predict when a vehicle leaves the permitted bounds, then shorten scenario execution to that point.">
+          <img
+            src="assets/scenario-minimization.svg"
+            alt="Winding road with a highlighted execution
+                segment around the predicted out-of-bounds point."
+            width="720"
+            height="490"
+          >
+          <p class="figure-note">
+            <strong>The goal:</strong> Predict whether and where a vehicle
+            will fail to keep its lane, identifying the minimal critical segment
+            of a longer driving scenario that needs to be executed.
+          </p>
+        </figure>
+      </div>
+    </section>
 
-<ul>
-  <li><a href="slides-sbft-2026/index.html">Slides</a></li>
-</ul>
+    <div class="announcement-wrap">
+      <div class="container site-container announcement">
+        <strong class="announcement-label">2027 UPDATE</strong>
+        <p>The next edition is in preparation. Technical documentation is available now; the organizers will confirm participation details and final dates.</p>
+        <a href="https://github.com/christianbirchler-org/sdc-testing-competition/discussions" target="_blank" rel="noopener noreferrer">Community discussions &nearr;</a>
+      </div>
+    </div>
 
-<h3>Call for Paritipations</h3>
-<ul>
-  <li><a href="https://github.com/christianbirchler-org/sdc-testing-competition/blob/main/competitions/2026.md">Dates (ICST, SBFT) and Competition Guidelines for 2026</a></li>
-</ul>
+    <section class="site-section" id="challenge" aria-labelledby="challenge-title">
+      <div class="container site-container split-layout">
+        <div>
+          <p class="eyebrow">THE CHALLENGE</p>
+          <h2 class="section-title" id="challenge-title">Shorter scenarios. <span class="accent-mark">Same test suite.</span></h2>
+          <p class="section-intro">Simulation-based testing of autonomous vehicles can be costly. The aim this year is to reduce how much of each scenario must be executed, rather than removing scenarios from the suite.</p>
+        </div>
+        <div>
+          <p class="body-lede">The 2027 challenge focuses on <strong>intra-scenario minimization</strong>: predicting the point at which a vehicle goes out of bounds, so simulation can concentrate on the relevant portion of that scenario.</p>
+          <div class="concept-list" aria-label="Competition at a glance">
+            <div class="concept-item">
+              <span class="list-number">01</span>
+              <div>
+                <h3>Start from simulated driving scenarios</h3>
+                <p>Each scenario represents a vehicle's behavior in a simulation environment.</p>
+              </div>
+            </div>
+            <div class="concept-item">
+              <span class="list-number">02</span>
+              <div>
+                <h3>Predict the out-of-bounds point</h3>
+                <p>Develop a tool that estimates when a vehicle will leave the permitted bounds, using the provided competition interface.</p>
+              </div>
+            </div>
+            <div class="concept-item">
+              <span class="list-number">03</span>
+              <div>
+                <h3>Minimize execution within a scenario</h3>
+                <p>The prediction can guide how much of that scenario needs to run. Submissions are compared through a shared evaluation process.</p>
+              </div>
+            </div>
+          </div>
+          <a class="text-link" href="https://github.com/christianbirchler-org/sdc-testing-competition/blob/main/competitions/2027.md">Explore the technical description <span aria-hidden="true">&nearr;</span></a>
+        </div>
+      </div>
+    </section>
 
-<h3>Organizers</h3>
+    <section class="site-section section-muted" id="dates" aria-labelledby="dates-title">
+      <div class="container site-container split-layout">
+        <div>
+          <p class="eyebrow">TIMELINE</p>
+          <h2 class="section-title" id="dates-title">Important dates<span class="accent-mark">.</span></h2>
+          <p class="section-intro">The 2027 competition milestones from the ICST Challenge Competition Track schedule.</p>
+          <p class="date-note">Dates are provisional and subject to confirmation. Deadlines follow Anywhere on Earth (AoE), where applicable.</p>
+        </div>
+        <div>
+          <ol class="dates-list">
+            <li><time datetime="2026-10-31">31 Oct 2026</time><span>Competition website and repository available</span></li>
+            <li class="date-highlight"><time datetime="2027-01-15">15 Jan 2027</time><span>Participant submission deadline</span></li>
+            <li><time datetime="2027-02-15">15 Feb 2027</time><span>Notification to participants</span></li>
+            <li><time datetime="2027-02-28">28 Feb 2027</time><span>Tool papers and competition reports due</span></li>
+            <li><time datetime="2027-03-07">7 Mar 2027</time><span>Camera-ready deadline for tool papers and reports</span></li>
+            <li><time datetime="2027-05-17">17&ndash;21 May 2027</time><span>ICST 2027 &middot; San Sebasti&aacute;n, Spain</span></li>
+          </ol>
+          <a class="text-link" href="https://conf.researchr.org/dates/icst-2027">Check the official ICST dates <span aria-hidden="true">&nearr;</span></a>
+        </div>
+      </div>
+    </section>
 
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Organization</th>
-    <th>Email</th>
-  </tr>
-<tr>
-  <td>Prakash Aryan</td>
-  <td>University of Bern</td>
-  <td>prakash.aryan@unibe.ch</td>
-</tr>
-<tr>
-  <td>Tommaso Fulcini</td>
-  <td>Politecnico di Torino</td>
-  <td>tommaso.fulcini@polito.it</td>
-</tr>
-<tr>
-  <td>Luigi Starace</td>
-  <td>University of Naples Federico II</td>
-  <td>luigiliberolucio.starace@unina.it</td>
-</tr>
-<tr>
-  <td>Christian Birchler</td>
-  <td>University of Bern</td>
-  <td>christian.birchler@unibe.ch</td>
-</tr>
-<tr>
-  <td>Sebastiano Panichella</td>
-  <td>University of Bern</td>
-  <td>sebastiano.panichella@unibe.ch</td>
-</tr>
-</table>
+    <section class="site-section" id="participate" aria-labelledby="participate-title">
+      <div class="container site-container">
+        <div class="section-heading-row"><div><p class="eyebrow">03 / GET INVOLVED</p><h2 class="section-title" id="participate-title">How to participate<span class="accent-mark">.</span></h2></div><p>Technical details live in the GitHub repository, providing a shared source of truth for participants and organizers.</p></div>
+        <div class="participation-grid">
+          <div class="participation-step">
+            <span class="list-number">01</span>
+            <h3>Read the guidelines</h3>
+            <p>Understand the minimization task, competition rules, and evaluation setup.</p>
+            <a class="text-link" href="https://github.com/christianbirchler-org/sdc-testing-competition/blob/main/competitions/2027.md">2027 guidelines &nearr;</a>
+          </div>
+          <div class="participation-step">
+            <span class="list-number">02</span>
+            <h3>Develop your tool</h3>
+            <p>Use the provided gRPC interface, sample implementation, and evaluator as a starting point.</p>
+            <a class="text-link" href="https://github.com/christianbirchler-org/sdc-testing-competition/tree/main/tools/minimizers">Tools and interfaces &nearr;</a>
+          </div>
+          <div class="participation-step">
+            <span class="list-number">03</span>
+            <h3>Prepare your submission</h3>
+            <p>Follow the repository instructions for packaging and submitting your tool; check the finalized requirements before submission.</p>
+            <a class="text-link" href="https://github.com/christianbirchler-org/sdc-testing-competition">Visit the repository &nearr;</a>
+          </div>
+        </div>
+        <div class="help-strip"><span>Questions or implementation problems?</span><a href="https://github.com/christianbirchler-org/sdc-testing-competition/issues">Open an issue on GitHub &nearr;</a></div>
+      </div>
+    </section>
 
+    <section class="site-section section-muted" id="organizers" aria-labelledby="organizers-title">
+      <div class="container site-container">
+        <div class="section-heading-row"><div><p class="eyebrow">PEOPLE</p><h2 class="section-title" id="organizers-title">2027 organizers<span class="accent-mark">.</span></h2></div><p>For questions about this edition, contact a member of the organizing team.</p></div>
+        <div class="organizers-grid">
+          <article class="organizer">
+            <img class="organizer-photo" src="assets/portrait-placeholder.svg" alt="" loading="lazy">
+            <h3>Erdem Uysal</h3>
+            <p>University of Bern</p>
+            <a href="mailto:ramazan.uysal@unibe.ch">ramazan.uysal@unibe.ch</a>
+          </article>
+          <article class="organizer">
+            <img class="organizer-photo" src="assets/portrait-placeholder.svg" alt="" loading="lazy">
+            <h3>Tommaso Fulcini</h3>
+            <p>Politecnico di Torino</p>
+            <a href="mailto:tommaso.fulcini@polito.it">tommaso.fulcini@polito.it</a>
+          </article>
+          <article class="organizer">
+            <img class="organizer-photo" src="assets/portrait-placeholder.svg" alt="" loading="lazy">
+            <h3>Luigi Libero Lucio Starace</h3>
+            <p>SQuIDS Lab, University of Naples Federico II</p>
+            <a href="mailto:luigiliberolucio.starace@unina.it">luigiliberolucio.starace@unina.it</a>
+          </article>
+          <article class="organizer">
+            <img class="organizer-photo" src="assets/portrait-placeholder.svg" alt="" loading="lazy">
+            <h3>Christian Birchler</h3>
+            <p>Zurich University of Applied Sciences &amp; University of Bern</p>
+            <a href="mailto:christian.birchler@unibe.ch">christian.birchler@unibe.ch</a>
+          </article>
+        </div>
+      </div>
+    </section>
 
-<h2>2025</h2>
+    <section class="site-section" id="archive" aria-labelledby="archive-title">
+      <div class="container site-container split-layout">
+        <div><p class="eyebrow">PREVIOUS EDITIONS</p><h2 class="section-title" id="archive-title">Built on a growing community<span class="accent-mark">.</span></h2><p class="section-intro">Discover previous competitions, resources and presentation slides.</p></div>
+        <div class="archive-list">
+          <div class="archive-edition"><div class="archive-head"><h3>2026</h3><span>ICST / SBFT</span></div><div class="archive-links"><a href="https://github.com/christianbirchler-org/sdc-testing-competition/blob/main/competitions/2026.md">Guidelines &nearr;</a><a href="slides-sbft-2026/index.html">Presentation slides &nearr;</a></div><details><summary>2026 organizing team and contacts</summary>
+            <ul class="archive-people">
+              <li>Prakash Aryan &middot; University of Bern &middot; <a href="mailto:prakash.aryan@unibe.ch">email</a></li>
+              <li>Tommaso Fulcini &middot; Politecnico di Torino &middot; <a href="mailto:tommaso.fulcini@polito.it">email</a></li>
+              <li>Luigi Starace &middot; University of Naples Federico II &middot; <a href="mailto:luigiliberolucio.starace@unina.it">email</a></li>
+              <li>Christian Birchler &middot; University of Bern &middot; <a href="mailto:christian.birchler@unibe.ch">email</a></li>
+              <li>Sebastiano Panichella &middot; University of Bern &middot; <a href="mailto:sebastiano.panichella@unibe.ch">email</a></li>
+            </ul>
+          </details></div>
+          <div class="archive-edition"><div class="archive-head"><h3>2025</h3><span>ICST / SBFT</span></div><div class="archive-links"><a href="https://conf.researchr.org/track/icst-2025/icst-2025-tool-competition--self-driving-car-testing">ICST call &nearr;</a><a href="https://sbft25.github.io/tools/">SBFT call &nearr;</a><a href="slides/index.html">Presentation slides &nearr;</a></div><details><summary>2025 organizing team and contacts</summary>
+            <ul class="archive-people">
+              <li>Christian Birchler &middot; University of Bern &middot; <a href="mailto:christian.birchler@unibe.ch">email</a></li>
+              <li>Stefan Klikovits &middot; Johannes Kepler University Linz &middot; <a href="mailto:stefan.klikovits@jku.at">email</a></li>
+              <li>Mattia Fazzini &middot; University of Minnesota &middot; <a href="mailto:mfazzini@umn.edu">email</a></li>
+              <li>Sebastiano Panichella &middot; University of Bern &middot; <a href="mailto:sebastiano.panichella@unibe.ch">email</a></li>
+            </ul>
+          </details></div>
+        </div>
+      </div>
+    </section>
+  </main>
 
-<ul>
-  <li><a href="slides/index.html">Slides</a></li>
-</ul>
+  <footer class="site-footer">
+    <div class="container site-container footer-content">
+      <div><strong>SDC Testing Competition</strong><p>A research community competition on the testing of autonomous driving systems.</p></div>
+      <div class="footer-links"><a href="https://conf.researchr.org/home/icst-2027">ICST 2027 &nearr;</a><a href="https://github.com/christianbirchler-org/sdc-testing-competition">GitHub repository &nearr;</a><a href="#top">Back to top &uarr;</a></div>
+    </div>
+    <div class="container site-container footer-base"><span>Maintained by the SDC Testing Competition organizers.</span><span>Open research &middot; Reproducible testing</span></div>
+  </footer>
 
-<h3>Call for Paritipations</h3>
-<ul>
-  <li><a href="https://conf.researchr.org/track/icst-2025/icst-2025-tool-competition--self-driving-car-testing">ICST</a>
-  <li><a href="https://sbft25.github.io/tools/">SBFT</a></li>
-</ul>
-
-<h3>Organizers</h3>
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Organization</th>
-    <th>Email</th>
-  </tr>
-  <td>Christian Birchler</td>
-  <td>University of Bern</td>
-  <td>christian.birchler@unibe.ch</td>
-</tr>
-<tr>
-  <td>Stefan Klikovits</td>
-  <td>Johannes Kepler University Linz</td>
-  <td>stefan.klikovits@jku.at</td>
-</tr>
-<tr>
-  <td>Mattia Fazzini</td>
-  <td>University of Minnesota</td>
-  <td>mfazzini@umn.edu</td>
-</tr>
-<tr>
-  <td>Sebastiano Panichella</td>
-  <td>University of Bern</td>
-  <td>sebastiano.panichella@unibe.ch</td>
-</tr>
-</table>
-
+  <script>
+    document.body.classList.add('menu-ready');
+    const menuButton = document.querySelector('.menu-toggle');
+    const menu = document.querySelector('.site-nav');
+    menuButton.addEventListener('click', () => {
+      const open = menu.classList.toggle('is-open');
+      menuButton.setAttribute('aria-expanded', String(open));
+      menuButton.setAttribute('aria-label', open ? 'Close navigation menu' : 'Open navigation menu');
+    });
+    menu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
+      menu.classList.remove('is-open');
+      menuButton.setAttribute('aria-expanded', 'false');
+      menuButton.setAttribute('aria-label', 'Open navigation menu');
+    }));
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && menu.classList.contains('is-open')) {
+        menuButton.click();
+        menuButton.focus();
+      }
+    });
+  </script>
 </body>
 </html>
