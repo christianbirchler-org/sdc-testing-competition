@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+service CompetitionTool {
+  rpc Name(Empty) returns (NameReply) {}
+
+  rpc Initialize (stream SDCTestExecution) returns (InitializationReply) {}
+
+  rpc Minimize (stream SDCTestCase) returns (stream MinimizationReply) {}
+}
+
+message Empty {}
+
+message NameReply {
+  string name = 1;
+}
+
+message InitializationReply {
+  bool ok = 1;
+}
+
+message MinimizationReply {
+  string testId = 1;
+  int64 roadPoint = 2;
+}
+
+message SDCTestExecution {
+  SDCTestCase testCase = 1;
+  SDCTrajectory trajectory = 2;
+  bool hasFailed = 3;
+}
+
+message SDCTestCase {
+  string testId = 1;
+  repeated RoadPoint roadPoints = 2;
+}
+
+message RoadPoint {
+  int64 sequenceNumber = 1;
+  float x = 2;
+  float y = 3;
+}
+
+message SDCTrajectory {
+  string testId = 1;
+  int64 sequenceNumber = 2;
+  float x = 3;
+  float y = 4;
+  repeated TrajectoryPoint trajectoryPoints = 5;
+}
+
+message TrajectoryPoint {
+  int64 sequenceNumber = 1;
+  float x = 2;
+  float y = 3;
+}
+
