@@ -25,10 +25,11 @@ git lfs fetch
 
 Read the competition instruction:
 ``` bash
-cat competition/<YEAR>.md # e.g., cat competition/2026.md
+cat competition/<YEAR>.md # e.g., cat competition/2027.md
 ```
 
-First, create a new subdirectory in the associated competition tools directory. E.g., for the competition on test prioritization:
+First, create a new subdirectory in the associated competition tools directory.
+E.g., for the competition on test prioritization:
 ``` bash
 mkdir tools/prioritizers/<myTool>
 ```
@@ -68,14 +69,14 @@ Please refer to [GitHub Discussions](https://github.com/christianbirchler-org/sd
 ### Contributors
 Many thanks to the following contributors who help to build and maintain the repository:
 
-> The order is purely chronological.
+> The order is purely alphabetical.
 
 - [ChristianBirchler](https://github.com/ChristianBirchler)
-- [vatozZ](https://github.com/vatozZ)
 - [FasihMunirMalik](https://github.com/FasihMunirMalik)
-- [prakash-aryan](https://github.com/prakash-aryan)
-- [luistar](https://github.com/luistar)
 - [Fulcinator](https://github.com/Fulcinator)
+- [luistar](https://github.com/luistar)
+- [prakash-aryan](https://github.com/prakash-aryan)
+- [vatozZ](https://github.com/vatozZ)
 
 
 ## License
