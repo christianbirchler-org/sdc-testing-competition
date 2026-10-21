@@ -520,10 +520,12 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 .organizer-photo {
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 4.5;
+  max-width: 150px;
+  aspect-ratio: 4 / 4;
   margin-bottom: 1.3rem;
   background: #e9e3ed;
   object-fit: cover;
+  border-radius: 100%;
 }
 
 .organizer h3 {
@@ -805,9 +807,9 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
     gap: 2.5rem;
   }
 
-  .organizer-photo {
+/*  .organizer-photo {
     max-width: 320px;
-  }
+  }*/
 
   .organizer p {
     min-height: 0;
