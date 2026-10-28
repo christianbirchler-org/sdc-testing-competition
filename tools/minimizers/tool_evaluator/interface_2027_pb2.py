@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14interface_2027.proto\"\x07\n\x05\x45mpty\"\x19\n\tNameReply\x12\x0c\n\x04name\x18\x01 \x01(\t\"!\n\x13InitializationReply\x12\n\n\x02ok\x18\x01 \x01(\x08\"6\n\x11MinimizationReply\x12\x0e\n\x06testId\x18\x01 \x01(\t\x12\x11\n\troadPoint\x18\x02 \x01(\x03\"i\n\x10SDCTestExecution\x12\x1e\n\x08testCase\x18\x01 \x01(\x0b\x32\x0c.SDCTestCase\x12\"\n\ntrajectory\x18\x02 \x01(\x0b\x32\x0e.SDCTrajectory\x12\x11\n\thasFailed\x18\x03 \x01(\x08\"=\n\x0bSDCTestCase\x12\x0e\n\x06testId\x18\x01 \x01(\t\x12\x1e\n\nroadPoints\x18\x02 \x03(\x0b\x32\n.RoadPoint\"9\n\tRoadPoint\x12\x16\n\x0esequenceNumber\x18\x01 \x01(\x03\x12\t\n\x01x\x18\x02 \x01(\x02\x12\t\n\x01y\x18\x03 \x01(\x02\"y\n\rSDCTrajectory\x12\x0e\n\x06testId\x18\x01 \x01(\t\x12\x16\n\x0esequenceNumber\x18\x02 \x01(\x03\x12\t\n\x01x\x18\x03 \x01(\x02\x12\t\n\x01y\x18\x04 \x01(\x02\x12*\n\x10trajectoryPoints\x18\x05 \x03(\x0b\x32\x10.TrajectoryPoint\"?\n\x0fTrajectoryPoint\x12\x16\n\x0esequenceNumber\x18\x01 \x01(\x03\x12\t\n\x01x\x18\x02 \x01(\x02\x12\t\n\x01y\x18\x03 \x01(\x02\x32\x9e\x01\n\x0f\x43ompetitionTool\x12\x1c\n\x04Name\x12\x06.Empty\x1a\n.NameReply\"\x00\x12\x39\n\nInitialize\x12\x11.SDCTestExecution\x1a\x14.InitializationReply\"\x00(\x01\x12\x32\n\x08Minimize\x12\x0c.SDCTestCase\x1a\x12.MinimizationReply\"\x00(\x01\x30\x01\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14interface_2027.proto\"\x07\n\x05\x45mpty\"\x19\n\tNameReply\x12\x0c\n\x04name\x18\x01 \x01(\t\"!\n\x13InitializationReply\x12\n\n\x02ok\x18\x01 \x01(\x08\"6\n\x11MinimizationReply\x12\x0e\n\x06testId\x18\x01 \x01(\t\x12\x11\n\troadPoint\x18\x02 \x01(\x03\"i\n\x10SDCTestExecution\x12\x1e\n\x08testCase\x18\x01 \x01(\x0b\x32\x0c.SDCTestCase\x12\"\n\ntrajectory\x18\x02 \x01(\x0b\x32\x0e.SDCTrajectory\x12\x11\n\thasFailed\x18\x03 \x01(\x08\"=\n\x0bSDCTestCase\x12\x0e\n\x06testId\x18\x01 \x01(\t\x12\x1e\n\nroadPoints\x18\x02 \x03(\x0b\x32\n.RoadPoint\"9\n\tRoadPoint\x12\x16\n\x0esequenceNumber\x18\x01 \x01(\x03\x12\t\n\x01x\x18\x02 \x01(\x02\x12\t\n\x01y\x18\x03 \x01(\x02\"c\n\rSDCTrajectory\x12\x0e\n\x06testId\x18\x01 \x01(\t\x12\x16\n\x0esequenceNumber\x18\x02 \x01(\x03\x12*\n\x10trajectoryPoints\x18\x05 \x03(\x0b\x32\x10.TrajectoryPoint\"?\n\x0fTrajectoryPoint\x12\x16\n\x0esequenceNumber\x18\x01 \x01(\x03\x12\t\n\x01x\x18\x02 \x01(\x02\x12\t\n\x01y\x18\x03 \x01(\x02\x32\x9e\x01\n\x0f\x43ompetitionTool\x12\x1c\n\x04Name\x12\x06.Empty\x1a\n.NameReply\"\x00\x12\x39\n\nInitialize\x12\x11.SDCTestExecution\x1a\x14.InitializationReply\"\x00(\x01\x12\x32\n\x08Minimize\x12\x0c.SDCTestCase\x1a\x12.MinimizationReply\"\x00(\x01\x30\x01\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -46,9 +46,9 @@ if not _descriptor._USE_C_DESCRIPTORS:
   _globals['_ROADPOINT']._serialized_start=321
   _globals['_ROADPOINT']._serialized_end=378
   _globals['_SDCTRAJECTORY']._serialized_start=380
-  _globals['_SDCTRAJECTORY']._serialized_end=501
-  _globals['_TRAJECTORYPOINT']._serialized_start=503
-  _globals['_TRAJECTORYPOINT']._serialized_end=566
-  _globals['_COMPETITIONTOOL']._serialized_start=569
-  _globals['_COMPETITIONTOOL']._serialized_end=727
+  _globals['_SDCTRAJECTORY']._serialized_end=479
+  _globals['_TRAJECTORYPOINT']._serialized_start=481
+  _globals['_TRAJECTORYPOINT']._serialized_end=544
+  _globals['_COMPETITIONTOOL']._serialized_start=547
+  _globals['_COMPETITIONTOOL']._serialized_end=705
 # @@protoc_insertion_point(module_scope)
