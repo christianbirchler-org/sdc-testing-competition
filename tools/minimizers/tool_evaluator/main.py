@@ -8,13 +8,6 @@ import interface_2027_pb2_grpc as server_client
 
 import click
 
-# service CompetitionTool {
-#   rpc Name(Empty) returns (NameReply) {}
-# 
-#   rpc Initialize (stream SDCTestExecution) returns (InitializationReply) {}
-# 
-#   rpc Minimize (stream SDCTestCase) returns (stream MinimizationReply) {}
-# }
 
 @click.group()
 def cli():
@@ -36,20 +29,49 @@ def name():
 @click.argument("test-executions", required=False, help="list of already executed test cases")
 @click.option("--sensodat-uri", help="sensodat uri")
 def initialize(test_executions, sensodat_uri):
-    te: interface.SDCTestExecution = None
     click.echo("initializing")
-    click.echo("sensodat_uri: {}".format(sensodat_uri))
+
+    channel = grpc.insecure_channel('localhost:50051')
+    stub = server_client.CompetitionToolStub(channel=channel)
+
+    mongo_client = pymongo.MongoClient(host=sensodat_uri)
+    sensodat = mongo_client.get_database('sensodat')
+
+    collection = sensodat.get_collection('campaign_11_frenetic')
+    test_executions_iterator = _get_test_executions(collection)
+
+    initialization_reply: interface.InitializationReply = stub.Initialize(test_executions_iterator)
+    if initialization_reply.ok:
+        click.echo('success')
+    else:
+        click.echo('fail')
+
+
+#TODO
+@cli.command(help="returns the index of the closest roadpoint to the OOB. Returns -1 on error.")
+@click.argument("test-case", required=False, type=list[tuple[float, float]], help="test case: list of trajectory points")
+@click.option("--sensodat-uri", help="sensodat uri")
+def minimize(test_case: list[tuple[float, float]], sensodat_uri):
+    click.echo("minimizing")
+
+    channel = grpc.insecure_channel('localhost:50051')
+    stub = server_client.CompetitionToolStub(channel=channel)
+
     mongo_client = pymongo.MongoClient(host=sensodat_uri)
     sensodat = mongo_client.get_database('sensodat')
 
     collection = sensodat.get_collection('campaign_11_frenetic')
 
-    test_executions = []
+    test_executions_iterator = _get_test_executions(collection)
+
+    result = -1
+    click.echo(result)
+
+
+def _get_test_executions(collection):
     for doc in collection.aggregate(pipeline=SENSODAT_QUERY_PIPELINE):
         sdc_test_execution = _get_SDCTestExecution(doc)
-        test_executions.append(sdc_test_execution)
-
-    click.echo('nr of test executions: {}'.format(len(test_executions)))
+        yield sdc_test_execution
 
 
 def _get_SDCTestExecution(doc: dict) -> interface.SDCTestExecution:
@@ -73,14 +95,6 @@ def _get_SDCTestExecution(doc: dict) -> interface.SDCTestExecution:
                 trajectory=interface.SDCTrajectory(testId=doc['meta_data']['test_info']['test_id'], trajectoryPoints=trajectory_points)
             )
 
-
-@cli.command(help="returns the index of the closest roadpoint to the OOB. Returns -1 on error.")
-@click.argument("test-case", type=list[tuple[float, float]], help="test case: list of trajectory points")
-def minimize(test_case: list[tuple[float, float]]):
-    click.echo("minimizing")
-    click.echo("testcases: {}".format(test_case))
-    result = -1
-    click.echo(result)
 
 SENSODAT_QUERY_PIPELINE = [
     {
