@@ -59,18 +59,14 @@ class RoadPoint(_message.Message):
     def __init__(self, sequenceNumber: _Optional[int] = ..., x: _Optional[float] = ..., y: _Optional[float] = ...) -> None: ...
 
 class SDCTrajectory(_message.Message):
-    __slots__ = ("testId", "sequenceNumber", "x", "y", "trajectoryPoints")
+    __slots__ = ("testId", "sequenceNumber", "trajectoryPoints")
     TESTID_FIELD_NUMBER: _ClassVar[int]
     SEQUENCENUMBER_FIELD_NUMBER: _ClassVar[int]
-    X_FIELD_NUMBER: _ClassVar[int]
-    Y_FIELD_NUMBER: _ClassVar[int]
     TRAJECTORYPOINTS_FIELD_NUMBER: _ClassVar[int]
     testId: str
     sequenceNumber: int
-    x: float
-    y: float
     trajectoryPoints: _containers.RepeatedCompositeFieldContainer[TrajectoryPoint]
-    def __init__(self, testId: _Optional[str] = ..., sequenceNumber: _Optional[int] = ..., x: _Optional[float] = ..., y: _Optional[float] = ..., trajectoryPoints: _Optional[_Iterable[_Union[TrajectoryPoint, _Mapping]]] = ...) -> None: ...
+    def __init__(self, testId: _Optional[str] = ..., sequenceNumber: _Optional[int] = ..., trajectoryPoints: _Optional[_Iterable[_Union[TrajectoryPoint, _Mapping]]] = ...) -> None: ...
 
 class TrajectoryPoint(_message.Message):
     __slots__ = ("sequenceNumber", "x", "y")
