@@ -1,12 +1,11 @@
 #!python
 
+import click
 import grpc
 import pymongo
 
 import interface_2027_pb2 as interface
 import interface_2027_pb2_grpc as server_client
-
-import click
 
 
 @click.group()
@@ -106,7 +105,7 @@ def _get_SDCTestExecution(doc: dict) -> interface.SDCTestExecution:
         y=point['y'],
     ) for ind, point in enumerate(doc['road_points'])]
     
-    test_case = interface.SDCTestCase(testId=doc['meta_data']['test_info']['test_id'], roadPoints=road_points)
+    test_case = interface.SDCTestCase(testId=_get_test_id(doc), roadPoints=road_points)
 
     trajectory_points = [interface.TrajectoryPoint(
         sequenceNumber=ind,
