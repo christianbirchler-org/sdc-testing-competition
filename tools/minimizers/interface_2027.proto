@@ -5,7 +5,7 @@ service CompetitionTool {
 
   rpc Initialize (stream SDCTestExecution) returns (InitializationReply) {}
 
-  rpc Minimize (stream SDCTestCase) returns (stream MinimizationReply) {}
+  rpc Minimize (SDCTestCase)returns (MinimizationReply) {}
 }
 
 message Empty {}

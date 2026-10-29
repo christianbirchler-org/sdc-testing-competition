@@ -1,19 +1,13 @@
 #!python
 
 from concurrent import futures
+import random
 
 import grpc
 
 import interface_2027_pb2 as messages
 import interface_2027_pb2_grpc as services
 
-# service CompetitionTool {
-#   rpc Name(Empty) returns (NameReply) {}
-# 
-#   rpc Initialize (stream SDCTestExecution) returns (InitializationReply) {}
-# 
-#   rpc Minimize (stream SDCTestCase) returns (stream MinimizationReply) {}
-# }
 
 class RandomBaselineTool(services.CompetitionToolServicer):
     def Name(self, request, context):
@@ -25,10 +19,11 @@ class RandomBaselineTool(services.CompetitionToolServicer):
             print(el.hasFailed)
         return messages.InitializationReply(ok=True)
 
-    def Minimize(self, request_iterator, context):
-        el: messages.SDCTestCase
-        for el in request_iterator:
-            print(el)
+    def Minimize(self, request, context):
+        test_case: messages.SDCTestCase = request
+        number_of_points = len(test_case.roadPoints)
+        guess = random.randint(-1, number_of_points-1)
+        return messages.MinimizationReply(testId=test_case.testId, roadPoint=guess)
 
 
 if __name__ == '__main__':
