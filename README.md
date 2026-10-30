@@ -74,6 +74,7 @@ Many thanks to the following contributors who help to build and maintain the rep
 - [ChristianBirchler](https://github.com/ChristianBirchler)
 - [FasihMunirMalik](https://github.com/FasihMunirMalik)
 - [Fulcinator](https://github.com/Fulcinator)
+- [erdemuysalx](https://github.com/erdemuysalx)
 - [luistar](https://github.com/luistar)
 - [prakash-aryan](https://github.com/prakash-aryan)
 - [vatozZ](https://github.com/vatozZ)
