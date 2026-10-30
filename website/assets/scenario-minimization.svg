@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 490" role="img" aria-labelledby="title desc">
+  <title id="title">Intra-scenario minimization on a winding road</title>
+  <desc id="desc">A long, winding driving scenario is shown in muted purple. One section near the middle is highlighted in orange, around the predicted location where the vehicle departs the road. The rest of the route remains muted.</desc>
+
+  <!-- The same path is reused for the complete road and its retained segment. -->
+  <defs>
+    <path id="route" d="M -70 110
+      C 40 110, 155 65, 195 130
+      C 247 213, 92 248, 132 329
+      C 177 415, 305 412, 358 330
+      C 400 272, 320 165, 425 144
+      C 516 124, 593 199, 558 286
+      C 528 365, 640 385, 790 360" pathLength="1000"/>
+    <path id="retained" d="M 214.62 389.90 C 266.56 400.26 325.97 379.55 358.00 330.00 C 379.12 300.83 369.39 259.28 367.85 222.50"/>
+  </defs>
+
+  <!-- Complete, unminimized scenario. -->
+  <use href="#route" fill="none" stroke="#a992bd" stroke-width="64" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/>
+  <use href="#route" fill="none" stroke="#513a69" stroke-width="56" stroke-linecap="round" stroke-linejoin="round"/>
+  <use href="#route" fill="none" stroke="#d8c9e0" stroke-width="3" stroke-dasharray="9 14" stroke-linecap="round" opacity=".6"/>
+
+  <!-- A shorter relevant section of the same winding route. -->
+  <use href="#retained" fill="none" stroke="#ffd09b" stroke-width="68" stroke-linecap="butt" stroke-linejoin="round"/>
+  <use href="#retained" fill="none" stroke="#ed9852" stroke-width="56" stroke-linecap="butt" stroke-linejoin="round"/>
+  <use href="#retained" fill="none" stroke="#432744" stroke-width="3" stroke-dasharray="9 14" opacity=".8"/>
+
+  <!-- The predicted departure is marked just beyond the road boundary. -->
+  <path d="M 331 360 Q 349 379 380 405" fill="none" stroke="#ffe4c6" stroke-width="3" stroke-linecap="round" stroke-dasharray="5 8"/>
+  <circle cx="380" cy="405" r="29" fill="#29153e" stroke="#ffd09b" stroke-width="2.5"/>
+  <circle cx="380" cy="405" r="36" fill="none" stroke="#ffd09b" stroke-width="1.5" opacity=".38"/>
+  <g transform="translate(380 405) rotate(40)">
+    <rect x="-11" y="-19" width="22" height="38" rx="5" fill="#fff0df" stroke="#29153e" stroke-width="2"/>
+    <rect x="-8" y="-10" width="16" height="15" rx="3" fill="#a26b7c"/>
+    <rect x="-14" y="-12" width="4" height="10" rx="1.5" fill="#f5b373"/>
+    <rect x="10" y="-12" width="4" height="10" rx="1.5" fill="#f5b373"/>
+    <rect x="-14" y="5" width="4" height="10" rx="1.5" fill="#f5b373"/>
+    <rect x="10" y="5" width="4" height="10" rx="1.5" fill="#f5b373"/>
+  </g>
+</svg>
