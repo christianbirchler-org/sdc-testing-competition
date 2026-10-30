@@ -1,8 +1,10 @@
-#!python
+import dataclasses
 
 import click
 import grpc
+import numpy as np
 import pymongo
+import shapely
 
 import interface_2027_pb2 as interface
 import interface_2027_pb2_grpc as server_client
@@ -59,20 +61,95 @@ def minimize(sensodat_uri, sensodat_collection, evaluation):
     mongo_client = pymongo.MongoClient(host=sensodat_uri)
     sensodat = mongo_client.get_database('sensodat')
 
-    collection = sensodat.get_collection('campaign_11_frenetic')
+    collection = sensodat.get_collection(sensodat_collection)
 
-    test_cases_iterator = _get_test_cases(collection)
+    test_executions_iterator = _get_test_executions(collection)
 
-    answer = "something went wrong"
-    for test in test_cases_iterator:
-        #breakpoint()
-        result: interface.MinimizationReply = stub.Minimize(test)
-        answer = "test_id: {}\npoint_id: {}".format(result.testId, result.roadPoint)
-        click.echo(answer)
+    for test_execution in test_executions_iterator:
+        minimization_reply: interface.MinimizationReply = stub.Minimize(test_execution.testCase)
+        std_out_str = "something went wrong"
+        if evaluation:
+            evaluation_report = Evaluator.evaluate(minimization_reply, test_execution, oob=0.5)
+            click.echo(evaluation_report)
+        else:
+            std_out_str = "test_id: {}\npoint_id: {}".format(minimization_reply.testId, minimization_reply.roadPoint)
+            click.echo(std_out_str)
+
+
+@dataclasses.dataclass
+class EvaluationReport:
+    test_id: str
+    observed_oob_id: int
+    estimated_oob_id: int
 
 
 class Evaluator:
-    pass
+    @staticmethod
+    def evaluate(answer: interface.MinimizationReply, test_execution: interface.SDCTestExecution, oob: float) -> EvaluationReport:
+        return EvaluationReport(
+                test_id=answer.testId,
+                observed_oob_id=_get_oob_index(test_execution, oob),
+                estimated_oob_id=answer.roadPoint
+                )
+
+
+def _get_oob_index(test_execution: interface.SDCTestExecution, oob: float) -> int:
+    """
+    Compute the index at what road point the OOB happened.
+    :return: Index of OOB, or -1 if there is not OOB (i.e., the car stayed in-lane)
+    """
+    road_points = [(roadPoint.x, roadPoint.y) for roadPoint in test_execution.testCase.roadPoints]
+    center_line: shapely.LineString = shapely.LineString(coordinates=road_points)
+    right_lane = center_line.buffer(distance=-5, single_sided=True)
+    ideal_trajectory: shapely.LineString | shapely.MultiLineString = center_line.parallel_offset(distance=2.5)
+    
+    road_model = {
+        'road_points': road_points,
+        'center_line': center_line,
+        'right_lane': right_lane,
+        'ideal_trajectory': ideal_trajectory
+    }
+
+    trajectory_points = [(position.x, position.y) for position in test_execution.trajectory.trajectoryPoints]
+    for position in trajectory_points:
+        if out_of_bounds(pos=position, rm=road_model, oob=oob):
+            oob_index, _ = closest_point(pos=position, road_pts=road_points)
+            return oob_index
+
+    return -1
+
+
+def out_of_bounds(pos: tuple, rm: dict, oob: float) -> bool:
+    """
+    Compute of the car at the current position is out of bounds (OOB) according to the OOB parameter.
+    :param pos: The current position of the car
+    :param rm: Dictionary containing road information
+    :param oob: Out of bounds parameter
+    :return: True if OOB, False otherwise
+    """
+    car_model = shapely.box(pos[0]-1, pos[1]-1, pos[0]+1, pos[1]+1)
+    diff = car_model.difference(rm['right_lane'])
+    actual_oob = diff.area / car_model.area
+    return actual_oob > oob
+
+def closest_point(pos: tuple, road_pts: list[tuple[float, float]]) -> tuple[int, float]:
+    """
+    This function is purely functional.
+    :param pos: 
+    :param road_pts: 
+    :return: Return the index of the closest road point to the given position coordinates.
+    """
+    pos_np = np.array(pos)
+    curr_min_dist = -1
+    curr_min_dist_idx = -1
+    for i, road_pt in enumerate(road_pts):
+        road_pt_np = np.array(road_pt)
+        norm = np.linalg.norm(road_pt_np - pos_np)
+        if norm < curr_min_dist or curr_min_dist == -1:
+            curr_min_dist = norm
+            curr_min_dist_idx = i
+
+    return curr_min_dist_idx, curr_min_dist
 
 
 def _get_test_cases(collection):
