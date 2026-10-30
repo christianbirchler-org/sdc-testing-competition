@@ -46,11 +46,11 @@ def initialize(test_executions, sensodat_uri):
         click.echo('fail')
 
 
-#TODO
 @cli.command(help="returns the index of the closest roadpoint to the OOB. Returns -1 on error.")
-@click.argument("test-case", required=False, type=list[tuple[float, float]], help="test case: list of trajectory points")
-@click.option("--sensodat-uri", help="sensodat uri")
-def minimize(test_case: list[tuple[float, float]], sensodat_uri):
+@click.option("--sensodat-uri", default="mongodb://localhost:27017", help="sensodat uri")
+@click.option("--sensodat-collection", default='campaign_11_frenetic', help="sensodat collection name")
+@click.option("--evaluation", is_flag=True, default=False, required=False, help="evaluation report")
+def minimize(sensodat_uri, sensodat_collection, evaluation):
     click.echo("minimizing")
 
     channel = grpc.insecure_channel('localhost:50051')
