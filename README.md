@@ -29,9 +29,9 @@ cat competition/<YEAR>.md # e.g., cat competition/2027.md
 ```
 
 First, create a new subdirectory in the associated competition tools directory.
-E.g., for the competition on test prioritization:
+E.g., for the competition on test minimization:
 ``` bash
-mkdir tools/prioritizers/<myTool>
+mkdir tools/minimizers/<myTool>
 ```
 
 Generate stubs for the interfaces, that need an implementation for the competition.
@@ -41,7 +41,7 @@ Example with Python:
 ``` bash
 python -m pip install grpcio grpcio-tools
 
-python -m grpc_tools.protoc -I./tools/prioritizers/<yourTool> --python_out=./tools/prioritizers/<yourTool> --pyi_out=./tools/prioritizers/<yourTool> --grpc_python_out=./tools/prioritizers/<yourTool> path/to/protofile.proto
+python -m grpc_tools.protoc -I./tools/minimizers --python_out=./tools/minimizers/<yourTool> --pyi_out=./tools/minimizers/<yourTool> --grpc_python_out=./tools/minimizers/<yourTool> ./tools/minimizers/interface_2027.proto
 ```
 
 You can also checkout the sample tools and simply reuse the stubs there without the need to transpile the interface by yourself.
