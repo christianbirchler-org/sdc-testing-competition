@@ -509,7 +509,7 @@ a:focus-visible, button:focus-visible, summary:focus-visible {
 /* Organizers: equal-width columns, equal-sized photograph placeholders. */
 .organizers-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 2rem;
 }
 
