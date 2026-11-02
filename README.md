@@ -25,7 +25,7 @@ git lfs fetch
 
 Read the competition instruction:
 ``` bash
-cat competition/<YEAR>.md # e.g., cat competition/2027.md
+cat competitions/<YEAR>.md # e.g., cat competition/2027.md
 ```
 
 First, create a new subdirectory in the associated competition tools directory.
