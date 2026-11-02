@@ -11,14 +11,20 @@ import interface_2027_pb2_grpc as server_client
 
 
 @click.group()
-def cli():
-    click.echo("")
+@click.option("--tool-uri", help="uri of the target tool")
+@click.pass_context
+def cli(ctx: click.Context, tool_uri):
+    ctx.ensure_object(dict)
+    uri = tool_uri if tool_uri is not None else "localhost:50051"
+    ctx.obj['tool_uri'] = uri
 
 @cli.command()
-def name():
+@click.pass_context
+def name(ctx: click.Context):
     click.echo("start tool evaluator")
 
-    channel = grpc.insecure_channel("localhost:50051")
+
+    channel = grpc.insecure_channel(ctx.obj['tool_uri'])
     tool = server_client.CompetitionToolStub(channel=channel)
 
     tool_name_reply: interface.NameReply = tool.Name(interface.Empty())
@@ -29,10 +35,11 @@ def name():
 @cli.command()
 @click.argument("test-executions", required=False, help="list of already executed test cases")
 @click.option("--sensodat-uri", help="sensodat uri")
-def initialize(test_executions, sensodat_uri):
+@click.pass_context
+def initialize(ctx: click.Context, test_executions, sensodat_uri):
     click.echo("initializing")
 
-    channel = grpc.insecure_channel('localhost:50051')
+    channel = grpc.insecure_channel(ctx.obj['tool_uri'])
     stub = server_client.CompetitionToolStub(channel=channel)
 
     mongo_client = pymongo.MongoClient(host=sensodat_uri)
@@ -52,10 +59,11 @@ def initialize(test_executions, sensodat_uri):
 @click.option("--sensodat-uri", default="mongodb://localhost:27017", help="sensodat uri")
 @click.option("--sensodat-collection", default='campaign_11_frenetic', help="sensodat collection name")
 @click.option("--evaluation", is_flag=True, default=False, required=False, help="evaluation report")
-def minimize(sensodat_uri, sensodat_collection, evaluation):
+@click.pass_context
+def minimize(ctx: click.Context, sensodat_uri, sensodat_collection, evaluation):
     click.echo("minimizing")
 
-    channel = grpc.insecure_channel('localhost:50051')
+    channel = grpc.insecure_channel(ctx.obj['tool_uri'])
     stub = server_client.CompetitionToolStub(channel=channel)
 
     mongo_client = pymongo.MongoClient(host=sensodat_uri)
@@ -276,7 +284,7 @@ SENSODAT_QUERY_PIPELINE = [
 ]
 
 if __name__ == "__main__":
-    cli()
+    cli(obj={})
 
 
 

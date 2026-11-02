@@ -1,0 +1,10 @@
+click==8.5.0
+dnspython==2.9.0
+grpcio==1.85.0
+grpcio-tools==1.85.0
+numpy==2.5.4
+protobuf==7.36.2
+pymongo==4.19.0
+setuptools==84.2.1
+shapely==2.2.0
+typing_extensions==4.16.0
